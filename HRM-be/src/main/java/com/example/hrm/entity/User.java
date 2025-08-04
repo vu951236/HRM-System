@@ -16,6 +16,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @OneToOne(mappedBy = "user")
+    private EmployeeProfile profile;
+
     @Column(unique = true, nullable = false)
     private String username;
 
