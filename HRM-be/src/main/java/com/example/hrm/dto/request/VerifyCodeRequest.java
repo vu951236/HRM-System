@@ -1,0 +1,15 @@
+package com.example.hrm.dto.request;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class VerifyCodeRequest {
+    private String email;
+    private String code;
+}

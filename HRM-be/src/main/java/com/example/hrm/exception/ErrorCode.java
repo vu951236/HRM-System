@@ -16,8 +16,7 @@ public enum ErrorCode {
     UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     INVALID_CONFIRMATION_CODE(1010, "The confirmation code is incorrect or has expired.", HttpStatus.NOT_FOUND),
     APPLICATION_NOT_FOUND(1012, "Application not found", HttpStatus.NOT_FOUND),
-
-    ;
+    ROLE_NOT_FOUND(1013,"Role not found" , HttpStatus.NOT_FOUND);
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
         this.message = message;

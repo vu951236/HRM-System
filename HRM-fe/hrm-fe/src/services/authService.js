@@ -3,7 +3,7 @@ import {fetchUserInfo} from './userService';
 
 export const login = async (username, password) => {
     try {
-        const response = await api.post('/auth', { username, password }, {
+        const response = await api.post('/auth/login', { username, password }, {
             withCredentials: true,
         });
 

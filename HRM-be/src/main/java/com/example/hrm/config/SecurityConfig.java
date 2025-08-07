@@ -29,7 +29,7 @@ public class SecurityConfig {
     private String SIGNER_KEY;
 
     private final String[] PUBLIC_ENDPOINTS = {
-            "/auth",
+            "/auth/login",
             "/auth/logout",
             "/auth/refresh-token",
             "/user/forgot-password",

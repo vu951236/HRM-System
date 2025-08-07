@@ -22,7 +22,7 @@ import java.text.ParseException;
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
-    @PostMapping
+    @PostMapping("/login")
     public ApiResponse<AuthenticationResponse> login(@RequestBody AuthenticationRequest request, HttpServletResponse response) {
         AuthenticationResponse authenticationResponse = authenticationService.login(request);
         ResponseCookie refreshCookie = ResponseCookie.from("refresh_token",authenticationResponse.getRefreshToken())

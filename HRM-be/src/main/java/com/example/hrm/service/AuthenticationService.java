@@ -103,12 +103,12 @@ public class AuthenticationService {
 
     public String buildScope(User user) {
         StringJoiner joiner = new StringJoiner(" ");
-        String role = String.valueOf(user.getRole());
-        if (role != null && !role.trim().isEmpty()) {
-            joiner.add("ROLE_" + role.trim());
+        if (user.getRole() != null && user.getRole().getName() != null) {
+            joiner.add("ROLE_" + user.getRole().getName().trim());
         }
         return joiner.toString();
     }
+
 
     public void logout(IntrospectRequest request, String refreshToken) throws ParseException, JOSEException {
         var signToken = verifyToken(request.getToken(), false);

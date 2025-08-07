@@ -1,4 +1,4 @@
-package com.example.hrm.dto.response;
+package com.example.hrm.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,13 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @Builder
-public class UserResponse {
-    private String userId;
+public class UserCreateRequest {
     private String username;
     private String email;
-    private String role;
     private String fullName;
     private String phone;
     private String address;
-    private String avatarUrl;
+    private String roleName;
 }
+
