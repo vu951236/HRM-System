@@ -26,7 +26,7 @@ export function getSidebarGroups(user) {
         });
     }
 
-    // Quản lý nghỉ phép (cả 3)
+    // Quản lý nghỉ phép (HR, staff)
     const leaveItems = [];
     if (role === 'staff') {
         leaveItems.push('Đăng ký nghỉ phép', 'Theo dõi lịch sử phép');
@@ -57,7 +57,7 @@ export function getSidebarGroups(user) {
     }
 
 
-    // Chấm công (cả 3)
+    // Chấm công (HR, staff)
     const attendanceItems = [];
     if (role === 'hr') {
         attendanceItems.push('Phê duyệt công tăng ca', 'Cài đặt ca làm việc', 'Tổng hợp bảng công', 'Quản lý sai sót chấm công');
@@ -81,7 +81,6 @@ export function getSidebarGroups(user) {
         });
     }
 
-    // Hợp đồng lao động (HR)
     if (role === 'hr') {
         groups.push({
             title: 'Hợp đồng lao động',
