@@ -3,7 +3,6 @@ export function getSidebarGroups(user) {
 
     const groups = [];
 
-    // Quản lý nghỉ phép (cả 3)
     const accountItems = [];
     if (role === 'admin' || role === 'hr' || role === 'staff') {
         accountItems.push('Sửa thông tin cá nhân', 'Đổi mật khẩu');
@@ -18,7 +17,6 @@ export function getSidebarGroups(user) {
         });
     }
 
-    // Dashboard (Admin, HR)
     if (role === 'admin' || role === 'hr') {
         groups.push({
             title: 'Dashboard & Báo cáo',
@@ -26,7 +24,6 @@ export function getSidebarGroups(user) {
         });
     }
 
-    // Quản lý nghỉ phép (HR, staff)
     const leaveItems = [];
     if (role === 'staff') {
         leaveItems.push('Đăng ký nghỉ phép', 'Theo dõi lịch sử phép');
@@ -41,7 +38,6 @@ export function getSidebarGroups(user) {
         });
     }
 
-    // Quản lý nhân sự (Admin, HR)
     if (role === 'admin') {
         groups.push({
             title: 'Quản lý nhân sự',
@@ -57,7 +53,6 @@ export function getSidebarGroups(user) {
     }
 
 
-    // Chấm công (HR, staff)
     const attendanceItems = [];
     if (role === 'hr') {
         attendanceItems.push('Phê duyệt công tăng ca', 'Cài đặt ca làm việc', 'Tổng hợp bảng công', 'Quản lý sai sót chấm công');
@@ -73,7 +68,6 @@ export function getSidebarGroups(user) {
         });
     }
 
-    // Tính lương (HR)
     if (role === 'hr') {
         groups.push({
             title: 'Tính lương',
@@ -88,7 +82,6 @@ export function getSidebarGroups(user) {
         });
     }
 
-    // Thông tin user
     groups.push({
         title: 'User Info',
         isUserInfo: true,
