@@ -7,6 +7,8 @@ import logo from '../assets/logo.png';
 
 function getIconClass(item) {
     switch (item) {
+        case 'Sửa thông tin cá nhân': return 'fa fa-user-edit';
+        case 'Đổi mật khẩu': return 'fa fa-key';
         case 'Thống kê tổng số nhân viên': return 'fa fa-users';
         case 'Thống kê chuyên cần': return 'fa fa-calendar-check';
         case 'Thống kê theo phòng ban': return 'fa fa-building';
@@ -18,9 +20,7 @@ function getIconClass(item) {
         case 'Theo dõi lịch sử phép': return 'fa fa-history';
         case 'Phê duyệt nghỉ phép': return 'fa fa-check-circle';
         case 'Cấu hình chính sách phép': return 'fa fa-cogs';
-        case 'Khóa tài khoản': return 'fa fa-lock';
-        case 'Sửa nhân viên': return 'fa fa-user-edit';
-        case 'Thêm nhân viên': return 'fa fa-user-plus';
+        case 'Quản lý nhân viên': return 'fa fa-user';
         case 'Lưu trữ thông tin nhân viên': return 'fa fa-archive';
         case 'Cập nhật hồ sơ': return 'fa fa-id-card';
         case 'Tạo hồ sơ nhân viên': return 'fa fa-user-circle';
@@ -44,6 +44,8 @@ function getIconClass(item) {
 function getRouteFromItem(item) {
     switch (item) {
         case 'Thống kê tổng số nhân viên': return '/dashboard/employees';
+        case 'Sửa thông tin cá nhân': return '/editprofile';
+        case 'Đổi mật khẩu': return '/changepass';
         case 'Thống kê chuyên cần': return '/dashboard/attendance';
         case 'Thống kê theo phòng ban': return '/dashboard/department';
         case 'Xuất bảng lương': return '/export/salary';
@@ -54,9 +56,7 @@ function getRouteFromItem(item) {
         case 'Theo dõi lịch sử phép': return '/leave/history';
         case 'Phê duyệt nghỉ phép': return '/leave/approve';
         case 'Cấu hình chính sách phép': return '/leave/policy';
-        case 'Khóa tài khoản': return '/employee/lock';
-        case 'Sửa nhân viên': return '/employee/edit';
-        case 'Thêm nhân viên': return '/employee/add';
+        case 'Quản lý nhân viên': return '/employee';
         case 'Lưu trữ thông tin nhân viên': return '/employee/archive';
         case 'Cập nhật hồ sơ': return '/employee/update-profile';
         case 'Tạo hồ sơ nhân viên': return '/employee/create-profile';

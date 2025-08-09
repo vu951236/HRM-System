@@ -1,10 +1,9 @@
 package com.example.hrm.service;
 
-import com.example.hrm.dto.request.ForgotPasswordRequest;
-import com.example.hrm.dto.request.UserUpdatePasswordRequest;
+import com.example.hrm.dto.request.*;
+import com.example.hrm.dto.response.ProfileResponse;
+import com.example.hrm.dto.response.UserLockResponse;
 import com.example.hrm.dto.response.UserResponse;
-import com.example.hrm.dto.request.UserCreateRequest;
-import com.example.hrm.dto.request.UserUpdateRequest;
 import com.example.hrm.entity.EmployeeProfile;
 import com.example.hrm.entity.Role;
 import com.example.hrm.entity.User;
@@ -23,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.AbstractMap;
 import java.util.List;
@@ -56,32 +56,34 @@ public class UserService {
 
     @PreAuthorize("hasRole('admin')")
     public UserResponse createUser(UserCreateRequest request) {
+        if (userRepository.existsByUsername(request.getUsername())) {
+            throw new AppException(ErrorCode.USERNAME_ALREADY_EXISTS);
+        }
+
         Role role = roleRepository.findByName(request.getRoleName())
                 .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
 
         User user = userMapper.toUser(request);
         user.setRole(role);
-
         user.setPassword(passwordEncoder.encode("12345678@aA"));
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
 
         try {
             System.out.println("User to save: " + user);
-
             user = userRepository.save(user);
 
             EmployeeProfile profile = userMapper.toProfile(request, user);
+            profile.setJoinedDate(LocalDate.now());
             employeeProfileRepository.save(profile);
             user.setProfile(profile);
         } catch (Exception e) {
-            e.printStackTrace(); // xem lỗi thực tế
+            e.printStackTrace();
             throw new AppException(ErrorCode.USER_EXISTS);
         }
 
         return userMapper.toUserResponse(user);
     }
-
 
     @PreAuthorize("hasRole('admin')")
     public UserResponse updateUser(Integer userId, UserUpdateRequest request) {
@@ -114,6 +116,64 @@ public class UserService {
         User updatedUser = userRepository.save(user);
 
         return userMapper.toUserResponse(updatedUser);
+    }
+
+    @PreAuthorize("hasRole('admin')")
+    public UserLockResponse lockOrUnlockUser(Integer userId, UserLockRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        user.setIsActive(request.getIsActive());
+        user.setUpdatedAt(LocalDateTime.now());
+
+        userRepository.save(user);
+
+        return userMapper.toUserLockResponse(user);
+    }
+
+    public ProfileResponse updateProfile(Integer userId, ProfileUpdateRequest request) {
+        var context = SecurityContextHolder.getContext();
+        var username = context.getAuthentication().getName();
+
+        User currentUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        if (!currentUser.getId().equals(userId) &&
+                (currentUser.getRole() == null || !"admin".equalsIgnoreCase(currentUser.getRole().getName()))) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        if (request.getEmail() != null && !request.getEmail().equals(user.getEmail())) {
+            if (userRepository.existsByEmail(request.getEmail())) {
+                throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
+            }
+            user.setEmail(request.getEmail());
+        }
+
+        if (request.getPassword() != null && !request.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+
+        user.setUpdatedAt(LocalDateTime.now());
+
+        EmployeeProfile profile = user.getProfile();
+        if (profile != null) {
+            if (request.getFullName() != null) profile.setFullName(request.getFullName());
+            if (request.getGender() != null) profile.setGender(request.getGender());
+            if (request.getDob() != null) profile.setDob(request.getDob());
+            if (request.getPhone() != null) profile.setPhone(request.getPhone());
+            if (request.getAddress() != null) profile.setAddress(request.getAddress());
+            if (request.getImageUrl() != null) profile.setImageUrl(request.getImageUrl());
+
+            employeeProfileRepository.save(profile);
+        }
+
+        User updatedUser = userRepository.save(user);
+
+        return userMapper.toProfileResponse(updatedUser);
     }
 
     @PostAuthorize("returnObject.username == authentication.name")

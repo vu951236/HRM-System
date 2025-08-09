@@ -1,8 +1,10 @@
 package com.example.hrm.controller;
 
+import com.example.hrm.dto.request.UserLockRequest;
 import com.example.hrm.dto.response.ApiResponse;
 import com.example.hrm.dto.request.UserCreateRequest;
 import com.example.hrm.dto.request.UserUpdateRequest;
+import com.example.hrm.dto.response.UserLockResponse;
 import com.example.hrm.dto.response.UserResponse;
 import com.example.hrm.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +39,16 @@ public class AdminController {
     ApiResponse<List<UserResponse>> getAllUsers() {
         return ApiResponse.<List<UserResponse>>builder()
                 .data(userService.getAllUsers())
+                .build();
+    }
+
+    @PutMapping("/{userId}/lock")
+    public ApiResponse<UserLockResponse> lockOrUnlockUser(
+            @PathVariable Integer userId,
+            @RequestBody UserLockRequest request
+    ) {
+        return ApiResponse.<UserLockResponse>builder()
+                .data(userService.lockOrUnlockUser(userId, request))
                 .build();
     }
 

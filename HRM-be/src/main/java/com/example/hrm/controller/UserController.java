@@ -1,10 +1,8 @@
 package com.example.hrm.controller;
 
-import com.example.hrm.dto.request.ForgotPasswordRequest;
-import com.example.hrm.dto.request.ResetPasswordRequest;
-import com.example.hrm.dto.request.UserUpdatePasswordRequest;
-import com.example.hrm.dto.request.VerifyCodeRequest;
+import com.example.hrm.dto.request.*;
 import com.example.hrm.dto.response.ApiResponse;
+import com.example.hrm.dto.response.ProfileResponse;
 import com.example.hrm.dto.response.UserResponse;
 import com.example.hrm.service.UserService;
 import jakarta.mail.MessagingException;
@@ -61,4 +59,15 @@ public class UserController {
                 .data(verified)
                 .build();
     }
+
+    @PutMapping("/{userId}/update-profile")
+    public ApiResponse<ProfileResponse> updateProfile(
+            @PathVariable Integer userId,
+            @RequestBody ProfileUpdateRequest request
+    ) {
+        return ApiResponse.<ProfileResponse>builder()
+                .data(userService.updateProfile(userId, request))
+                .build();
+    }
+
 }

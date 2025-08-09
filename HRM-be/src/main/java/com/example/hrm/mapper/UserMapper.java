@@ -2,6 +2,8 @@ package com.example.hrm.mapper;
 
 import com.example.hrm.dto.request.UserCreateRequest;
 import com.example.hrm.dto.request.UserUpdateRequest;
+import com.example.hrm.dto.response.ProfileResponse;
+import com.example.hrm.dto.response.UserLockResponse;
 import com.example.hrm.dto.response.UserResponse;
 import com.example.hrm.entity.User;
 import com.example.hrm.entity.EmployeeProfile;
@@ -16,9 +18,12 @@ public interface UserMapper {
     @Mapping(source = "id", target = "userId")
     @Mapping(source = "role", target = "role")
     @Mapping(source = "profile.fullName", target = "fullName")
+    @Mapping(source = "profile.gender", target = "gender")
+    @Mapping(source = "profile.dob", target = "dob")
     @Mapping(source = "profile.phone", target = "phone")
     @Mapping(source = "profile.address", target = "address")
     @Mapping(source = "profile.imageUrl", target = "avatarUrl")
+    @Mapping(source = "isActive", target = "isActive")
     UserResponse toUserResponse(User user);
 
     @Mapping(target = "id", ignore = true)
@@ -44,5 +49,20 @@ public interface UserMapper {
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "role", ignore = true)
     void updateUser(@MappingTarget User user, UserUpdateRequest request);
+
+    @Mapping(source = "email", target = "email")
+    @Mapping(source = "profile.fullName", target = "fullName")
+    @Mapping(source = "profile.gender", target = "gender")
+    @Mapping(source = "profile.dob", target = "dob")
+    @Mapping(source = "profile.phone", target = "phone")
+    @Mapping(source = "profile.address", target = "address")
+    @Mapping(source = "profile.imageUrl", target = "imageUrl")
+    ProfileResponse toProfileResponse(User user);
+
+    @Mapping(source = "id", target = "userId")
+    @Mapping(source = "username", target = "username")
+    @Mapping(source = "isActive", target = "isActive")
+    UserLockResponse toUserLockResponse(User user);
+
 
 }

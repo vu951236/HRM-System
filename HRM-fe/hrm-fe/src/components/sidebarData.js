@@ -7,9 +7,6 @@ export function getSidebarGroups(user) {
     if (role === 'admin' || role === 'hr' || role === 'staff') {
         accountItems.push('Sửa thông tin cá nhân', 'Đổi mật khẩu');
     }
-    if (role === 'admin') {
-        accountItems.push('Xem nhật ký hệ thống');
-    }
     if (accountItems.length > 0) {
         groups.push({
             title: 'Tài khoản',
@@ -40,8 +37,8 @@ export function getSidebarGroups(user) {
 
     if (role === 'admin') {
         groups.push({
-            title: 'Quản lý nhân sự',
-            items: ['Khóa tài khoản', 'Sửa nhân viên', 'Thêm nhân viên'],
+            title: 'Quản lý hệ thống',
+            items: ['Quản lý nhân viên', 'Xem nhật ký hệ thống'],
         });
     }
 
