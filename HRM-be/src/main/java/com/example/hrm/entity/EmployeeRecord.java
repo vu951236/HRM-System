@@ -63,4 +63,7 @@ public class EmployeeRecord {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Column(name = "is_delete", nullable = false)
+    private Boolean isDelete = false;
 }

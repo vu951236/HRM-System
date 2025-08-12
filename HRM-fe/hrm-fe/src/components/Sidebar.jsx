@@ -21,9 +21,8 @@ function getIconClass(item) {
         case 'Phê duyệt nghỉ phép': return 'fa fa-check-circle';
         case 'Cấu hình chính sách phép': return 'fa fa-cogs';
         case 'Quản lý nhân viên': return 'fa fa-user';
+        case 'Quản lý hồ sơ': return 'fa fa-file';
         case 'Lưu trữ thông tin nhân viên': return 'fa fa-archive';
-        case 'Cập nhật hồ sơ': return 'fa fa-id-card';
-        case 'Tạo hồ sơ nhân viên': return 'fa fa-user-circle';
         case 'Ghi nhận chấm công': return 'fa fa-clipboard-check';
         case 'Phê duyệt công tăng ca': return 'fa fa-user-clock';
         case 'Cài đặt ca làm việc': return 'fa fa-sliders-h';
@@ -57,9 +56,8 @@ function getRouteFromItem(item) {
         case 'Phê duyệt nghỉ phép': return '/leave/approve';
         case 'Cấu hình chính sách phép': return '/leave/policy';
         case 'Quản lý nhân viên': return '/employee';
+        case 'Quản lý hồ sơ': return '/record';
         case 'Lưu trữ thông tin nhân viên': return '/employee/archive';
-        case 'Cập nhật hồ sơ': return '/employee/update-profile';
-        case 'Tạo hồ sơ nhân viên': return '/employee/create-profile';
         case 'Ghi nhận chấm công': return '/attendance/log';
         case 'Phê duyệt công tăng ca': return '/attendance/overtime-approve';
         case 'Cài đặt ca làm việc': return '/attendance/schedule';

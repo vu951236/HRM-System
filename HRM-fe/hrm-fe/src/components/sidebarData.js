@@ -35,20 +35,19 @@ export function getSidebarGroups(user) {
         });
     }
 
+    const documentItems = [];
+    if (role === 'admin' || role === 'hr') {
+        documentItems.push('Quản lý hồ sơ');
+    }
     if (role === 'admin') {
+        documentItems.push('Quản lý nhân viên', 'Xem nhật ký hệ thống');
+    }
+    if (documentItems.length > 0) {
         groups.push({
             title: 'Quản lý hệ thống',
-            items: ['Quản lý nhân viên', 'Xem nhật ký hệ thống'],
+            items: documentItems,
         });
     }
-
-    if (role === 'hr') {
-        groups.push({
-            title: 'Quản lý nhân sự',
-            items: ['Lưu trữ thông tin nhân viên', 'Cập nhật hồ sơ', 'Tạo hồ sơ nhân viên'],
-        });
-    }
-
 
     const attendanceItems = [];
     if (role === 'hr') {

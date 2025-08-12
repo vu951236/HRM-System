@@ -356,12 +356,13 @@ input:focus {
     align-items: center;
     z-index: 1000;
 }
-
 .modal {
     background-color: #fff;
-    padding: 30px;
+    padding: 20px;
     border-radius: 12px;
     width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     font-family: "Segoe UI", sans-serif;
     animation: fadeIn 0.3s ease;

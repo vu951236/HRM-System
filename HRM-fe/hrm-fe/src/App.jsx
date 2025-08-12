@@ -7,6 +7,7 @@ import ResetPassword from './pages/ResetPassword';
 import UserManagement from './pages/UserManagement';
 import EditProfilePage from './pages/EditProfilePage';
 import ChangePasswordPage from "./pages/ChangePasswordPage.jsx";
+import RecordManagement from "./pages/RecordManagement.jsx";
 
 import './App.css';
 import { AuthProvider } from './context/AuthContext.jsx';
@@ -43,6 +44,14 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <ChangePasswordPage />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/record"
+                        element={
+                            <ProtectedRoute>
+                                <RecordManagement />
                             </ProtectedRoute>
                         }
                     />

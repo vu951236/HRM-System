@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/employee-records")
+@RequestMapping("/employee-records")
 @RequiredArgsConstructor
 public class EmployeeRecordController {
 
@@ -29,5 +29,15 @@ public class EmployeeRecordController {
     @GetMapping("/getAllRecords")
     public List<EmployeeRecordResponse> getAllRecordsByRole() {
         return employeeRecordService.getAllRecordsByRole();
+    }
+
+    @PutMapping("/soft-delete/{id}")
+    public void softDeleteRecord(@PathVariable Integer id) {
+        employeeRecordService.softDeleteRecord(id);
+    }
+
+    @PutMapping("/restore/{id}")
+    public void restoreRecord(@PathVariable Integer id) {
+        employeeRecordService.restoreRecord(id);
     }
 }

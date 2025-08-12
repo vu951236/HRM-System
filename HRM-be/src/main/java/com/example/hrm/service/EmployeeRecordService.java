@@ -7,6 +7,7 @@ import com.example.hrm.entity.User;
 import com.example.hrm.mapper.EmployeeRecordMapper;
 import com.example.hrm.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -124,7 +125,7 @@ public class EmployeeRecordService {
         if ("admin".equalsIgnoreCase(currentRole)) {
             records = employeeRecordRepository.findByUserRoles(List.of("hr", "staff"));
         } else if ("HR".equalsIgnoreCase(currentRole)) {
-            records = employeeRecordRepository.findByUserRole("staff");
+            records = employeeRecordRepository.findByUserRoleAndNotDeleted("staff");
         } else {
             throw new RuntimeException("Bạn không có quyền xem hồ sơ này");
         }
@@ -133,4 +134,24 @@ public class EmployeeRecordService {
                 .map(employeeRecordMapper::toResponse)
                 .collect(Collectors.toList());
     }
+
+    @PreAuthorize("hasRole('admin')")
+    public void softDeleteRecord(Integer id) {
+        EmployeeRecord record = employeeRecordRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee record not found"));
+        record.setIsDelete(true);
+        record.setUpdatedAt(LocalDateTime.now());
+        employeeRecordRepository.save(record);
+    }
+
+    @PreAuthorize("hasRole('admin')")
+    public void restoreRecord(Integer id) {
+        EmployeeRecord record = employeeRecordRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee record not found"));
+        record.setIsDelete(false);
+        record.setUpdatedAt(LocalDateTime.now());
+        employeeRecordRepository.save(record);
+    }
+
+
 }

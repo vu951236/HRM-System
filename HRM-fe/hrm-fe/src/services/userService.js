@@ -23,7 +23,7 @@ export const sendOtpToEmail = async (email) => {
 export const updateProfile = async (userId, formData) => {
     try {
         const response = await api.put(`/user/${userId}/update-profile`, formData);
-        return response.data;  // hoặc true nếu bạn muốn
+        return response.data;
         // eslint-disable-next-line no-unused-vars
     } catch (error) {
         throw new Error('Failed to update');

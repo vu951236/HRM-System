@@ -16,6 +16,8 @@ public interface EmployeeRecordMapper {
     @Mapping(source = "position.name", target = "positionName")
     @Mapping(source = "employmentType.name", target = "employmentTypeName")
     @Mapping(source = "supervisor.profile.fullName", target = "supervisorName")
+    @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "isDelete", target = "isDelete")
     EmployeeRecordResponse toResponse(EmployeeRecord entity);
 
     @Mapping(target = "id", ignore = true)

@@ -16,6 +16,8 @@ public class EmployeeRecordResponse {
     private String employeeCode;
 
     private String userName;
+    private Integer userId;
+
     private String profileName;
     private String departmentName;
     private String positionName;
@@ -29,4 +31,5 @@ public class EmployeeRecordResponse {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Boolean isDelete;
 }

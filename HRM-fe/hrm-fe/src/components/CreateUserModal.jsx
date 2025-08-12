@@ -28,7 +28,7 @@ const CreateUserModal = ({ onClose, onCreate }) => {
     return (
         <div className="modal-overlay">
             <div className="modal">
-                <h2>👤 Hồ sơ nhân viên</h2>
+                <h2>👤 Thêm nhân viên</h2>
 
                 <div className="form-group">
                     <label>Username</label>
