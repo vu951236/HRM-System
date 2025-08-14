@@ -7,67 +7,69 @@ import com.example.hrm.dto.response.UserResponse;
 import com.example.hrm.service.UserService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
 
-    final UserService userService;
+    private final UserService userService;
 
     @GetMapping("/getinfo")
-    ApiResponse<UserResponse> GetMyInfo() {
-        return ApiResponse.<UserResponse>builder()
-                .data(userService.getMyInfo())
-                .build();
+    public ResponseEntity<ApiResponse<UserResponse>> getMyInfo() {
+        UserResponse response = userService.getMyInfo();
+        return ResponseEntity.ok(ApiResponse.<UserResponse>builder()
+                .data(response)
+                .build());
     }
 
     @PutMapping("/updatePass")
-    ApiResponse<UserResponse> UpdatePassword(@RequestBody UserUpdatePasswordRequest request) {
-        return ApiResponse.<UserResponse>builder()
-                .data(userService.updatePassword(request))
-                .build();
+    public ResponseEntity<ApiResponse<UserResponse>> updatePassword(@RequestBody UserUpdatePasswordRequest request) {
+        UserResponse response = userService.updatePassword(request);
+        return ResponseEntity.ok(ApiResponse.<UserResponse>builder()
+                .data(response)
+                .build());
     }
 
     @PostMapping("/forgot-password")
-    ApiResponse<Void> forgotPassword(@RequestBody ForgotPasswordRequest request) throws IOException, MessagingException {
+    public ResponseEntity<ApiResponse<Void>> forgotPassword(@RequestBody ForgotPasswordRequest request)
+            throws IOException, MessagingException {
         userService.generateVerificationCode(request);
-        return ApiResponse.<Void>builder().build();
+        return ResponseEntity.noContent().build();
     }
 
-
     @PostMapping("/verify-code")
-    ApiResponse<Boolean> verifyCode(@RequestBody VerifyCodeRequest request) {
-        var verified = userService.verifyCode(request.getEmail(),request.getCode());
-        return ApiResponse.<Boolean>builder()
+    public ResponseEntity<ApiResponse<Boolean>> verifyCode(@RequestBody VerifyCodeRequest request) {
+        boolean verified = userService.verifyCode(request.getEmail(), request.getCode());
+        return ResponseEntity.ok(ApiResponse.<Boolean>builder()
                 .data(verified)
-                .build();
+                .build());
     }
 
     @PostMapping("/reset-password")
-    ApiResponse<Boolean> resetPassword(@RequestBody ResetPasswordRequest request) {
-        var verified = userService.verifyCode(request.getEmail(),request.getCode());
+    public ResponseEntity<ApiResponse<Boolean>> resetPassword(@RequestBody ResetPasswordRequest request) {
+        boolean verified = userService.verifyCode(request.getEmail(), request.getCode());
         if (verified) {
             userService.resetPassword(request.getEmail(), request.getNewPassword());
             userService.clearCode(request.getEmail());
         }
-        return ApiResponse.<Boolean>builder()
+        return ResponseEntity.ok(ApiResponse.<Boolean>builder()
                 .data(verified)
-                .build();
+                .build());
     }
 
     @PutMapping("/{userId}/update-profile")
-    public ApiResponse<ProfileResponse> updateProfile(
+    public ResponseEntity<ApiResponse<ProfileResponse>> updateProfile(
             @PathVariable Integer userId,
-            @RequestBody ProfileUpdateRequest request
-    ) {
-        return ApiResponse.<ProfileResponse>builder()
-                .data(userService.updateProfile(userId, request))
-                .build();
+            @RequestBody ProfileUpdateRequest request) {
+        ProfileResponse response = userService.updateProfile(userId, request);
+        return ResponseEntity.ok(ApiResponse.<ProfileResponse>builder()
+                .data(response)
+                .build());
     }
 
 }

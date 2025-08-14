@@ -37,7 +37,7 @@ export function getSidebarGroups(user) {
 
     const documentItems = [];
     if (role === 'admin' || role === 'hr') {
-        documentItems.push('Quản lý hồ sơ');
+        documentItems.push('Quản lý hồ sơ', 'Quản lý hợp đồng');
     }
     if (role === 'admin') {
         documentItems.push('Quản lý nhân viên', 'Xem nhật ký hệ thống');
@@ -68,13 +68,6 @@ export function getSidebarGroups(user) {
         groups.push({
             title: 'Tính lương',
             items: ['Tính lương', 'Cấu hình bảng lương', 'Kết nối chuyển khoản', 'Xuất phiếu lương', 'Duyệt bảng lương'],
-        });
-    }
-
-    if (role === 'hr') {
-        groups.push({
-            title: 'Hợp đồng lao động',
-            items: ['Tạo hợp đồng', 'Gia hạn / Chấm dứt hợp đồng', 'Lưu trữ lịch sử hợp đồng'],
         });
     }
 

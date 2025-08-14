@@ -1,8 +1,8 @@
 package com.example.hrm.controller;
 
-import com.example.hrm.dto.response.ApiResponse;
 import com.example.hrm.dto.request.AuthenticationRequest;
 import com.example.hrm.dto.request.IntrospectRequest;
+import com.example.hrm.dto.response.ApiResponse;
 import com.example.hrm.dto.response.AuthenticationResponse;
 import com.example.hrm.exception.AppException;
 import com.example.hrm.exception.ErrorCode;
@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -20,28 +21,34 @@ import java.text.ParseException;
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
+
     private final AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public ApiResponse<AuthenticationResponse> login(@RequestBody AuthenticationRequest request, HttpServletResponse response) {
+    public ResponseEntity<ApiResponse<AuthenticationResponse>> login(
+            @RequestBody AuthenticationRequest request,
+            HttpServletResponse response) {
+
         AuthenticationResponse authenticationResponse = authenticationService.login(request);
-        ResponseCookie refreshCookie = ResponseCookie.from("refresh_token",authenticationResponse.getRefreshToken())
+
+        ResponseCookie refreshCookie = ResponseCookie.from("refresh_token", authenticationResponse.getRefreshToken())
                 .secure(false)
                 .httpOnly(true)
-                .maxAge(30*24*60*60)
+                .maxAge(30 * 24 * 60 * 60)
                 .path("/")
                 .build();
         response.setHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
 
-        return ApiResponse.<AuthenticationResponse>builder()
+        return ResponseEntity.ok(ApiResponse.<AuthenticationResponse>builder()
                 .data(authenticationResponse)
-                .build();
+                .build());
     }
 
     @PostMapping("/logout")
-    ApiResponse<Void> logout(@RequestBody IntrospectRequest request,
-                             @CookieValue(name = "refresh_token", required = false) String refreshToken,
-                             HttpServletResponse response) throws ParseException, JOSEException {
+    public ResponseEntity<ApiResponse<Void>> logout(
+            @RequestBody IntrospectRequest request,
+            @CookieValue(name = "refresh_token", required = false) String refreshToken,
+            HttpServletResponse response) throws ParseException, JOSEException {
 
         authenticationService.logout(request, refreshToken);
 
@@ -53,22 +60,20 @@ public class AuthenticationController {
                 .build();
         response.setHeader(HttpHeaders.SET_COOKIE, clearCookie.toString());
 
-        return ApiResponse.<Void>builder().build();
+        return ResponseEntity.ok(ApiResponse.<Void>builder().build());
     }
 
-
     @PostMapping("/refresh-token")
-    public ApiResponse<AuthenticationResponse> refreshToken(
+    public ResponseEntity<ApiResponse<AuthenticationResponse>> refreshToken(
             @CookieValue(name = "refresh_token", required = false) String refreshToken) throws ParseException, JOSEException {
+
         if (refreshToken == null) {
             throw new AppException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
-        var newAccessToken = authenticationService.refreshAccessToken(refreshToken);
-        return ApiResponse.<AuthenticationResponse>builder()
+
+        AuthenticationResponse newAccessToken = authenticationService.refreshAccessToken(refreshToken);
+        return ResponseEntity.ok(ApiResponse.<AuthenticationResponse>builder()
                 .data(newAccessToken)
-                .build();
-
+                .build());
     }
-
-
 }

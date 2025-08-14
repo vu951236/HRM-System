@@ -3,7 +3,7 @@ import api from '../api/axiosConfig';
 export async function fetchAllRecord() {
     try {
         const response = await api.get('/employee-records/getAllRecords');
-        return response.data;
+        return response.data.data;
         // eslint-disable-next-line no-unused-vars
     } catch (error) {
         throw new Error('Failed to fetch records');
@@ -20,10 +20,10 @@ export const createRecord = async (recordData) => {
     }
 };
 
-export const updateRecord = async (userId, updateData) => {
+export const updateRecord = async (id, updateData) => {
     try {
-        const response = await api.put(`/employee-records/update/${userId}`, updateData);
-        return response.data;
+        const response = await api.put(`/employee-records/update/${id}`, updateData);
+        return response.data.data;
         // eslint-disable-next-line no-unused-vars
     } catch (error) {
         throw new Error('Failed to update');
@@ -32,8 +32,8 @@ export const updateRecord = async (userId, updateData) => {
 
 export async function softDeleteRecord(id) {
     try {
-        const response = await api.put(`/employee-records/soft-delete/${id}`);
-        return response.data;
+        await api.put(`/employee-records/soft-delete/${id}`);
+        return true;
     } catch (error) {
         console.error('Lỗi khi xóa mềm:', error);
         throw error;
@@ -42,11 +42,10 @@ export async function softDeleteRecord(id) {
 
 export async function restoreRecord(id) {
     try {
-        const response = await api.put(`/employee-records/restore/${id}`);
-        return response.data;
+        await api.put(`/employee-records/restore/${id}`);
+        return true;
     } catch (error) {
         console.error('Lỗi khi khôi phục:', error);
         throw error;
     }
 }
-

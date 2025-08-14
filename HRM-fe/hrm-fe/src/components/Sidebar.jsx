@@ -22,6 +22,7 @@ function getIconClass(item) {
         case 'Cấu hình chính sách phép': return 'fa fa-cogs';
         case 'Quản lý nhân viên': return 'fa fa-user';
         case 'Quản lý hồ sơ': return 'fa fa-file';
+        case 'Quản lý hợp đồng': return 'fa fa-file-text';
         case 'Lưu trữ thông tin nhân viên': return 'fa fa-archive';
         case 'Ghi nhận chấm công': return 'fa fa-clipboard-check';
         case 'Phê duyệt công tăng ca': return 'fa fa-user-clock';
@@ -57,6 +58,7 @@ function getRouteFromItem(item) {
         case 'Cấu hình chính sách phép': return '/leave/policy';
         case 'Quản lý nhân viên': return '/employee';
         case 'Quản lý hồ sơ': return '/record';
+        case 'Quản lý hợp đồng': return '/contract';
         case 'Lưu trữ thông tin nhân viên': return '/employee/archive';
         case 'Ghi nhận chấm công': return '/attendance/log';
         case 'Phê duyệt công tăng ca': return '/attendance/overtime-approve';
@@ -68,9 +70,6 @@ function getRouteFromItem(item) {
         case 'Kết nối chuyển khoản': return '/salary/banking';
         case 'Xuất phiếu lương': return '/salary/payslip';
         case 'Duyệt bảng lương': return '/salary/approve';
-        case 'Tạo hợp đồng': return '/contract/create';
-        case 'Gia hạn / Chấm dứt hợp đồng': return '/contract/extend-terminate';
-        case 'Lưu trữ lịch sử hợp đồng': return '/contract/history';
         default: return '/';
     }
 }

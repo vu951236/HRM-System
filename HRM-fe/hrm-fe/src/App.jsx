@@ -8,6 +8,7 @@ import UserManagement from './pages/UserManagement';
 import EditProfilePage from './pages/EditProfilePage';
 import ChangePasswordPage from "./pages/ChangePasswordPage.jsx";
 import RecordManagement from "./pages/RecordManagement.jsx";
+import ContractManagement from "./pages/ContractManagement.jsx";
 
 import './App.css';
 import { AuthProvider } from './context/AuthContext.jsx';
@@ -52,6 +53,14 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <RecordManagement />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/contract"
+                        element={
+                            <ProtectedRoute>
+                                <ContractManagement />
                             </ProtectedRoute>
                         }
                     />
