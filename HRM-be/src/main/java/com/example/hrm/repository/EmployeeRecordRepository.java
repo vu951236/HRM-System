@@ -1,5 +1,6 @@
 package com.example.hrm.repository;
 
+import com.example.hrm.entity.Department;
 import com.example.hrm.entity.EmployeeRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,4 +15,6 @@ public interface EmployeeRecordRepository extends JpaRepository<EmployeeRecord, 
 
     @Query("SELECT e FROM EmployeeRecord e JOIN e.user u JOIN u.role r WHERE r.name = :role AND e.isDelete = false")
     List<EmployeeRecord> findByUserRoleAndNotDeleted(@Param("role") String role);
+
+    List<EmployeeRecord> findAllByDepartmentAndIsDeleteFalse(Department department);
 }

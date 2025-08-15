@@ -19,6 +19,10 @@ public class Shift {
 
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "shift_rule_id")
+    private ShiftRule shiftRule;
+
     @Column(name = "start_time")
     private LocalTime startTime;
 
@@ -29,6 +33,9 @@ public class Shift {
     private LocalTime breakTime;
 
     private String description;
+
+    @Column(name = "is_delete", nullable = false)
+    private Boolean isDelete = false;
 }
 
 
