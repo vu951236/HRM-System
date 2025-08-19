@@ -1,6 +1,9 @@
 import React from 'react';
+import { useAuth } from '../context/AuthContext';
 
 const UserTable = ({ data, onEdit, onLock }) => {
+    const { user } = useAuth();
+
     const getRoleLabel = (role) => {
         switch (role) {
             case 'admin':
@@ -46,12 +49,14 @@ const UserTable = ({ data, onEdit, onLock }) => {
                                 title="Edit"
                                 onClick={() => onEdit(doc)}
                             />
-                            <i
-                                className={doc.isActive ? 'fa fa-unlock' : 'fa fa-lock'}
-                                style={{ cursor: 'pointer', color: doc.isActive ? 'green' : 'red' }}
-                                title={doc.isActive ? 'Khóa tài khoản' : 'Mở khóa tài khoản'}
-                                onClick={() => onLock(doc)}
-                            />
+                            {user?.role === 'admin' && (
+                                <i
+                                    className={doc.isActive ? 'fa fa-unlock' : 'fa fa-lock'}
+                                    style={{ cursor: 'pointer', color: doc.isActive ? 'green' : 'red' }}
+                                    title={doc.isActive ? 'Khóa tài khoản' : 'Mở khóa tài khoản'}
+                                    onClick={() => onLock(doc)}
+                                />
+                            )}
                         </td>
                     </tr>
                 ))}

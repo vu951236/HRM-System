@@ -19,32 +19,32 @@ public class WorkScheduleTemplateController {
 
     private final WorkScheduleTemplateService service;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ApiResponse<WorkScheduleTemplateResponse>> create(@RequestBody WorkScheduleTemplateRequest request){
         WorkScheduleTemplateResponse response = service.createTemplate(request);
         return ResponseEntity.ok(ApiResponse.<WorkScheduleTemplateResponse>builder().data(response).build());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<WorkScheduleTemplateResponse>> update(@PathVariable Integer id,
                                                                             @RequestBody WorkScheduleTemplateRequest request){
         WorkScheduleTemplateResponse response = service.updateTemplate(id, request);
         return ResponseEntity.ok(ApiResponse.<WorkScheduleTemplateResponse>builder().data(response).build());
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public ResponseEntity<ApiResponse<List<WorkScheduleTemplateResponse>>> getAll(){
         List<WorkScheduleTemplateResponse> list = service.getAllTemplates();
         return ResponseEntity.ok(ApiResponse.<List<WorkScheduleTemplateResponse>>builder().data(list).build());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<ApiResponse<WorkScheduleTemplateResponse>> getById(@PathVariable Integer id){
         WorkScheduleTemplateResponse response = service.getTemplateById(id);
         return ResponseEntity.ok(ApiResponse.<WorkScheduleTemplateResponse>builder().data(response).build());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Integer id){
         service.deleteTemplate(id);
         return ResponseEntity.ok(ApiResponse.<Void>builder().build());

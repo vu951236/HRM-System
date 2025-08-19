@@ -9,7 +9,9 @@ import org.mapstruct.*;
 public interface WorkScheduleMapper {
 
     @Mapping(source = "employee.id", target = "employeeId")
-    @Mapping(source = "employee.name", target = "employeeName")
+    @Mapping(source = "employee.employeeCode", target = "employeeCode")
+    @Mapping(source = "employee.profile.fullName", target = "employeeName")
+    @Mapping(source = "employee.user.id", target = "userId")
     @Mapping(source = "shift.id", target = "shiftId")
     @Mapping(source = "shift.name", target = "shiftName")
     @Mapping(source = "shift.shiftRule.id", target = "shiftRuleId")
@@ -21,6 +23,7 @@ public interface WorkScheduleMapper {
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "employee", ignore = true)
     @Mapping(target = "shift", ignore = true)
+    @Mapping(target = "isDelete", constant = "false")
     WorkSchedule toEntity(WorkScheduleRequest request);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

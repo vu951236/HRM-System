@@ -12,6 +12,7 @@ public interface ShiftRuleMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
+    @Mapping(target = "isDelete", constant = "false")
     ShiftRule toEntity(ShiftRuleRequest request);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

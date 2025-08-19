@@ -21,6 +21,7 @@ public class UserResponse {
     private String address;
     private String avatarUrl;
     private Boolean isActive;
+    private String positionName;
 }
 
 

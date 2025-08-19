@@ -66,4 +66,5 @@ public class EmployeeRecord {
 
     @Column(name = "is_delete", nullable = false)
     private Boolean isDelete = false;
+
 }

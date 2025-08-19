@@ -27,8 +27,8 @@ public class ShiftRule {
     @Column(name = "allow_overtime")
     private Boolean allowOvertime = false;
 
-    @Column(name = "night_shift_multiplier", precision = 4, scale = 2)
-    private Double nightShiftMultiplier = 1.00;
+    @Column(name = "night_shift_multiplier")
+    private Float nightShiftMultiplier = 1.0f;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

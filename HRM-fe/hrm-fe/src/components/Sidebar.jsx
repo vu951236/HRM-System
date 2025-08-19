@@ -23,6 +23,12 @@ function getIconClass(item) {
         case 'Quản lý nhân viên': return 'fa fa-user';
         case 'Quản lý hồ sơ': return 'fa fa-file';
         case 'Quản lý hợp đồng': return 'fa fa-file-text';
+        case 'Quản lý quy tắc ca': return 'fa fa-file-text';
+        case 'Quản lý ca làm việc': return 'fa fa-file-text';
+        case 'Quản lý mẫu lịch làm việc': return 'fa fa-file-text';
+        case 'Quản lý lịch làm việc': return 'fa fa-file-text';
+        case 'Quản lý yêu cầu đổi ca': return 'fa fa-file-text';
+        case 'Quản lý tăng ca': return 'fa fa-file-text';
         case 'Lưu trữ thông tin nhân viên': return 'fa fa-archive';
         case 'Ghi nhận chấm công': return 'fa fa-clipboard-check';
         case 'Phê duyệt công tăng ca': return 'fa fa-user-clock';
@@ -59,6 +65,12 @@ function getRouteFromItem(item) {
         case 'Quản lý nhân viên': return '/employee';
         case 'Quản lý hồ sơ': return '/record';
         case 'Quản lý hợp đồng': return '/contract';
+        case 'Quản lý quy tắc ca': return '/shiftrule';
+        case 'Quản lý ca làm việc': return '/shift';
+        case 'Quản lý mẫu lịch làm việc': return '/workscheduletemplate';
+        case 'Quản lý lịch làm việc': return '/workschedule';
+        case 'Quản lý yêu cầu đổi ca': return '/shiftswap';
+        case 'Quản lý tăng ca': return '/overtime';
         case 'Lưu trữ thông tin nhân viên': return '/employee/archive';
         case 'Ghi nhận chấm công': return '/attendance/log';
         case 'Phê duyệt công tăng ca': return '/attendance/overtime-approve';

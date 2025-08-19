@@ -2,14 +2,13 @@ package com.example.hrm.service;
 
 import com.example.hrm.dto.request.WorkScheduleRequest;
 import com.example.hrm.dto.response.WorkScheduleResponse;
-import com.example.hrm.entity.EmployeeRecord;
-import com.example.hrm.entity.Shift;
-import com.example.hrm.entity.WorkSchedule;
+import com.example.hrm.entity.*;
 import com.example.hrm.mapper.WorkScheduleMapper;
 import com.example.hrm.repository.EmployeeRecordRepository;
 import com.example.hrm.repository.ShiftRepository;
 import com.example.hrm.repository.WorkScheduleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,12 +23,25 @@ public class WorkScheduleService {
     private final EmployeeRecordRepository employeeRepository;
     private final ShiftRepository shiftRepository;
     private final WorkScheduleMapper mapper;
+    private final PermissionChecker permissionChecker;
 
     public WorkScheduleResponse createWorkSchedule(WorkScheduleRequest request) {
-        WorkSchedule ws = mapper.toEntity(request);
+        permissionChecker.checkAdminOrHrRole();
 
         EmployeeRecord emp = employeeRepository.findById(request.getEmployeeId())
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
+
+        permissionChecker.checkEmployeeRecordPermission(emp.getUser().getId());
+
+        if (emp.getUser() == null || Boolean.FALSE.equals(emp.getUser().getIsActive())) {
+            throw new RuntimeException("Employee is inactive, cannot create schedule");
+        }
+
+        if (Boolean.TRUE.equals(emp.getIsDelete())) {
+            throw new RuntimeException("Employee record is deleted, cannot create schedule");
+        }
+
+        WorkSchedule ws = mapper.toEntity(request);
         ws.setEmployee(emp);
 
         Shift shift = shiftRepository.findById(request.getShiftId())
@@ -44,30 +56,59 @@ public class WorkScheduleService {
     }
 
     public WorkScheduleResponse updateWorkSchedule(Integer id, WorkScheduleRequest request) {
+        permissionChecker.checkAdminOrHrRole();
+
         WorkSchedule ws = workScheduleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("WorkSchedule not found"));
 
-        mapper.updateEntityFromRequest(request, ws);
+        if (ws.getEmployee() != null && ws.getEmployee().getUser() != null) {
+            permissionChecker.checkEmployeeRecordPermission(ws.getEmployee().getUser().getId());
+        }
 
-        if(request.getEmployeeId() != null) {
+        if (request.getEmployeeId() != null) {
             EmployeeRecord emp = employeeRepository.findById(request.getEmployeeId())
                     .orElseThrow(() -> new RuntimeException("Employee not found"));
+
+            permissionChecker.checkEmployeeRecordPermission(emp.getUser().getId());
             ws.setEmployee(emp);
         }
 
-        if(request.getShiftId() != null) {
+        if (request.getShiftId() != null) {
             Shift shift = shiftRepository.findById(request.getShiftId())
                     .orElseThrow(() -> new RuntimeException("Shift not found"));
             ws.setShift(shift);
         }
 
+        mapper.updateEntityFromRequest(request, ws);
         ws.setUpdatedAt(LocalDateTime.now());
+
         WorkSchedule updated = workScheduleRepository.save(ws);
         return mapper.toResponse(updated);
     }
 
     public List<WorkScheduleResponse> getAllSchedules() {
-        return workScheduleRepository.findAll().stream()
+        Role currentRole = permissionChecker.getCurrentUserRole();
+        User currentUser = permissionChecker.getCurrentUser();
+        List<WorkSchedule> schedules;
+
+        if ("admin".equalsIgnoreCase(currentRole.getName())) {
+            schedules = workScheduleRepository.findAll();
+        } else if ("hr".equalsIgnoreCase(currentRole.getName())) {
+            schedules = workScheduleRepository.findAll()
+                    .stream()
+                    .filter(ws -> !ws.getIsDelete())
+                    .filter(ws -> {
+                        User empUser = ws.getEmployee().getUser();
+                        if (empUser == null) return false;
+                        String empRole = empUser.getRole().getName();
+                        return empUser.getId().equals(currentUser.getId()) || "staff".equalsIgnoreCase(empRole);
+                    })
+                    .toList();
+        } else {
+            throw new RuntimeException("Bạn không có quyền xem lịch làm việc");
+        }
+
+        return schedules.stream()
                 .map(mapper::toResponse)
                 .collect(Collectors.toList());
     }
@@ -75,9 +116,26 @@ public class WorkScheduleService {
     public WorkScheduleResponse getScheduleById(Integer id) {
         WorkSchedule ws = workScheduleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("WorkSchedule not found"));
-        return mapper.toResponse(ws);
+
+        Role currentRole = permissionChecker.getCurrentUserRole();
+        User currentUser = permissionChecker.getCurrentUser();
+
+        if ("admin".equalsIgnoreCase(currentRole.getName())) {
+            return mapper.toResponse(ws);
+        } else if ("hr".equalsIgnoreCase(currentRole.getName())) {
+            User empUser = ws.getEmployee().getUser();
+            if (empUser != null && !ws.getIsDelete() &&
+                    (empUser.getId().equals(currentUser.getId()) || "staff".equalsIgnoreCase(empUser.getRole().getName()))) {
+                return mapper.toResponse(ws);
+            } else {
+                throw new RuntimeException("Bạn không có quyền xem lịch làm việc này");
+            }
+        } else {
+            throw new RuntimeException("Bạn không có quyền xem lịch làm việc");
+        }
     }
 
+    @PreAuthorize("hasRole('admin')")
     public void deleteWorkSchedule(Integer id) {
         WorkSchedule ws = workScheduleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("WorkSchedule not found"));
@@ -85,6 +143,7 @@ public class WorkScheduleService {
         workScheduleRepository.save(ws);
     }
 
+    @PreAuthorize("hasRole('admin')")
     public void restoreWorkSchedule(Integer id) {
         WorkSchedule ws = workScheduleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("WorkSchedule not found"));
@@ -92,5 +151,4 @@ public class WorkScheduleService {
         ws.setUpdatedAt(LocalDateTime.now());
         workScheduleRepository.save(ws);
     }
-
 }

@@ -17,32 +17,32 @@ public class ShiftController {
 
     private final ShiftService shiftService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ApiResponse<ShiftResponse>> createShift(@RequestBody ShiftRequest request) {
         ShiftResponse response = shiftService.createShift(request);
         return ResponseEntity.ok(ApiResponse.<ShiftResponse>builder().data(response).build());
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public ResponseEntity<ApiResponse<List<ShiftResponse>>> getAllShifts() {
         List<ShiftResponse> responses = shiftService.getAllShifts();
         return ResponseEntity.ok(ApiResponse.<List<ShiftResponse>>builder().data(responses).build());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getShift/{id}")
     public ResponseEntity<ApiResponse<ShiftResponse>> getShiftById(@PathVariable Integer id) {
         ShiftResponse response = shiftService.getShiftById(id);
         return ResponseEntity.ok(ApiResponse.<ShiftResponse>builder().data(response).build());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<ShiftResponse>> updateShift(@PathVariable Integer id,
                                                                   @RequestBody ShiftRequest request) {
         ShiftResponse response = shiftService.updateShift(id, request);
         return ResponseEntity.ok(ApiResponse.<ShiftResponse>builder().data(response).build());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteShift(@PathVariable Integer id) {
         shiftService.deleteShift(id);
         return ResponseEntity.ok(ApiResponse.<Void>builder().build());

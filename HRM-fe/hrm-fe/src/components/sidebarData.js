@@ -44,22 +44,22 @@ export function getSidebarGroups(user) {
     }
     if (documentItems.length > 0) {
         groups.push({
-            title: 'Quản lý hệ thống',
+            title: 'Quản lý nhân sự',
             items: documentItems,
         });
     }
 
     const attendanceItems = [];
-    if (role === 'hr') {
-        attendanceItems.push('Phê duyệt công tăng ca', 'Cài đặt ca làm việc', 'Tổng hợp bảng công', 'Quản lý sai sót chấm công');
+    if (role === 'admin' || role === 'hr') {
+        attendanceItems.push('Quản lý quy tắc ca', 'Quản lý ca làm việc', 'Quản lý mẫu lịch làm việc', 'Quản lý lịch làm việc', 'Quản lý yêu cầu đổi ca' , 'Quản lý tăng ca', 'Quản lý chấm công');
     }
     if (role === 'staff') {
-        attendanceItems.push('Ghi nhận chấm công');
+        attendanceItems.push('Quản lý yêu cầu đổi ca', 'Quản lý tăng ca', 'Ghi nhận chấm công');
     }
 
     if (attendanceItems.length > 0) {
         groups.push({
-            title: 'Chấm công',
+            title: 'Quản lý thời gian làm việc',
             items: attendanceItems,
         });
     }

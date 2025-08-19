@@ -17,32 +17,32 @@ public class ShiftRuleController {
 
     private final ShiftRuleService shiftRuleService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ApiResponse<ShiftRuleResponse>> createShiftRule(@RequestBody ShiftRuleRequest request) {
         ShiftRuleResponse response = shiftRuleService.createShiftRule(request);
         return ResponseEntity.ok(ApiResponse.<ShiftRuleResponse>builder().data(response).build());
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public ResponseEntity<ApiResponse<List<ShiftRuleResponse>>> getAllShiftRules() {
         List<ShiftRuleResponse> responses = shiftRuleService.getAllShiftRules();
         return ResponseEntity.ok(ApiResponse.<List<ShiftRuleResponse>>builder().data(responses).build());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getShiftRule/{id}")
     public ResponseEntity<ApiResponse<ShiftRuleResponse>> getShiftRuleById(@PathVariable Integer id) {
         ShiftRuleResponse response = shiftRuleService.getShiftRuleById(id);
         return ResponseEntity.ok(ApiResponse.<ShiftRuleResponse>builder().data(response).build());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<ShiftRuleResponse>> updateShiftRule(@PathVariable Integer id,
                                                                           @RequestBody ShiftRuleRequest request) {
         ShiftRuleResponse response = shiftRuleService.updateShiftRule(id, request);
         return ResponseEntity.ok(ApiResponse.<ShiftRuleResponse>builder().data(response).build());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteShiftRule(@PathVariable Integer id) {
         shiftRuleService.deleteShiftRule(id);
         return ResponseEntity.ok(ApiResponse.<Void>builder().build());

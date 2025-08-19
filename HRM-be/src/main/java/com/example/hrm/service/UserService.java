@@ -10,6 +10,7 @@ import com.example.hrm.entity.User;
 import com.example.hrm.exception.AppException;
 import com.example.hrm.exception.ErrorCode;
 import com.example.hrm.mapper.UserMapper;
+import com.example.hrm.repository.EmployeeRecordRepository;
 import com.example.hrm.repository.UserRepository;
 import com.example.hrm.repository.EmployeeProfileRepository;
 import com.example.hrm.repository.RoleRepository;
@@ -41,8 +42,21 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final EmployeeProfileRepository employeeProfileRepository;
     private final RoleRepository roleRepository;
+    private final EmployeeRecordRepository employeeRecordRepository;
     private final EmailService emailService;
     private final ConcurrentHashMap<String, AbstractMap.SimpleEntry<String, LocalDateTime>> verificationCodes = new ConcurrentHashMap<>();
+
+    private UserResponse mapUserToResponse(User user) {
+        UserResponse resp = userMapper.toUserResponse(user);
+
+        employeeRecordRepository.findByUser_Id(user.getId()).ifPresent(emp -> {
+            if (emp.getPosition() != null) {
+                resp.setPositionName(emp.getPosition().getName());
+            }
+        });
+
+        return resp;
+    }
 
     public UserResponse getMyInfo() {
         var context = SecurityContextHolder.getContext();
@@ -51,7 +65,7 @@ public class UserService {
         User user = userRepository.findByUsernameWithProfile(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
-        return userMapper.toUserResponse(user);
+        return mapUserToResponse(user);
     }
 
     @PreAuthorize("hasRole('admin')")

@@ -21,7 +21,7 @@ public class ShiftSwapRequest {
 
     @ManyToOne
     @JoinColumn(name = "requested_shift_id", nullable = false)
-    private Shift requestedShift;
+    private WorkSchedule requestedShift;
 
     @ManyToOne
     @JoinColumn(name = "target_employee_id", nullable = false)
@@ -29,7 +29,7 @@ public class ShiftSwapRequest {
 
     @ManyToOne
     @JoinColumn(name = "target_shift_id", nullable = false)
-    private Shift targetShift;
+    private WorkSchedule targetShift;
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.pending;

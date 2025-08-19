@@ -1,6 +1,9 @@
 import React from 'react';
+import {useAuth} from "../context/AuthContext.jsx";
 
 const ContractTable = ({ data, onEdit, onExtend, onTerminate, onSoftDelete, onRestore, onViewHistory }) => {
+    const { user } = useAuth();
+
     return (
         <div className="table-container">
             <table>
@@ -68,12 +71,15 @@ const ContractTable = ({ data, onEdit, onExtend, onTerminate, onSoftDelete, onRe
                                         }}
 
                                     />
-                                    <i
-                                        className="fa fa-trash"
-                                        style={{ cursor: 'pointer', color: 'red' }}
-                                        title="Soft Delete"
-                                        onClick={() => onSoftDelete(contract.id)}
-                                    />
+                                    {user?.role === 'admin' && (
+                                        <i
+                                            className="fa fa-trash"
+                                            style={{ cursor: 'pointer', color: 'red' }}
+                                            title="Soft Delete"
+                                            onClick={() => onSoftDelete(contract.id)}
+                                        />
+                                    )}
+
                                 </>
                             ) : (
                                 <i

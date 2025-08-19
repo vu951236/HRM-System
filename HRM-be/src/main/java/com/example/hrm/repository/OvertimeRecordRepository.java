@@ -5,6 +5,7 @@ import com.example.hrm.entity.OvertimeRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 public interface OvertimeRecordRepository extends JpaRepository<OvertimeRecord, Integer> {
@@ -12,4 +13,8 @@ public interface OvertimeRecordRepository extends JpaRepository<OvertimeRecord, 
     List<OvertimeRecord> findAllByEmployeeAndIsDeleteFalse(EmployeeRecord employee);
 
     List<OvertimeRecord> findAllByDateAndIsDeleteFalse(LocalDate date);
+
+    List<OvertimeRecord> findAllByEmployee_User_IdAndIsDeleteFalse(Integer id);
+
+    List<OvertimeRecord> findAllByDateAndEmployee_User_IdAndIsDeleteFalse(LocalDate date, Integer id);
 }

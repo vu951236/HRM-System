@@ -26,18 +26,16 @@ public class ShiftSwapRequestController {
     }
 
     @PostMapping("/approve/{id}")
-    public ResponseEntity<ApiResponse<ShiftSwapRequestResponse>> approve(@PathVariable Integer id,
-                                                                         @RequestParam Integer approverId) {
+    public ResponseEntity<ApiResponse<ShiftSwapRequestResponse>> approve(@PathVariable Integer id) {
         return ResponseEntity.ok(ApiResponse.<ShiftSwapRequestResponse>builder()
-                .data(service.approveRequest(id, approverId))
+                .data(service.approveRequest(id))
                 .build());
     }
 
     @PostMapping("/reject/{id}")
-    public ResponseEntity<ApiResponse<ShiftSwapRequestResponse>> reject(@PathVariable Integer id,
-                                                                        @RequestParam Integer approverId) {
+    public ResponseEntity<ApiResponse<ShiftSwapRequestResponse>> reject(@PathVariable Integer id) {
         return ResponseEntity.ok(ApiResponse.<ShiftSwapRequestResponse>builder()
-                .data(service.rejectRequest(id, approverId))
+                .data(service.rejectRequest(id))
                 .build());
     }
 

@@ -11,13 +11,15 @@ import org.mapstruct.*;
 public interface ShiftMapper {
 
     @Mapping(source = "shiftRule", target = "shiftRule")
+    @Mapping(source = "isDelete", target = "isDelete")
     ShiftResponse toResponse(Shift shift);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "shiftRule", ignore = true)
+    @Mapping(target = "isDelete", constant = "false")
     Shift toEntity(ShiftRequest request);
 
-    // ShiftRule mapping
+
     ShiftRuleResponse toResponse(ShiftRule rule);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

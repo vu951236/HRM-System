@@ -7,7 +7,9 @@ import java.time.LocalDateTime;
 @Data
 public class WorkScheduleResponse {
     private Integer id;
+    private Integer userId;
     private Integer employeeId;
+    private String employeeCode;
     private String employeeName;
     private Integer shiftId;
     private String shiftName;
@@ -18,4 +20,5 @@ public class WorkScheduleResponse {
     private String note;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Boolean isDelete;
 }

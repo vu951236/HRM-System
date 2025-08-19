@@ -21,7 +21,6 @@ public class OvertimeRecordController {
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<OvertimeRecordResponse>> create(@RequestBody OvertimeRecordRequest request) {
         OvertimeRecordResponse response = service.createOvertime(
-                request.getEmployeeId(),
                 request.getDate(),
                 request.getStartTime(),
                 request.getEndTime(),
@@ -31,16 +30,14 @@ public class OvertimeRecordController {
     }
 
     @PostMapping("/approve/{id}")
-    public ResponseEntity<ApiResponse<OvertimeRecordResponse>> approve(@PathVariable Integer id,
-                                                                       @RequestParam Integer approverId) {
-        OvertimeRecordResponse response = service.approveOvertime(id, approverId);
+    public ResponseEntity<ApiResponse<OvertimeRecordResponse>> approve(@PathVariable Integer id) {
+        OvertimeRecordResponse response = service.approveOvertime(id);
         return ResponseEntity.ok(ApiResponse.<OvertimeRecordResponse>builder().data(response).build());
     }
 
     @PostMapping("/reject/{id}")
-    public ResponseEntity<ApiResponse<OvertimeRecordResponse>> reject(@PathVariable Integer id,
-                                                                      @RequestParam Integer approverId) {
-        OvertimeRecordResponse response = service.rejectOvertime(id, approverId);
+    public ResponseEntity<ApiResponse<OvertimeRecordResponse>> reject(@PathVariable Integer id) {
+        OvertimeRecordResponse response = service.rejectOvertime(id);
         return ResponseEntity.ok(ApiResponse.<OvertimeRecordResponse>builder().data(response).build());
     }
 
@@ -59,12 +56,6 @@ public class OvertimeRecordController {
     @GetMapping("/all")
     public ResponseEntity<ApiResponse<List<OvertimeRecordResponse>>> getAll() {
         List<OvertimeRecordResponse> responses = service.getAllOvertime();
-        return ResponseEntity.ok(ApiResponse.<List<OvertimeRecordResponse>>builder().data(responses).build());
-    }
-
-    @GetMapping("/employee/{employeeId}")
-    public ResponseEntity<ApiResponse<List<OvertimeRecordResponse>>> getByEmployee(@PathVariable Integer employeeId) {
-        List<OvertimeRecordResponse> responses = service.getOvertimeByEmployee(employeeId);
         return ResponseEntity.ok(ApiResponse.<List<OvertimeRecordResponse>>builder().data(responses).build());
     }
 

@@ -15,4 +15,5 @@ public class ShiftResponse {
     private LocalTime endTime;
     private LocalTime breakTime;
     private String description;
+    private Boolean isDelete;
 }

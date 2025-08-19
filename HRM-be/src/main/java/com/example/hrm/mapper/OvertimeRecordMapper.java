@@ -9,8 +9,11 @@ import org.mapstruct.Mapping;
 public interface OvertimeRecordMapper {
 
     @Mapping(source = "employee.id", target = "employeeId")
-    @Mapping(source = "employee.name", target = "employeeName")
+    @Mapping(source = "employee.user.id", target = "userId")
+    @Mapping(source = "employee.employeeCode", target = "employeeCode")
+    @Mapping(source = "employee.position.name", target = "employeePositionName")
+    @Mapping(source = "employee.profile.fullName", target = "employeeFullName")
     @Mapping(source = "approvedBy.id", target = "approvedById")
-    @Mapping(source = "approvedBy.name", target = "approvedByName")
+    @Mapping(source = "approvedBy.profile.fullName", target = "approvedByFullName")
     OvertimeRecordResponse toResponse(OvertimeRecord record);
 }

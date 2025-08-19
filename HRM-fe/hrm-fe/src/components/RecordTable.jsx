@@ -1,6 +1,9 @@
 import React from 'react';
+import { useAuth } from '../context/AuthContext';
 
 const RecordTable = ({ data, onEdit, onSoftDelete, onRestore }) => {
+    const { user } = useAuth();
+
     return (
         <div className="table-container">
             <table>
@@ -45,12 +48,15 @@ const RecordTable = ({ data, onEdit, onSoftDelete, onRestore }) => {
                                         title="Edit"
                                         onClick={() => onEdit(doc)}
                                     />
-                                    <i
-                                        className="fa fa-trash"
-                                        style={{ cursor: 'pointer', color: 'red' }}
-                                        title="Soft Delete"
-                                        onClick={() => onSoftDelete(doc.id)}
-                                    />
+                                    {user?.role === 'admin' && (
+                                        <i
+                                            className="fa fa-trash"
+                                            style={{ cursor: 'pointer', color: 'red' }}
+                                            title="Soft Delete"
+                                            onClick={() => onSoftDelete(doc.id)}
+                                        />
+                                    )}
+
                                 </>
                             ) : (
                                 <i

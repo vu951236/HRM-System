@@ -2,6 +2,7 @@ package com.example.hrm.dto.response;
 
 import lombok.Data;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class WorkScheduleTemplateResponse {
@@ -13,4 +14,7 @@ public class WorkScheduleTemplateResponse {
     private Integer createdById;
     private String createdByName;
     private LocalDateTime createdAt;
+    private Boolean isDelete;
+
+    private List<ShiftPatternResponse> shiftPatternDetail;
 }

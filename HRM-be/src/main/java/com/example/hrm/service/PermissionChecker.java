@@ -44,4 +44,22 @@ public class PermissionChecker {
             throw new RuntimeException("Bạn không có quyền tạo/cập nhật hồ sơ");
         }
     }
+
+    public void checkAdminOrHrRole() {
+        User currentUser = getCurrentUser();
+        String roleName = currentUser.getRole().getName();
+
+        if (!("admin".equalsIgnoreCase(roleName) || "hr".equalsIgnoreCase(roleName))) {
+            throw new RuntimeException("Bạn không có quyền truy cập chức năng này");
+        }
+    }
+
+    public Role getCurrentUserRole() {
+        return getCurrentUser().getRole();
+    }
+
+    public boolean isCurrentUserHr() {
+        Role role = getCurrentUserRole();
+        return role != null && "hr".equalsIgnoreCase(role.getName());
+    }
 }
