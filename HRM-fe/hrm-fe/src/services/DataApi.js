@@ -43,3 +43,8 @@ export async function getShiftSwapOptions(requesterId, targetEmployeeId) {
     const res = await api.get(url);
     return res.data.data;
 }
+
+export async function getMyLeavePolicies() {
+    const res = await api.get('/api/leave-policies/me');
+    return res.data.data;
+}

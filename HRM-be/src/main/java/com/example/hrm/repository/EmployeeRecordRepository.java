@@ -1,6 +1,7 @@
 package com.example.hrm.repository;
 
 import com.example.hrm.entity.EmployeeRecord;
+import com.example.hrm.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,4 +29,10 @@ public interface EmployeeRecordRepository extends JpaRepository<EmployeeRecord, 
     Optional<EmployeeRecord> findByUser_IdAndIsDeleteFalse(Integer userId);
 
     Optional<EmployeeRecord> findByUser_Id(Integer userId);
+
+    List<EmployeeRecord> findByIsDeleteFalseAndTerminationDateIsNull();
+
+    Optional<EmployeeRecord> findByUser(User user);
+
+    Optional<EmployeeRecord> findByIdAndIsDeleteFalse(Integer id);
 }

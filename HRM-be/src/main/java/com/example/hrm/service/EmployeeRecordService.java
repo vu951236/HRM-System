@@ -153,5 +153,12 @@ public class EmployeeRecordService {
         employeeRecordRepository.save(record);
     }
 
+    public List<Integer> getActiveEmployeeIds() {
+        List<EmployeeRecord> activeEmployees = employeeRecordRepository
+                .findByIsDeleteFalseAndTerminationDateIsNull();
+        return activeEmployees.stream()
+                .map(EmployeeRecord::getId)
+                .collect(Collectors.toList());
+    }
 
 }

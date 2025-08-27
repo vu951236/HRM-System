@@ -13,6 +13,8 @@ const OvertimeRecordTable = ({ data, onApprove, onReject, onDelete, onRestore })
     const isHr = user?.role === 'hr';
     const isAdmin = user?.role === 'admin';
     const isHeadOfDept = user?.role === 'staff' && user?.positionName === 'Head of Department';
+    const isHrHod = user?.role === 'hr' && user?.positionName === 'Head of Department';
+    const isHrNormal = user?.role === 'hr' && user?.positionName !== 'Head of Department';
 
     return (
         <div className="table-container">
@@ -37,9 +39,10 @@ const OvertimeRecordTable = ({ data, onApprove, onReject, onDelete, onRestore })
                         record.status === 'pending' &&
                         (
                             isAdmin ||
-                            (isHr && record.userId !== Number(user.userId)) ||
+                            (isHrNormal && record.employeePositionName === 'Staff') ||
+                            (isHrHod && record.userId !== Number(user.userId)) ||
                             (isHeadOfDept && record.employeePositionName === 'Staff')
-                        )
+                        );
 
                     return (
                         <tr key={record.id} style={{ opacity: record.isDelete ? 0.5 : 1 }}>

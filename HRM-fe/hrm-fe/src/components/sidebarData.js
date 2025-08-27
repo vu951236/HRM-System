@@ -49,25 +49,33 @@ export function getSidebarGroups(user) {
         });
     }
 
-    const attendanceItems = [];
+    const workItems = [];
     if (role === 'admin' || role === 'hr') {
-        attendanceItems.push('Quản lý quy tắc ca', 'Quản lý ca làm việc', 'Quản lý mẫu lịch làm việc', 'Quản lý lịch làm việc', 'Quản lý yêu cầu đổi ca' , 'Quản lý tăng ca', 'Quản lý chấm công');
+        workItems.push('Quản lý quy tắc ca', 'Quản lý ca làm việc', 'Quản lý mẫu lịch làm việc', 'Quản lý lịch làm việc', 'Quản lý yêu cầu đổi ca' , 'Quản lý tăng ca');
     }
     if (role === 'staff') {
-        attendanceItems.push('Quản lý yêu cầu đổi ca', 'Quản lý tăng ca', 'Ghi nhận chấm công');
+        workItems.push('Quản lý lịch làm việc', 'Yêu cầu đổi ca', 'Yêu cầu tăng ca');
     }
 
-    if (attendanceItems.length > 0) {
+    if (workItems.length > 0) {
         groups.push({
-            title: 'Quản lý thời gian làm việc',
-            items: attendanceItems,
+            title: 'Quản lý công việc',
+            items: workItems,
         });
     }
 
-    if (role === 'hr') {
+    const salaryItems = [];
+    if (role === 'admin' || role === 'hr') {
+        salaryItems.push('Quản lý chính sách lương', 'Quản lý chính sách nghỉ', 'Quản lý nghỉ phép', 'Quản lý chấm công', 'Quản lý bảng lương');
+    }
+    if (role === 'staff') {
+        salaryItems.push('Yêu cầu nghỉ phép', 'Quản lý chấm công', 'Quản lý bảng lương');
+    }
+
+    if (salaryItems.length > 0) {
         groups.push({
-            title: 'Tính lương',
-            items: ['Tính lương', 'Cấu hình bảng lương', 'Kết nối chuyển khoản', 'Xuất phiếu lương', 'Duyệt bảng lương'],
+            title: 'Quản lý lương',
+            items: salaryItems,
         });
     }
 

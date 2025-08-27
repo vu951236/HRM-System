@@ -4,7 +4,6 @@ import '../styles/dashboard.css';
 const CreateUserModal = ({ onClose, onCreate }) => {
     const [userData, setUserData] = useState({
         username: '',
-        password: '12345678@aA',
         fullName: '',
         email: '',
         phone: '',

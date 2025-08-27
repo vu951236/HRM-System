@@ -30,6 +30,7 @@ public class DataController {
     private final WorkScheduleRepository workScheduleRepository;
     private final ShiftSwapRequestService shiftSwapRequestService;
     private final UserRepository userRepository;
+    private final LeavePolicyRepository leavePolicyRepository;
 
     @GetMapping("/departments")
     public ResponseEntity<ApiResponse<List<Department>>> getDepartments() {
@@ -141,6 +142,33 @@ public class DataController {
 
         return ResponseEntity.ok(ApiResponse.<ShiftSwapOptionsDataResponse>builder()
                 .data(options)
+                .build());
+    }
+
+    @GetMapping("/leave-policies/me")
+    public ResponseEntity<ApiResponse<List<LeavePolicy>>> getMyLeavePolicies() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+
+        User currentUser = userRepository.findByUsername(currentUsername)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        EmployeeRecord emp = employeeRecordRepository.findByUser_IdAndIsDeleteFalse(currentUser.getId())
+                .orElseThrow(() -> new RuntimeException("Employee record not found"));
+
+        Integer roleId = currentUser.getRole() != null ? currentUser.getRole().getId() : null;
+        Long positionId = emp.getPosition() != null ? emp.getPosition().getId() : null;
+
+        List<LeavePolicy> policies;
+
+        if (roleId != null && positionId != null) {
+            policies = leavePolicyRepository.findByRole_IdAndPosition_Id(roleId, positionId);
+        } else {
+            policies = List.of();
+        }
+
+        return ResponseEntity.ok(ApiResponse.<List<LeavePolicy>>builder()
+                .data(policies)
                 .build());
     }
 

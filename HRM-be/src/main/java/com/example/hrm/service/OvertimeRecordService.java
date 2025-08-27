@@ -24,7 +24,6 @@ public class OvertimeRecordService {
 
     private final OvertimeRecordRepository repository;
     private final EmployeeRecordRepository employeeRepository;
-    private final UserRepository userRepository;
     private final OvertimeRecordMapper mapper;
     private final PermissionChecker permissionChecker;
 
@@ -56,30 +55,10 @@ public class OvertimeRecordService {
         OvertimeRecord record = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Overtime not found"));
 
-        User currentUser = permissionChecker.getCurrentUser();
-        String role = currentUser.getRole().getName();
-
-        if ("admin".equalsIgnoreCase(role)) {
-        } else if ("hr".equalsIgnoreCase(role)) {
-            if ("hr".equalsIgnoreCase(record.getEmployee().getUser().getRole().getName())) {
-                throw new RuntimeException("HR không được duyệt OT của HR khác");
-            }
-        } else if ("staff".equalsIgnoreCase(role)) {
-            EmployeeRecord currentRecord = employeeRepository.findByUser_IdAndIsDeleteFalse(currentUser.getId())
-                    .orElseThrow(() -> new RuntimeException("EmployeeRecord not found"));
-
-            EmployeeRecord requesterRecord = record.getEmployee();
-            if (!"Head of Department".equalsIgnoreCase(currentRecord.getPosition().getName())
-                    || !requesterRecord.getDepartment().getId().equals(currentRecord.getDepartment().getId())
-                    || !"Staff".equalsIgnoreCase(requesterRecord.getPosition().getName())) {
-                throw new RuntimeException("Bạn không có quyền duyệt yêu cầu OT này");
-            }
-        } else {
-            throw new RuntimeException("Bạn không có quyền duyệt yêu cầu OT này");
-        }
+        permissionChecker.checkRequestPermission(record);
 
         record.setStatus(OvertimeRecord.Status.approved);
-        record.setApprovedBy(currentUser);
+        record.setApprovedBy(permissionChecker.getCurrentUser());
         record.setUpdatedAt(LocalDateTime.now());
 
         return mapper.toResponse(repository.save(record));
@@ -89,34 +68,15 @@ public class OvertimeRecordService {
         OvertimeRecord record = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Overtime not found"));
 
-        User currentUser = permissionChecker.getCurrentUser();
-        String role = currentUser.getRole().getName();
-
-        if ("admin".equalsIgnoreCase(role)) {
-        } else if ("hr".equalsIgnoreCase(role)) {
-            if ("hr".equalsIgnoreCase(record.getEmployee().getUser().getRole().getName())) {
-                throw new RuntimeException("HR không được từ chối OT của HR khác");
-            }
-        } else if ("staff".equalsIgnoreCase(role)) {
-            EmployeeRecord currentRecord = employeeRepository.findByUser_IdAndIsDeleteFalse(currentUser.getId())
-                    .orElseThrow(() -> new RuntimeException("EmployeeRecord not found"));
-
-            EmployeeRecord requesterRecord = record.getEmployee();
-            if (!"Head of Department".equalsIgnoreCase(currentRecord.getPosition().getName())
-                    || !requesterRecord.getDepartment().getId().equals(currentRecord.getDepartment().getId())
-                    || !"Staff".equalsIgnoreCase(requesterRecord.getPosition().getName())) {
-                throw new RuntimeException("Bạn không có quyền từ chối OT này");
-            }
-        } else {
-            throw new RuntimeException("Bạn không có quyền từ chối OT này");
-        }
+        permissionChecker.checkRequestPermission(record);
 
         record.setStatus(OvertimeRecord.Status.rejected);
-        record.setApprovedBy(currentUser);
+        record.setApprovedBy(permissionChecker.getCurrentUser());
         record.setUpdatedAt(LocalDateTime.now());
 
         return mapper.toResponse(repository.save(record));
     }
+
 
     public void deleteOvertime(Integer id) {
         User currentUser = permissionChecker.getCurrentUser();
@@ -146,49 +106,26 @@ public class OvertimeRecordService {
         User currentUser = permissionChecker.getCurrentUser();
         String role = currentUser.getRole().getName();
 
-        if ("admin".equalsIgnoreCase(role)) {
-            return repository.findAll()
-                    .stream()
-                    .map(mapper::toResponse)
-                    .toList();
+        EmployeeRecord currentRecord = null;
+        if (!"admin".equalsIgnoreCase(role)) {
+            currentRecord = employeeRepository.findByUser_IdAndIsDeleteFalse(currentUser.getId())
+                    .orElseThrow(() -> new RuntimeException("EmployeeRecord not found"));
         }
 
-        EmployeeRecord currentRecord = employeeRepository.findByUser_IdAndIsDeleteFalse(currentUser.getId())
-                .orElseThrow(() -> new RuntimeException("EmployeeRecord not found"));
-        String currentPosition = currentRecord.getPosition().getName();
+        List<OvertimeRecord> allRecords = repository.findAll()
+                .stream()
+                .filter(r -> !Boolean.TRUE.equals(r.getIsDelete()))
+                .toList();
 
-        if ("hr".equalsIgnoreCase(role)) {
-            List<OvertimeRecord> hrOwn = repository.findAllByEmployee_User_IdAndIsDeleteFalse(currentUser.getId());
-            List<OvertimeRecord> staffRecords = repository.findAllByIsDeleteFalse()
-                    .stream()
-                    .filter(r -> "staff".equalsIgnoreCase(r.getEmployee().getUser().getRole().getName()))
-                    .toList();
+        List<OvertimeRecord> filtered = permissionChecker.filterRecordsByPermission(
+                allRecords,
+                currentUser,
+                currentRecord
+        );
 
-            List<OvertimeRecord> combined = new ArrayList<>();
-            combined.addAll(hrOwn);
-            combined.addAll(staffRecords);
-
-            return combined.stream().map(mapper::toResponse).toList();
-        }
-
-        List<OvertimeRecord> ownRecords = repository.findAllByEmployee_User_IdAndIsDeleteFalse(currentUser.getId());
-
-        if ("Head of Department".equalsIgnoreCase(currentPosition)) {
-            List<OvertimeRecord> deptStaffRecords = repository.findAllByIsDeleteFalse()
-                    .stream()
-                    .filter(r -> {
-                        EmployeeRecord er = employeeRepository.findByUser_IdAndIsDeleteFalse(r.getEmployee().getUser().getId())
-                                .orElse(null);
-                        return er != null
-                                && er.getDepartment().getId().equals(currentRecord.getDepartment().getId())
-                                && "Staff".equalsIgnoreCase(er.getPosition().getName());
-                    })
-                    .toList();
-
-            ownRecords.addAll(deptStaffRecords);
-        }
-
-        return ownRecords.stream().map(mapper::toResponse).toList();
+        return filtered.stream()
+                .map(mapper::toResponse)
+                .toList();
     }
 
     public List<OvertimeRecordResponse> getOvertimeByDate(LocalDate date) {

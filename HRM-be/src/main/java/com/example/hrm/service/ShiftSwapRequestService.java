@@ -23,7 +23,6 @@ public class ShiftSwapRequestService {
     private final ShiftSwapRequestRepository repository;
     private final EmployeeRecordRepository employeeRepository;
     private final WorkScheduleRepository workScheduleRepository;
-    private final UserRepository userRepository;
     private final EmployeeRecordRepository employeeRecordRepository;
     private final PermissionChecker permissionChecker;
     private final ShiftSwapRequestMapper mapper;
@@ -74,77 +73,31 @@ public class ShiftSwapRequestService {
         User currentUser = permissionChecker.getCurrentUser();
         String role = currentUser.getRole().getName();
 
-        if ("admin".equalsIgnoreCase(role)) {
-            return repository.findAll()
-                    .stream()
-                    .map(mapper::toResponse)
-                    .toList();
+        EmployeeRecord currentRecord = null;
+        if (!"admin".equalsIgnoreCase(role)) {
+            currentRecord = employeeRecordRepository
+                    .findByUser_IdAndIsDeleteFalse(currentUser.getId())
+                    .orElseThrow(() -> new RuntimeException("EmployeeRecord not found"));
         }
 
-        EmployeeRecord currentRecord = employeeRecordRepository
-                .findByUser_IdAndIsDeleteFalse(currentUser.getId())
-                .orElseThrow(() -> new RuntimeException("EmployeeRecord not found"));
+        List<ShiftSwapRequest> allRecords = repository.findAll();
 
-        String currentPosition = currentRecord.getPosition().getName();
+        List<ShiftSwapRequest> filtered = permissionChecker.filterRecordsByPermission(
+                allRecords,
+                currentUser,
+                currentRecord
+        );
 
-        if ("hr".equalsIgnoreCase(role)) {
-            List<ShiftSwapRequest> hrOwnRequests = repository.findAllByRequester_User_IdAndIsDeleteFalse(currentUser.getId());
-            List<ShiftSwapRequest> staffRequests = repository.findAllByRequester_User_Role_NameAndIsDeleteFalse("staff");
-            List<ShiftSwapRequest> combined = new ArrayList<>();
-            combined.addAll(hrOwnRequests);
-            combined.addAll(staffRequests);
-            return combined.stream().map(mapper::toResponse).toList();
-        } else {
-            List<ShiftSwapRequest> ownRequests = repository.findAllByRequester_User_IdAndIsDeleteFalse(currentUser.getId());
-
-            if ("Head of Department".equalsIgnoreCase(currentPosition)) {
-                List<ShiftSwapRequest> deptStaffRequests = repository.findAll().stream()
-                        .filter(r -> {
-                            EmployeeRecord er = employeeRecordRepository
-                                    .findByUser_IdAndIsDeleteFalse(r.getRequester().getUser().getId())
-                                    .orElse(null);
-                            return er != null
-                                    && er.getDepartment().getId().equals(currentRecord.getDepartment().getId())
-                                    && "Staff".equalsIgnoreCase(er.getPosition().getName());
-                        })
-                        .toList();
-                ownRequests.addAll(deptStaffRequests);
-            }
-
-            return ownRequests.stream().map(mapper::toResponse).toList();
-        }
+        return filtered.stream()
+                .map(mapper::toResponse)
+                .toList();
     }
 
     public ShiftSwapRequestResponse approveRequest(Integer id) {
         ShiftSwapRequest request = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Request not found"));
 
-        User currentUser = permissionChecker.getCurrentUser();
-        String currentRole = currentUser.getRole().getName();
-
-        if ("admin".equalsIgnoreCase(currentRole)) {
-        } else if ("hr".equalsIgnoreCase(currentRole)) {
-            if ("hr".equalsIgnoreCase(request.getRequester().getUser().getRole().getName())) {
-                throw new RuntimeException("HR không được duyệt request của HR khác");
-            }
-        } else if ("staff".equalsIgnoreCase(currentRole)) {
-            EmployeeRecord currentRecord = employeeRecordRepository
-                    .findByUser_IdAndIsDeleteFalse(currentUser.getId())
-                    .orElseThrow(() -> new RuntimeException("EmployeeRecord not found"));
-            String currentPosition = currentRecord.getPosition().getName();
-
-            EmployeeRecord requesterRecord = employeeRecordRepository
-                    .findByUser_IdAndIsDeleteFalse(request.getRequester().getUser().getId())
-                    .orElseThrow(() -> new RuntimeException("Requester EmployeeRecord not found"));
-
-            if (!"Head of Department".equalsIgnoreCase(currentPosition)
-                    || !requesterRecord.getDepartment().getId().equals(currentRecord.getDepartment().getId())
-                    || !"Staff".equalsIgnoreCase(requesterRecord.getPosition().getName())) {
-                throw new RuntimeException("Bạn không có quyền duyệt request này");
-            }
-        } else {
-            throw new RuntimeException("Bạn không có quyền duyệt request này");
-        }
+        permissionChecker.checkRequestPermission(request);
 
         WorkSchedule requesterShift = request.getRequestedShift();
         WorkSchedule targetShift = request.getTargetShift();
@@ -161,7 +114,7 @@ public class ShiftSwapRequestService {
         workScheduleRepository.save(targetShift);
 
         request.setStatus(ShiftSwapRequest.Status.approved);
-        request.setApprovedBy(currentUser);
+        request.setApprovedBy(permissionChecker.getCurrentUser());
         request.setUpdatedAt(LocalDateTime.now());
 
         return mapper.toResponse(repository.save(request));
@@ -171,35 +124,10 @@ public class ShiftSwapRequestService {
         ShiftSwapRequest request = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Request not found"));
 
-        User currentUser = permissionChecker.getCurrentUser();
-        String currentRole = currentUser.getRole().getName();
-
-        if ("admin".equalsIgnoreCase(currentRole)) {
-        } else if ("hr".equalsIgnoreCase(currentRole)) {
-            if ("hr".equalsIgnoreCase(request.getRequester().getUser().getRole().getName())) {
-                throw new RuntimeException("HR không được từ chối request của HR khác");
-            }
-        } else if ("staff".equalsIgnoreCase(currentRole)) {
-            EmployeeRecord currentRecord = employeeRecordRepository
-                    .findByUser_IdAndIsDeleteFalse(currentUser.getId())
-                    .orElseThrow(() -> new RuntimeException("EmployeeRecord not found"));
-            String currentPosition = currentRecord.getPosition().getName();
-
-            EmployeeRecord requesterRecord = employeeRecordRepository
-                    .findByUser_IdAndIsDeleteFalse(request.getRequester().getUser().getId())
-                    .orElseThrow(() -> new RuntimeException("Requester EmployeeRecord not found"));
-
-            if (!"Head of Department".equalsIgnoreCase(currentPosition)
-                    || !requesterRecord.getDepartment().getId().equals(currentRecord.getDepartment().getId())
-                    || !"Staff".equalsIgnoreCase(requesterRecord.getPosition().getName())) {
-                throw new RuntimeException("Bạn không có quyền từ chối request này");
-            }
-        } else {
-            throw new RuntimeException("Bạn không có quyền từ chối request này");
-        }
+        permissionChecker.checkRequestPermission(request);
 
         request.setStatus(ShiftSwapRequest.Status.rejected);
-        request.setApprovedBy(currentUser);
+        request.setApprovedBy(permissionChecker.getCurrentUser());
         request.setUpdatedAt(LocalDateTime.now());
 
         return mapper.toResponse(repository.save(request));

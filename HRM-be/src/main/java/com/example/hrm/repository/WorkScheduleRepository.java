@@ -1,8 +1,6 @@
 package com.example.hrm.repository;
 
-import com.example.hrm.entity.EmployeeRecord;
-import com.example.hrm.entity.Shift;
-import com.example.hrm.entity.WorkSchedule;
+import com.example.hrm.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
@@ -19,4 +17,6 @@ public interface WorkScheduleRepository extends JpaRepository<WorkSchedule, Inte
     List<WorkSchedule> findByEmployeeIdAndIsDeleteFalse(Integer employeeId);
 
     List<WorkSchedule> findByEmployeeDepartmentIdAndIsDeleteFalse(Long employee_department_id);
+
+    List<WorkSchedule> findByWorkDate(LocalDate today);
 }

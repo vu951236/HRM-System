@@ -10,9 +10,10 @@ const ShiftSwapRequestTable = ({ data, onApprove, onReject, onDelete, onRestore 
         rejected: 'Bị từ chối'
     };
 
-    const isHr = user?.role === 'hr';
     const isAdmin = user?.role === 'admin';
-    const isHeadOfDept = user?.role === 'staff' && user?.positionName === 'Head of Department';
+    const isHrNormal = user?.role === 'hr' && user?.positionName !== 'Head of Department';
+    const isHrHod = user?.role === 'hr' && user?.positionName === 'Head of Department';
+    const isStaffHod = user?.role === 'staff' && user?.positionName === 'Head of Department';
 
     return (
         <div className="table-container">
@@ -28,7 +29,7 @@ const ShiftSwapRequestTable = ({ data, onApprove, onReject, onDelete, onRestore 
                     <th>Trạng thái</th>
                     <th>Người phê duyệt</th>
                     <th>Ngày tạo</th>
-                    {(isHr || isAdmin || isHeadOfDept) && <th>Hành động</th>}
+                    {(isAdmin || isHrNormal || isHrHod || isStaffHod) && <th>Hành động</th>}
                 </tr>
                 </thead>
                 <tbody>
@@ -36,7 +37,12 @@ const ShiftSwapRequestTable = ({ data, onApprove, onReject, onDelete, onRestore 
                     const canApproveOrReject =
                         !request.isDelete &&
                         request.status === 'pending' &&
-                        (isAdmin || (isHr && request.userId !== Number(user.userId)) || (isHeadOfDept && request.requesterPositionName === 'Staff'));
+                        (
+                            isAdmin ||
+                            (isHrNormal && request.requesterPositionName === 'Staff') ||
+                            (isHrHod && request.userId !== Number(user.userId)) ||
+                            (isStaffHod && request.requesterPositionName === 'Staff' && request.departmentId === user.departmentId)
+                        );
 
                     return (
                         <tr key={request.id} style={{ opacity: request.isDelete ? 0.5 : 1 }}>
@@ -50,7 +56,7 @@ const ShiftSwapRequestTable = ({ data, onApprove, onReject, onDelete, onRestore 
                             <td>{request.approvedByFullName || 'N/A'}</td>
                             <td>{request.createdAt ? new Date(request.createdAt).toLocaleString() : 'N/A'}</td>
 
-                            {(isHr || isAdmin || isHeadOfDept) && (
+                            {(isAdmin || isHrNormal || isHrHod || isStaffHod) && (
                                 <td className="action-icons">
                                     {canApproveOrReject && (
                                         <>

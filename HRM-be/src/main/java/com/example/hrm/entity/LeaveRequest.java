@@ -18,8 +18,8 @@ public class LeaveRequest {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "employee_id", nullable = false)
+    private EmployeeRecord employee;
 
     @ManyToOne
     @JoinColumn(name = "leave_policy_id")
@@ -40,4 +40,7 @@ public class LeaveRequest {
     @ManyToOne
     @JoinColumn(name = "approved_by")
     private User approvedBy;
+
+    @Column(name = "is_delete", nullable = false)
+    private Boolean isDelete = false;
 }
