@@ -9,23 +9,25 @@ function getIconClass(item) {
     switch (item) {
         case 'Sửa thông tin cá nhân': return 'fa fa-user-edit';
         case 'Đổi mật khẩu': return 'fa fa-key';
-        case 'Quản lý nhân viên': return 'fa fa-user';
-        case 'Quản lý hồ sơ': return 'fa fa-file';
-        case 'Quản lý hợp đồng': return 'fa fa-file-text';
-        case 'Quản lý quy tắc ca': return 'fa fa-file-text';
-        case 'Quản lý ca làm việc': return 'fa fa-file-text';
-        case 'Quản lý mẫu lịch làm việc': return 'fa fa-file-text';
-        case 'Quản lý lịch làm việc': return 'fa fa-file-text';
-        case 'Quản lý yêu cầu đổi ca': return 'fa fa-file-text';
-        case 'Yêu cầu đổi ca': return 'fa fa-file-text';
-        case 'Quản lý tăng ca': return 'fa fa-file-text';
-        case 'Yêu cầu tăng ca': return 'fa fa-file-text';
-        case 'Quản lý nghỉ phép': return 'fa fa-file-text';
-        case 'Yêu cầu nghỉ phép': return 'fa fa-file-text';
-        case 'Quản lý chính sách nghỉ': return 'fa fa-file-text';
-        case 'Quản lý chấm công': return 'fa fa-file-text';
-        case 'Quản lý chính sách lương': return 'fa fa-file-text';
-        case 'Quản lý bảng lương': return 'fa fa-file-text';
+        case 'Quản lý nhân viên': return 'fa fa-users';
+        case 'Quản lý hồ sơ': return 'fa fa-id-card';
+        case 'Quản lý hợp đồng': return 'fa fa-file-contract';
+        case 'Quản lý quy tắc ca': return 'fa fa-clipboard-list';
+        case 'Quản lý ca làm việc': return 'fa fa-business-time';
+        case 'Quản lý mẫu lịch làm việc': return 'fa fa-calendar-alt';
+        case 'Quản lý lịch làm việc': return 'fa fa-calendar-check';
+        case 'Quản lý yêu cầu đổi ca': return 'fa fa-exchange-alt';
+        case 'Yêu cầu đổi ca': return 'fa fa-random';
+        case 'Quản lý tăng ca': return 'fa fa-clock';
+        case 'Yêu cầu tăng ca': return 'fa fa-hourglass-half';
+        case 'Quản lý nghỉ phép': return 'fa fa-plane-departure';
+        case 'Yêu cầu nghỉ phép': return 'fa fa-umbrella-beach';
+        case 'Quản lý chính sách nghỉ': return 'fa fa-file-medical';
+        case 'Quản lý chấm công': return 'fa fa-fingerprint';
+        case 'Quản lý chính sách lương': return 'fa fa-balance-scale';
+        case 'Quản lý bảng lương': return 'fa fa-money-bill-wave';
+        case 'Thống kê mức chuyên cần': return 'fa fa-chart-line';
+        case 'Thống kê nhân viên': return 'fa fa-chart-pie';
         default: return 'fa fa-folder';
     }
 }
@@ -51,6 +53,8 @@ function getRouteFromItem(item) {
         case 'Quản lý chấm công': return '/attendance';
         case 'Quản lý chính sách lương': return '/salaryrule';
         case 'Quản lý bảng lương': return '/salary';
+        case 'Thống kê mức chuyên cần': return '/attendancedashboard';
+        case 'Thống kê nhân viên': return '/employeedashboard';
         default: return '/';
     }
 }

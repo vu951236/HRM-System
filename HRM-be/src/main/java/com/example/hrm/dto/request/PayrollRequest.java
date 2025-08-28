@@ -16,6 +16,4 @@ public class PayrollRequest {
     private BigDecimal baseSalary;
     private BigDecimal bonus;
     private BigDecimal deduction;
-
-    private List<PayrollDetailRequest> details;
 }

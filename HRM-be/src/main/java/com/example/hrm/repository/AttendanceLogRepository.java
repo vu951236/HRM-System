@@ -2,6 +2,8 @@ package com.example.hrm.repository;
 
 import com.example.hrm.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -20,4 +22,13 @@ public interface AttendanceLogRepository extends JpaRepository<AttendanceLog, In
     List<AttendanceLog> findByEmployee(EmployeeRecord employee);
 
     List<AttendanceLog> findByEmployee_IdAndLogDateBetween(Integer employeeId, LocalDate start, LocalDate end);
+
+    @Query("SELECT a FROM AttendanceLog a " +
+            "WHERE a.logDate BETWEEN :startDate AND :endDate " +
+            "AND (:departmentId IS NULL OR a.employee.department.id = :departmentId)")
+    List<AttendanceLog> findByDateRangeAndDepartment(
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate,
+            @Param("departmentId") Long departmentId
+    );
 }

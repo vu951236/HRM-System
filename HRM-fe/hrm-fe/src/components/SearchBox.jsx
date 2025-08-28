@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/dashboard.css';
+import '../styles/main.css';
 
 const SearchBox = ({ searchTerm, setSearchTerm, setActivePage }) => {
     return (

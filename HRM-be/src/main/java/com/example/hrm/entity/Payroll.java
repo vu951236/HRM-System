@@ -72,9 +72,6 @@ public class Payroll {
     @Column(name = "generated_at")
     private LocalDateTime generatedAt;
 
-    @OneToMany(mappedBy = "payroll", cascade = CascadeType.ALL)
-    private List<PayrollDetail> details;
-
     public enum PayrollStatus {
         GENERATED,
         PAID,

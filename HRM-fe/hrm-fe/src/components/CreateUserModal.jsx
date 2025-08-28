@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/dashboard.css';
+import '../styles/main.css';
 
 const CreateUserModal = ({ onClose, onCreate }) => {
     const [userData, setUserData] = useState({

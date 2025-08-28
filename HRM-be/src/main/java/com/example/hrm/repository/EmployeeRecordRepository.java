@@ -1,5 +1,6 @@
 package com.example.hrm.repository;
 
+import com.example.hrm.dto.response.EmployeeContractChartResponse;
 import com.example.hrm.entity.EmployeeRecord;
 import com.example.hrm.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -35,4 +36,12 @@ public interface EmployeeRecordRepository extends JpaRepository<EmployeeRecord, 
     Optional<EmployeeRecord> findByUser(User user);
 
     Optional<EmployeeRecord> findByIdAndIsDeleteFalse(Integer id);
+
+    @Query("SELECT new com.example.hrm.dto.response.EmployeeContractChartResponse(d.name, COUNT(e)) " +
+            "FROM EmployeeRecord e " +
+            "JOIN e.department d " +
+            "WHERE (:departmentId IS NULL OR d.id = :departmentId) " +
+            "GROUP BY d.name")
+    List<EmployeeContractChartResponse> countEmployeeByDepartment(@Param("departmentId") Integer departmentId);
+
 }

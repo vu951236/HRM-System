@@ -162,7 +162,6 @@ public class PayrollService {
                 .totalLateDays(totalLateDays)
                 .status(Payroll.PayrollStatus.GENERATED)
                 .generatedAt(LocalDateTime.now())
-                .details(createPayrollDetails(baseSalary, overtimeSalary, bonus, leaveDeduction, otherDeductions))
                 .build();
 
         payrollRepository.save(payroll);
@@ -218,12 +217,6 @@ public class PayrollService {
         } catch (Exception ex) {
             throw new RuntimeException("Error evaluating formula: " + formula, ex);
         }
-    }
-
-
-    private List<PayrollDetail> createPayrollDetails(BigDecimal base, BigDecimal overtime, BigDecimal bonus,
-                                                     BigDecimal leaveDeduction, BigDecimal deduction) {
-        return List.of();
     }
 
     @Transactional

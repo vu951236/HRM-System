@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import Table from '../components/RecordTable.jsx';
 import Pagination from '../components/Pagination';
-import '../styles/dashboard.css';
+import '../styles/main.css';
 import { fetchAllRecord, createRecord, updateRecord, softDeleteRecord, restoreRecord } from '../services/recordService.js';
 import CreateRecordModal from '../components/CreateRecordModal.jsx';
 import EditRecordModal from '../components/EditRecordModal.jsx';

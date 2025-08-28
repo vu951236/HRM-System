@@ -30,5 +30,4 @@ public class PayrollResponse {
     private BigDecimal workedHours;
     private PayrollStatus status;
     private LocalDateTime generatedAt;
-    private List<PayrollDetailResponse> details;
 }

@@ -17,7 +17,7 @@ export function getSidebarGroups(user) {
     if (role === 'admin' || role === 'hr') {
         groups.push({
             title: 'Dashboard & Báo cáo',
-            items: ['Thống kê tổng số nhân viên', 'Thống kê chuyên cần', 'Thống kê theo phòng ban', 'Xuất bảng lương', 'Xuất bảng công', 'Xuất danh sách nhân viên'],
+            items: ['Thống kê nhân viên', 'Thống kê mức chuyên cần'],
         });
     }
 
