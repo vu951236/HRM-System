@@ -91,58 +91,87 @@ const EditProfilePage = () => {
                 </div>
 
                 <div className="profile-form">
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={formData.email}
-                        onChange={handleChange}
-                    />
-                    <input
-                        type="text"
-                        name="fullName"
-                        placeholder="Họ tên"
-                        value={formData.fullName}
-                        onChange={handleChange}
-                    />
-                    <input
-                        type="text"
-                        name="gender"
-                        placeholder="Giới tính"
-                        value={formData.gender}
-                        onChange={handleChange}
-                    />
-                    <input
-                        type="date"
-                        name="dob"
-                        value={formData.dob}
-                        onChange={handleChange}
-                    />
-                    <input
-                        type="tel"
-                        name="phone"
-                        placeholder="Số điện thoại"
-                        value={formData.phone}
-                        onChange={handleChange}
-                    />
-                    <input
-                        type="text"
-                        name="address"
-                        placeholder="Địa chỉ"
-                        value={formData.address}
-                        onChange={handleChange}
-                    />
-                    <input
-                        type="text"
-                        name="imageUrl"
-                        placeholder="URL ảnh"
-                        value={formData.imageUrl}
-                        onChange={handleChange}
-                    />
+                    <div className="form-group">
+                        <label>Email:</label>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            value={formData.email}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Họ tên:</label>
+                        <input
+                            type="text"
+                            name="fullName"
+                            placeholder="Họ tên"
+                            value={formData.fullName}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Giới tính:</label>
+                        <input
+                            type="text"
+                            name="gender"
+                            placeholder="Giới tính"
+                            value={formData.gender}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Ngày sinh:</label>
+                        <input
+                            type="date"
+                            name="dob"
+                            value={formData.dob}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Số điện thoại:</label>
+                        <input
+                            type="tel"
+                            name="phone"
+                            placeholder="Số điện thoại"
+                            value={formData.phone}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Địa chỉ:</label>
+                        <input
+                            type="text"
+                            name="address"
+                            placeholder="Địa chỉ"
+                            value={formData.address}
+                            onChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Ảnh đại diện (URL):</label>
+                        <input
+                            type="text"
+                            name="imageUrl"
+                            placeholder="URL ảnh"
+                            value={formData.imageUrl}
+                            onChange={handleChange}
+                        />
+                    </div>
+
                     <button onClick={handleUpdateProfile}>
                         Cập nhật thông tin
                     </button>
                 </div>
+
             </div>
         </div>
     );
