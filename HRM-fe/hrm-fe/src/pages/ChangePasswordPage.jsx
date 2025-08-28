@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import SearchBox from "../components/SearchBox.jsx";
-import '../styles/main.css';
+import '../styles/Dashboard.css';
 import { getSidebarGroups } from '../components/sidebarData';
 import { useAuth } from '../context/AuthContext';
 import { changePassword } from '../services/userService.js';

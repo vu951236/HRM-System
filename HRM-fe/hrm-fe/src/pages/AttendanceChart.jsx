@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import '../styles/Dashboard.css';
+import '../styles/Chart.css';
 import Sidebar from '../components/Sidebar';
 import { useAuth } from '../context/AuthContext';
 import { getSidebarGroups } from '../components/sidebarData';
@@ -25,7 +25,7 @@ const ChartWrapper = ({ type, data, options }) => {
     return null;
 };
 
-const AttendanceDashboard = () => {
+const AttendanceChart = () => {
     const { user } = useAuth();
     const [sidebarGroups, setSidebarGroups] = useState([]);
     const [activeSidebarItem, setActiveSidebarItem] = useState('Thống kê mức chuyên cần');
@@ -211,4 +211,4 @@ const AttendanceDashboard = () => {
     );
 };
 
-export default AttendanceDashboard;
+export default AttendanceChart;

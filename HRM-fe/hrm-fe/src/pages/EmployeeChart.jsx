@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../styles/Dashboard.css';
+import '../styles/Chart.css';
 import Sidebar from '../components/Sidebar';
 import { useAuth } from '../context/AuthContext';
 import { getSidebarGroups } from '../components/sidebarData';
@@ -22,7 +22,7 @@ import { Bar } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const EmployeeDashboard = () => {
+const EmployeeChart = () => {
     const { user } = useAuth();
     const [sidebarGroups, setSidebarGroups] = useState([]);
     const [activeSidebarItem, setActiveSidebarItem] = useState('Thống kê nhân viên');
@@ -215,4 +215,4 @@ const EmployeeDashboard = () => {
     );
 };
 
-export default EmployeeDashboard;
+export default EmployeeChart;

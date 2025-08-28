@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/main.css';
+import '../styles/Dashboard.css';
 
 const EditUserModal = ({ user, onClose, onUpdate }) => {
     const [userData, setUserData] = useState({

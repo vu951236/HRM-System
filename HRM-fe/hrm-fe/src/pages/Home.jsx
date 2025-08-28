@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import { getSidebarGroups } from '../components/sidebarData';
-import '../styles/main.css';
+import '../styles/Dashboard.css';
 import SearchBox from '../components/SearchBox';
 
 const Home = () => {

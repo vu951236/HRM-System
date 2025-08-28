@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import Table from '../components/UserTable.jsx';
 import Pagination from '../components/Pagination';
-import '../styles/main.css';
+import '../styles/Dashboard.css';
 import {fetchAllUsers} from '../services/adminService.js';
 import CreateUserModal from '../components/CreateUserModal.jsx';
 import { createUser } from '../services/adminService.js';

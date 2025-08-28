@@ -53,8 +53,8 @@ function getRouteFromItem(item) {
         case 'Quản lý chấm công': return '/attendance';
         case 'Quản lý chính sách lương': return '/salaryrule';
         case 'Quản lý bảng lương': return '/salary';
-        case 'Thống kê mức chuyên cần': return '/attendancedashboard';
-        case 'Thống kê nhân viên': return '/employeedashboard';
+        case 'Thống kê mức chuyên cần': return '/attendancechart';
+        case 'Thống kê nhân viên': return '/employeechart';
         default: return '/';
     }
 }

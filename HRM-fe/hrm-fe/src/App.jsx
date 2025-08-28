@@ -20,8 +20,8 @@ import LeavePolicyManagement from "./pages/LeavePolicyManagement.jsx";
 import AttendanceManagement from "./pages/AttendanceManagement.jsx";
 import SalaryRuleManagement from "./pages/SalaryRuleManagement.jsx";
 import PayrollManagement from "./pages/PayrollManagement.jsx";
-import AttendanceDashboard from "./pages/AttendanceDashboard.jsx";
-import EmployeeDashboard from "./pages/EmployeeDashboard.jsx";
+import AttendanceChart from "./pages/AttendanceChart.jsx";
+import EmployeeChart from "./pages/EmployeeChart.jsx";
 
 import './App.css';
 import { AuthProvider } from './context/AuthContext.jsx';
@@ -166,18 +166,18 @@ function App() {
                         }
                     />
                     <Route
-                        path="/attendancedashboard"
+                        path="/attendancechart"
                         element={
                             <ProtectedRoute>
-                                <AttendanceDashboard />
+                                <AttendanceChart />
                             </ProtectedRoute>
                         }
                     />
                     <Route
-                        path="/employeedashboard"
+                        path="/employeechart"
                         element={
                             <ProtectedRoute>
-                                <EmployeeDashboard />
+                                <EmployeeChart />
                             </ProtectedRoute>
                         }
                     />

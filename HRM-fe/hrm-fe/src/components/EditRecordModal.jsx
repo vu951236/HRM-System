@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/main.css';
+import '../styles/Dashboard.css';
 import { getDepartments, getPositions, getEmployeeTypes } from '../services/DataApi';
 
 const EditRecordModal = ({ record, onClose, onUpdate }) => {
