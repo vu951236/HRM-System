@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: HRMSystem
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    from: ${MAIL_USERNAME}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+jwt:
+  signerKey: ${JWT_SIGNER_KEY}
+  valid_duration: 3600
+  refresh_token: 30
+
+server:
+  address: 0.0.0.0
+  port: ${PORT:8080}
+
+frontend:
+  domain: http://localhost:5173
+
+config:
+  import: optional:classpath:.env
