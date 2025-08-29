@@ -10,4 +10,5 @@ import lombok.*;
 public class EmployeeContractChartResponse {
     private String label;
     private Long count;
+
 }

@@ -5,6 +5,7 @@ import com.example.hrm.dto.response.ApiResponse;
 import com.example.hrm.dto.response.ShiftSwapRequestResponse;
 import com.example.hrm.entity.ShiftSwapRequest;
 import com.example.hrm.service.ShiftSwapRequestService;
+import com.example.hrm.systemlog.LoggableAction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ public class ShiftSwapRequestController {
                 .build());
     }
 
+    @LoggableAction(action = "APPROVE_SHIFT_SWAP", description = "Duyệt yêu cầu đổi ca")
     @PostMapping("/approve/{id}")
     public ResponseEntity<ApiResponse<ShiftSwapRequestResponse>> approve(@PathVariable Integer id) {
         return ResponseEntity.ok(ApiResponse.<ShiftSwapRequestResponse>builder()
@@ -32,6 +34,7 @@ public class ShiftSwapRequestController {
                 .build());
     }
 
+    @LoggableAction(action = "REJECT_SHIFT_SWAP", description = "Từ chối yêu cầu đổi ca")
     @PostMapping("/reject/{id}")
     public ResponseEntity<ApiResponse<ShiftSwapRequestResponse>> reject(@PathVariable Integer id) {
         return ResponseEntity.ok(ApiResponse.<ShiftSwapRequestResponse>builder()
@@ -39,12 +42,14 @@ public class ShiftSwapRequestController {
                 .build());
     }
 
+    @LoggableAction(action = "DELETE_SHIFT_SWAP", description = "Xóa yêu cầu đổi ca")
     @PostMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Integer id) {
         service.deleteRequest(id);
         return ResponseEntity.ok(ApiResponse.<Void>builder().build());
     }
 
+    @LoggableAction(action = "RESTORE_SHIFT_SWAP", description = "Khôi phục yêu cầu đổi ca")
     @PostMapping("/restore/{id}")
     public ResponseEntity<ApiResponse<Void>> restore(@PathVariable Integer id) {
         service.restoreRequest(id);

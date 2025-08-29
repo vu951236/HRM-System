@@ -4,6 +4,7 @@ import com.example.hrm.dto.request.SalaryRuleRequest;
 import com.example.hrm.dto.response.ApiResponse;
 import com.example.hrm.dto.response.SalaryRuleResponse;
 import com.example.hrm.service.SalaryRuleService;
+import com.example.hrm.systemlog.LoggableAction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ public class SalaryRuleController {
 
     private final SalaryRuleService service;
 
+    @LoggableAction(action = "CREATE_SALARY_RULE", description = "Tạo mới rule lương")
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<SalaryRuleResponse>> create(@RequestBody SalaryRuleRequest request) {
         return ResponseEntity.ok(ApiResponse.<SalaryRuleResponse>builder()
@@ -25,6 +27,7 @@ public class SalaryRuleController {
                 .build());
     }
 
+    @LoggableAction(action = "UPDATE_SALARY_RULE", description = "Cập nhật rule lương")
     @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<SalaryRuleResponse>> update(
             @PathVariable Integer id,
@@ -34,6 +37,7 @@ public class SalaryRuleController {
                 .message("Rule updated successfully")
                 .build());
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<SalaryRuleResponse>> getById(@PathVariable Integer id) {
@@ -49,6 +53,7 @@ public class SalaryRuleController {
                 .build());
     }
 
+    @LoggableAction(action = "DELETE_SALARY_RULE", description = "Xóa mềm rule lương")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Integer id) {
         service.delete(id);
@@ -57,6 +62,7 @@ public class SalaryRuleController {
                 .build());
     }
 
+    @LoggableAction(action = "RESTORE_SALARY_RULE", description = "Khôi phục rule lương")
     @PutMapping("/restore/{id}")
     public ResponseEntity<ApiResponse<Void>> restore(@PathVariable Integer id) {
         service.restore(id);

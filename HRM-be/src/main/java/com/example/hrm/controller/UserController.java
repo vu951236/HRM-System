@@ -5,6 +5,7 @@ import com.example.hrm.dto.response.ApiResponse;
 import com.example.hrm.dto.response.ProfileResponse;
 import com.example.hrm.dto.response.UserResponse;
 import com.example.hrm.service.UserService;
+import com.example.hrm.systemlog.LoggableAction;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ public class UserController {
                 .build());
     }
 
+    @LoggableAction(action = "UPDATE_PASSWORD", description = "Cập nhật mật khẩu")
     @PutMapping("/updatePass")
     public ResponseEntity<ApiResponse<UserResponse>> updatePassword(@RequestBody UserUpdatePasswordRequest request) {
         UserResponse response = userService.updatePassword(request);
@@ -35,6 +37,7 @@ public class UserController {
                 .build());
     }
 
+    @LoggableAction(action = "FORGOT_PASSWORD", description = "Gửi mã xác thực quên mật khẩu")
     @PostMapping("/forgot-password")
     public ResponseEntity<ApiResponse<Void>> forgotPassword(@RequestBody ForgotPasswordRequest request)
             throws IOException, MessagingException {
@@ -42,6 +45,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @LoggableAction(action = "VERIFY_CODE", description = "Xác thực mã OTP")
     @PostMapping("/verify-code")
     public ResponseEntity<ApiResponse<Boolean>> verifyCode(@RequestBody VerifyCodeRequest request) {
         boolean verified = userService.verifyCode(request.getEmail(), request.getCode());
@@ -50,6 +54,7 @@ public class UserController {
                 .build());
     }
 
+    @LoggableAction(action = "RESET_PASSWORD", description = "Đặt lại mật khẩu")
     @PostMapping("/reset-password")
     public ResponseEntity<ApiResponse<Boolean>> resetPassword(@RequestBody ResetPasswordRequest request) {
         boolean verified = userService.verifyCode(request.getEmail(), request.getCode());
@@ -62,6 +67,7 @@ public class UserController {
                 .build());
     }
 
+    @LoggableAction(action = "UPDATE_PROFILE", description = "Cập nhật thông tin cá nhân")
     @PutMapping("/{userId}/update-profile")
     public ResponseEntity<ApiResponse<ProfileResponse>> updateProfile(
             @PathVariable Integer userId,

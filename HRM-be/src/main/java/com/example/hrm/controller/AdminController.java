@@ -7,6 +7,7 @@ import com.example.hrm.dto.response.ApiResponse;
 import com.example.hrm.dto.response.UserLockResponse;
 import com.example.hrm.dto.response.UserResponse;
 import com.example.hrm.service.UserService;
+import com.example.hrm.systemlog.LoggableAction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ public class AdminController {
 
     private final UserService userService;
 
+    @LoggableAction(action = "CREATE_USER", description = "Tạo mới người dùng")
     @PostMapping("/createUser")
     public ResponseEntity<ApiResponse<UserResponse>> createUser(@RequestBody UserCreateRequest request) {
         UserResponse result = userService.createUser(request);
@@ -28,6 +30,7 @@ public class AdminController {
                 .build());
     }
 
+    @LoggableAction(action = "UPDATE_USER", description = "Cập nhật thông tin người dùng")
     @PutMapping("/update/{userId}")
     public ResponseEntity<ApiResponse<UserResponse>> updateUser(@PathVariable Integer userId,
                                                                 @RequestBody UserUpdateRequest request) {
@@ -45,6 +48,7 @@ public class AdminController {
                 .build());
     }
 
+    @LoggableAction(action = "LOCK_UNLOCK_USER", description = "Khóa/Mở khóa người dùng")
     @PutMapping("/{userId}/lock")
     public ResponseEntity<ApiResponse<UserLockResponse>> lockOrUnlockUser(
             @PathVariable Integer userId,
@@ -55,5 +59,4 @@ public class AdminController {
                 .data(result)
                 .build());
     }
-
 }

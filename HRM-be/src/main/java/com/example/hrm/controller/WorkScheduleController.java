@@ -4,6 +4,7 @@ import com.example.hrm.dto.request.WorkScheduleRequest;
 import com.example.hrm.dto.response.ApiResponse;
 import com.example.hrm.dto.response.WorkScheduleResponse;
 import com.example.hrm.service.WorkScheduleService;
+import com.example.hrm.systemlog.LoggableAction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +18,14 @@ public class WorkScheduleController {
 
     private final WorkScheduleService service;
 
+    @LoggableAction(action = "CREATE_WORK_SCHEDULE", description = "Tạo mới lịch làm việc")
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<WorkScheduleResponse>> create(@RequestBody WorkScheduleRequest request) {
         WorkScheduleResponse response = service.createWorkSchedule(request);
         return ResponseEntity.ok(ApiResponse.<WorkScheduleResponse>builder().data(response).build());
     }
 
+    @LoggableAction(action = "UPDATE_WORK_SCHEDULE", description = "Cập nhật lịch làm việc")
     @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<WorkScheduleResponse>> update(@PathVariable Integer id,
                                                                     @RequestBody WorkScheduleRequest request) {
@@ -42,12 +45,14 @@ public class WorkScheduleController {
         return ResponseEntity.ok(ApiResponse.<WorkScheduleResponse>builder().data(response).build());
     }
 
+    @LoggableAction(action = "DELETE_WORK_SCHEDULE", description = "Xóa lịch làm việc")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Integer id) {
         service.deleteWorkSchedule(id);
         return ResponseEntity.ok(ApiResponse.<Void>builder().build());
     }
 
+    @LoggableAction(action = "RESTORE_WORK_SCHEDULE", description = "Khôi phục lịch làm việc")
     @PostMapping("/restore/{id}")
     public ResponseEntity<ApiResponse<Void>> restoreWorkSchedule(@PathVariable Integer id) {
         service.restoreWorkSchedule(id);

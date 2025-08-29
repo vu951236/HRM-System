@@ -28,6 +28,7 @@ function getIconClass(item) {
         case 'Quản lý bảng lương': return 'fa fa-money-bill-wave';
         case 'Thống kê mức chuyên cần': return 'fa fa-chart-line';
         case 'Thống kê nhân viên': return 'fa fa-chart-pie';
+        case 'Nhật ký hệ thống': return 'fa fa-history';
         default: return 'fa fa-folder';
     }
 }
@@ -55,6 +56,7 @@ function getRouteFromItem(item) {
         case 'Quản lý bảng lương': return '/salary';
         case 'Thống kê mức chuyên cần': return '/attendancechart';
         case 'Thống kê nhân viên': return '/employeechart';
+        case 'Nhật ký hệ thống': return '/systemlog';
         default: return '/';
     }
 }
@@ -88,6 +90,16 @@ const Sidebar = ({ groups, activeItem, onItemClick }) => {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            const activeElement = document.querySelector('.sidebar li.active');
+            if (activeElement) {
+                activeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }, 50);
+        return () => clearTimeout(timer);
+    }, [activeItem]);
 
     return (
         <div className="sidebar">

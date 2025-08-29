@@ -2,7 +2,6 @@ package com.example.hrm.controller;
 
 import com.example.hrm.dto.response.EmployeeRecordDataResponse;
 import com.example.hrm.dto.response.ShiftSwapOptionsDataResponse;
-import com.example.hrm.dto.response.WorkScheduleDataResponse;
 import com.example.hrm.entity.*;
 import com.example.hrm.repository.*;
 import com.example.hrm.dto.response.ApiResponse;
@@ -27,7 +26,6 @@ public class DataController {
     private final ShiftRuleRepository shiftRuleRepository;
     private final EmployeeRecordRepository employeeRecordRepository;
     private final ShiftRepository shiftRepository;
-    private final WorkScheduleRepository workScheduleRepository;
     private final ShiftSwapRequestService shiftSwapRequestService;
     private final UserRepository userRepository;
     private final LeavePolicyRepository leavePolicyRepository;

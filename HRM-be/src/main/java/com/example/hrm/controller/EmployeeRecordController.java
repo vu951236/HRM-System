@@ -4,6 +4,7 @@ import com.example.hrm.dto.request.EmployeeRecordRequest;
 import com.example.hrm.dto.response.ApiResponse;
 import com.example.hrm.dto.response.EmployeeRecordResponse;
 import com.example.hrm.service.EmployeeRecordService;
+import com.example.hrm.systemlog.LoggableAction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ public class EmployeeRecordController {
 
     private final EmployeeRecordService employeeRecordService;
 
+    @LoggableAction(action = "CREATE_EMPLOYEE_RECORD", description = "Tạo hồ sơ nhân viên")
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<EmployeeRecordResponse>> createEmployeeRecord(
             @RequestBody EmployeeRecordRequest request) {
@@ -26,6 +28,7 @@ public class EmployeeRecordController {
                 .build());
     }
 
+    @LoggableAction(action = "UPDATE_EMPLOYEE_RECORD", description = "Cập nhật hồ sơ nhân viên")
     @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<EmployeeRecordResponse>> updateEmployeeRecord(
             @PathVariable Integer id,
@@ -44,12 +47,14 @@ public class EmployeeRecordController {
                 .build());
     }
 
+    @LoggableAction(action = "SOFT_DELETE_EMPLOYEE_RECORD", description = "Xóa tạm hồ sơ nhân viên")
     @PutMapping("/soft-delete/{id}")
     public ResponseEntity<ApiResponse<Void>> softDeleteRecord(@PathVariable Integer id) {
         employeeRecordService.softDeleteRecord(id);
         return ResponseEntity.noContent().build();
     }
 
+    @LoggableAction(action = "RESTORE_EMPLOYEE_RECORD", description = "Khôi phục hồ sơ nhân viên")
     @PutMapping("/restore/{id}")
     public ResponseEntity<ApiResponse<Void>> restoreRecord(@PathVariable Integer id) {
         employeeRecordService.restoreRecord(id);

@@ -7,6 +7,9 @@ export function getSidebarGroups(user) {
     if (role === 'admin' || role === 'hr' || role === 'staff') {
         accountItems.push('Sửa thông tin cá nhân', 'Đổi mật khẩu');
     }
+    if (role === 'admin') {
+        accountItems.push('Nhật ký hệ thống');
+    }
     if (accountItems.length > 0) {
         groups.push({
             title: 'Tài khoản',
@@ -40,7 +43,7 @@ export function getSidebarGroups(user) {
         documentItems.push('Quản lý hồ sơ', 'Quản lý hợp đồng');
     }
     if (role === 'admin') {
-        documentItems.push('Quản lý nhân viên', 'Xem nhật ký hệ thống');
+        documentItems.push('Quản lý nhân viên');
     }
     if (documentItems.length > 0) {
         groups.push({

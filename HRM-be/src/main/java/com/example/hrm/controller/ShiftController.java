@@ -4,6 +4,7 @@ import com.example.hrm.dto.request.ShiftRequest;
 import com.example.hrm.dto.response.ApiResponse;
 import com.example.hrm.dto.response.ShiftResponse;
 import com.example.hrm.service.ShiftService;
+import com.example.hrm.systemlog.LoggableAction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ public class ShiftController {
 
     private final ShiftService shiftService;
 
+    @LoggableAction(action = "CREATE_SHIFT", description = "Tạo ca làm việc mới")
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<ShiftResponse>> createShift(@RequestBody ShiftRequest request) {
         ShiftResponse response = shiftService.createShift(request);
@@ -35,6 +37,7 @@ public class ShiftController {
         return ResponseEntity.ok(ApiResponse.<ShiftResponse>builder().data(response).build());
     }
 
+    @LoggableAction(action = "UPDATE_SHIFT", description = "Cập nhật ca làm việc")
     @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<ShiftResponse>> updateShift(@PathVariable Integer id,
                                                                   @RequestBody ShiftRequest request) {
@@ -42,12 +45,14 @@ public class ShiftController {
         return ResponseEntity.ok(ApiResponse.<ShiftResponse>builder().data(response).build());
     }
 
+    @LoggableAction(action = "DELETE_SHIFT", description = "Xóa ca làm việc")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteShift(@PathVariable Integer id) {
         shiftService.deleteShift(id);
         return ResponseEntity.ok(ApiResponse.<Void>builder().build());
     }
 
+    @LoggableAction(action = "RESTORE_SHIFT", description = "Khôi phục ca làm việc")
     @PutMapping("/restore/{id}")
     public ResponseEntity<ApiResponse<Void>> restoreShift(@PathVariable Integer id) {
         shiftService.restoreShift(id);

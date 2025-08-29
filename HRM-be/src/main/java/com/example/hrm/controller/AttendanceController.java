@@ -20,8 +20,6 @@ import java.util.List;
 public class AttendanceController {
 
     private final AttendanceLogService service;
-    private final UserRepository userRepository;
-    private final EmployeeRecordRepository employeeRepository;
 
     @PostMapping("/checkin")
     public ResponseEntity<ApiResponse<AttendanceLogResponse>> checkIn(

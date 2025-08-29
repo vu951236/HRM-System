@@ -4,6 +4,7 @@ import com.example.hrm.dto.request.LeavePolicyRequest;
 import com.example.hrm.dto.response.ApiResponse;
 import com.example.hrm.dto.response.LeavePolicyResponse;
 import com.example.hrm.service.LeavePolicyService;
+import com.example.hrm.systemlog.LoggableAction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ public class LeavePolicyController {
 
     private final LeavePolicyService service;
 
+    @LoggableAction(action = "CREATE_LEAVE_POLICY", description = "Tạo chính sách nghỉ phép mới")
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<LeavePolicyResponse>> create(@RequestBody LeavePolicyRequest request) {
         LeavePolicyResponse response = service.create(request);
@@ -25,6 +27,7 @@ public class LeavePolicyController {
                 .build());
     }
 
+    @LoggableAction(action = "UPDATE_LEAVE_POLICY", description = "Cập nhật chính sách nghỉ phép")
     @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<LeavePolicyResponse>> update(
             @PathVariable Integer id,
@@ -35,6 +38,8 @@ public class LeavePolicyController {
                 .build());
     }
 
+
+    @LoggableAction(action = "DELETE_LEAVE_POLICY", description = "Xóa chính sách nghỉ phép")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<String>> delete(@PathVariable Integer id) {
         service.delete(id);
@@ -43,6 +48,7 @@ public class LeavePolicyController {
                 .build());
     }
 
+    @LoggableAction(action = "RESTORE_LEAVE_POLICY", description = "Khôi phục chính sách nghỉ phép")
     @PutMapping("/restore/{id}")
     public ResponseEntity<ApiResponse<String>> restore(@PathVariable Integer id) {
         service.restore(id);

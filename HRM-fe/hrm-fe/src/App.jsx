@@ -22,6 +22,7 @@ import SalaryRuleManagement from "./pages/SalaryRuleManagement.jsx";
 import PayrollManagement from "./pages/PayrollManagement.jsx";
 import AttendanceChart from "./pages/AttendanceChart.jsx";
 import EmployeeChart from "./pages/EmployeeChart.jsx";
+import SystemLogManagement from "./pages/SystemLogManagement.jsx";
 
 import './App.css';
 import { AuthProvider } from './context/AuthContext.jsx';
@@ -178,6 +179,14 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <EmployeeChart />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/systemlog"
+                        element={
+                            <ProtectedRoute>
+                                <SystemLogManagement />
                             </ProtectedRoute>
                         }
                     />

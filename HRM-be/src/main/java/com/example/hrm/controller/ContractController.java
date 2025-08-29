@@ -7,6 +7,7 @@ import com.example.hrm.dto.response.ContractResponse;
 import com.example.hrm.mapper.ContractHistoryMapper;
 import com.example.hrm.repository.ContractHistoryRepository;
 import com.example.hrm.service.ContractService;
+import com.example.hrm.systemlog.LoggableAction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ public class ContractController {
     private final ContractHistoryRepository contractHistoryRepository;
     private final ContractHistoryMapper contractHistoryMapper;
 
+    @LoggableAction(action = "CREATE_CONTRACT", description = "Tạo hợp đồng mới")
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<ContractResponse>> createContract(@RequestBody ContractRequest request) {
         ContractResponse result = contractService.createContract(request);
@@ -48,6 +50,7 @@ public class ContractController {
                 .build());
     }
 
+    @LoggableAction(action = "EXTEND_CONTRACT", description = "Gia hạn hợp đồng")
     @PutMapping("/extend/{id}")
     public ResponseEntity<ApiResponse<ContractResponse>> extendContract(
             @PathVariable Integer id,
@@ -58,6 +61,7 @@ public class ContractController {
                 .build());
     }
 
+    @LoggableAction(action = "TERMINATE_CONTRACT", description = "Chấm dứt hợp đồng")
     @PutMapping("/terminate/{id}")
     public ResponseEntity<ApiResponse<ContractResponse>> terminateContract(@PathVariable Integer id) {
         ContractResponse result = contractService.terminateContract(id);
@@ -66,6 +70,7 @@ public class ContractController {
                 .build());
     }
 
+    @LoggableAction(action = "DELETE_CONTRACT", description = "Xóa hợp đồng tạm thời")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<Void>> softDeleteContract(@PathVariable Integer id) {
         contractService.softDeleteContract(id);
@@ -73,6 +78,7 @@ public class ContractController {
                 .build());
     }
 
+    @LoggableAction(action = "RESTORE_CONTRACT", description = "Khôi phục hợp đồng")
     @PutMapping("/restore/{id}")
     public ResponseEntity<ApiResponse<Void>> restoreContract(@PathVariable Integer id) {
         contractService.restoreContract(id);
@@ -80,6 +86,7 @@ public class ContractController {
                 .build());
     }
 
+    @LoggableAction(action = "MODIFY_CONTRACT", description = "Chỉnh sửa hợp đồng")
     @PutMapping("/modify/{id}")
     public ResponseEntity<ApiResponse<ContractResponse>> modifyContract(
             @PathVariable Integer id,

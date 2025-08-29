@@ -4,6 +4,7 @@ import com.example.hrm.dto.request.WorkScheduleTemplateRequest;
 import com.example.hrm.dto.response.ApiResponse;
 import com.example.hrm.dto.response.WorkScheduleTemplateResponse;
 import com.example.hrm.service.WorkScheduleTemplateService;
+import com.example.hrm.systemlog.LoggableAction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,14 @@ public class WorkScheduleTemplateController {
 
     private final WorkScheduleTemplateService service;
 
+    @LoggableAction(action = "CREATE_TEMPLATE", description = "Tạo mới mẫu lịch làm việc")
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<WorkScheduleTemplateResponse>> create(@RequestBody WorkScheduleTemplateRequest request){
         WorkScheduleTemplateResponse response = service.createTemplate(request);
         return ResponseEntity.ok(ApiResponse.<WorkScheduleTemplateResponse>builder().data(response).build());
     }
 
+    @LoggableAction(action = "UPDATE_TEMPLATE", description = "Cập nhật mẫu lịch làm việc")
     @PutMapping("/update/{id}")
     public ResponseEntity<ApiResponse<WorkScheduleTemplateResponse>> update(@PathVariable Integer id,
                                                                             @RequestBody WorkScheduleTemplateRequest request){
@@ -44,12 +47,14 @@ public class WorkScheduleTemplateController {
         return ResponseEntity.ok(ApiResponse.<WorkScheduleTemplateResponse>builder().data(response).build());
     }
 
+    @LoggableAction(action = "DELETE_TEMPLATE", description = "Xóa mẫu lịch làm việc")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Integer id){
         service.deleteTemplate(id);
         return ResponseEntity.ok(ApiResponse.<Void>builder().build());
     }
 
+    @LoggableAction(action = "RESTORE_TEMPLATE", description = "Khôi phục mẫu lịch làm việc")
     @PostMapping("/restore/{id}")
     public ResponseEntity<ApiResponse<Void>> restoreTemplate(@PathVariable Integer id) {
         service.restoreTemplate(id);
@@ -58,6 +63,7 @@ public class WorkScheduleTemplateController {
                 .build());
     }
 
+    @LoggableAction(action = "APPLY_TEMPLATE", description = "Áp dụng mẫu lịch làm việc")
     @PostMapping("/apply/{templateId}")
     public ResponseEntity<ApiResponse<Void>> applyTemplate(
             @PathVariable Integer templateId,

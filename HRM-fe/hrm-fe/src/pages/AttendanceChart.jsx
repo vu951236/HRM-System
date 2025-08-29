@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar';
 import { useAuth } from '../context/AuthContext';
 import { getSidebarGroups } from '../components/sidebarData';
 import { fetchLeaveOvertimeChart, fetchPayrollChart, fetchAttendanceChart } from '../services/chartService';
+import { exportAttendanceReport, exportPayrollReport, exportLeaveOvertimeReport } from '../services/reportService';
 import { getDepartments } from '../services/DataApi';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import { Bar, Line } from 'react-chartjs-2';
@@ -136,6 +137,16 @@ const AttendanceChart = () => {
                 <div className="cards-wrapper">
                     <div className="card">
                         <h2>Leave & Overtime</h2>
+                        <button
+                            onClick={() => exportLeaveOvertimeReport({
+                                startDate: leaveFilter.startDate,
+                                endDate: leaveFilter.endDate,
+                                departmentId: leaveFilter.departmentId ? Number(leaveFilter.departmentId) : null
+                            })}
+                            className="download-btn"
+                        >
+                            Tải báo cáo
+                        </button>
                         <ChartWrapper type="bar" data={formatLeaveOvertimeData(leaveOvertimeData)} options={{ responsive: true }} />
                         <div className="filter-grid">
                             <label>
@@ -158,6 +169,16 @@ const AttendanceChart = () => {
 
                     <div className="card">
                         <h2>Payroll</h2>
+                        <button
+                            onClick={() => exportPayrollReport({
+                                year: Number(payrollFilter.year),
+                                quarter: payrollFilter.quarter === '' || payrollFilter.quarter === null ? null : Number(payrollFilter.quarter),
+                                departmentId: payrollFilter.departmentId ? Number(payrollFilter.departmentId) : null
+                            })}
+                            className="download-btn"
+                        >
+                            Tải báo cáo
+                        </button>
                         <ChartWrapper type={payrollData.length <= 1 ? 'bar' : 'line'} data={formatPayrollData(payrollData)} options={{ responsive: true }} />
                         <div className="filter-grid">
                             <label>
@@ -186,6 +207,16 @@ const AttendanceChart = () => {
 
                     <div className="card full-width">
                         <h2>Attendance</h2>
+                        <button
+                            onClick={() => exportAttendanceReport({
+                                startDate: attendanceFilter.startDate,
+                                endDate: attendanceFilter.endDate,
+                                departmentId: attendanceFilter.departmentId ? Number(attendanceFilter.departmentId) : null
+                            })}
+                            className="download-btn"
+                        >
+                            Tải báo cáo
+                        </button>
                         <ChartWrapper type="bar" data={formatAttendanceData(attendanceData)} options={{ responsive: true }} />
                         <div className="filter-grid">
                             <label>

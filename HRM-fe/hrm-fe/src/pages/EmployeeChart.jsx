@@ -4,11 +4,8 @@ import Sidebar from '../components/Sidebar';
 import { useAuth } from '../context/AuthContext';
 import { getSidebarGroups } from '../components/sidebarData';
 import { getDepartments, getContractTypes } from '../services/DataApi';
-import {
-    fetchEmployeeByDepartment,
-    fetchContractByType,
-    fetchContractExpiring
-} from '../services/chartService';
+import {fetchEmployeeByDepartment, fetchContractByType, fetchContractExpiring} from '../services/chartService';
+import {exportEmployeeCountReport, exportContractCountReport, exportExpiringContractsReport} from '../services/reportService';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -131,6 +128,12 @@ const EmployeeChart = () => {
 
                     <div className="card">
                         <h2>Contract by Type</h2>
+                        <button
+                            onClick={() => exportContractCountReport(contractTypeFilter)}
+                            className="download-btn"
+                        >
+                            Tải báo cáo
+                        </button>
                         <Bar
                             data={formatBarChart(contractByTypeData, 'Contracts')}
                             options={{ responsive: true, plugins: { legend: { position: 'top' } } }}
@@ -155,6 +158,12 @@ const EmployeeChart = () => {
 
                     <div className="card">
                         <h2>Contract Expiring</h2>
+                        <button
+                            onClick={() => exportExpiringContractsReport(contractExpFilter)}
+                            className="download-btn"
+                        >
+                            Tải báo cáo
+                        </button>
                         <Bar
                             data={formatBarChart(contractExpiringData, 'Contracts Expiring')}
                             options={{ responsive: true, plugins: { legend: { position: 'top' } } }}
@@ -175,6 +184,12 @@ const EmployeeChart = () => {
 
                     <div className="card full-width">
                         <h2>Employee by Department</h2>
+                        <button
+                            onClick={() => exportEmployeeCountReport(employeeFilter)}
+                            className="download-btn"
+                        >
+                            Tải báo cáo
+                        </button>
                         <Bar
                             data={formatBarChart(employeeByDeptData, 'Employee Count')}
                             options={{
