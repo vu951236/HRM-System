@@ -34,9 +34,11 @@ public class AuthenticationController {
         ResponseCookie refreshCookie = ResponseCookie.from("refresh_token", authenticationResponse.getRefreshToken())
                 .secure(true)
                 .httpOnly(true)
+                .sameSite("None")   
                 .maxAge(30 * 24 * 60 * 60)
                 .path("/")
                 .build();
+
         response.setHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
 
         return ResponseEntity.ok(ApiResponse.<AuthenticationResponse>builder()
@@ -55,9 +57,11 @@ public class AuthenticationController {
         ResponseCookie clearCookie = ResponseCookie.from("refresh_token", "")
                 .secure(true)
                 .httpOnly(true)
+                .sameSite("None")
                 .maxAge(0)
                 .path("/")
                 .build();
+
         response.setHeader(HttpHeaders.SET_COOKIE, clearCookie.toString());
 
         return ResponseEntity.ok(ApiResponse.<Void>builder().build());
@@ -72,8 +76,19 @@ public class AuthenticationController {
         }
 
         AuthenticationResponse newAccessToken = authenticationService.refreshAccessToken(refreshToken);
-        return ResponseEntity.ok(ApiResponse.<AuthenticationResponse>builder()
-                .data(newAccessToken)
-                .build());
+
+        ResponseCookie refreshCookie = ResponseCookie.from("refresh_token", newAccessToken.getRefreshToken())
+                .secure(true)
+                .httpOnly(true)
+                .sameSite("None")
+                .maxAge(30 * 24 * 60 * 60)
+                .path("/")
+                .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, refreshCookie.toString())
+                .body(ApiResponse.<AuthenticationResponse>builder()
+                        .data(newAccessToken)
+                        .build());
     }
 }
