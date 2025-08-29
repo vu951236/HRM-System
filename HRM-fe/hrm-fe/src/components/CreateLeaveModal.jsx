@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { getMyLeavePolicies } from '../services/dataApi';
+import { getMyLeavePolicies } from '../services/DataApi';
 
 const CreateLeaveModal = ({ onClose, onCreate }) => {
     const { user } = useAuth();
