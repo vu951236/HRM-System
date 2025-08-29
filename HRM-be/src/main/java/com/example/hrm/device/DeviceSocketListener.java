@@ -46,27 +46,17 @@ public class DeviceSocketListener implements CommandLineRunner {
         ) {
             String line;
             while ((line = in.readLine()) != null) {
-                System.out.println("Nhận dữ liệu từ thiết bị: " + line);
 
-                // Kiểm tra dữ liệu có phải JSON không
-                if (!line.trim().startsWith("{")) {
-                    System.out.println("Bỏ qua dữ liệu không phải JSON: " + line);
-                    continue;
-                }
+                if (!line.trim().startsWith("{")) continue;
 
                 try {
                     AttendanceLogRequest request = objectMapper.readValue(line, AttendanceLogRequest.class);
-
-                    AttendanceLogResponse response;
-                    if (request.getCheckInTime() != null) {
-                        response = attendanceLogService.checkIn(request);
-                    } else {
-                        response = attendanceLogService.checkOut(request);
-                    }
+                    AttendanceLogResponse response = (request.getCheckInTime() != null) ?
+                            attendanceLogService.checkIn(request) :
+                            attendanceLogService.checkOut(request);
 
                     String respJson = objectMapper.writeValueAsString(response);
                     out.println(respJson);
-                    System.out.println("Gửi phản hồi: " + respJson);
 
                 } catch (Exception e) {
                     System.err.println("Lỗi parse JSON: " + e.getMessage());
@@ -74,7 +64,6 @@ public class DeviceSocketListener implements CommandLineRunner {
             }
         } catch (Exception e) {
             System.err.println("Lỗi khi xử lý client: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 }
