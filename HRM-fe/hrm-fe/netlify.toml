@@ -1,4 +1,8 @@
 [build]
-base = "HRM-fe/hrm-fe"
-publish = "HRM-fe/hrm-fe/dist"
 command = "npm run build"
+publish = "dist"
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
