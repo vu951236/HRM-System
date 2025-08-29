@@ -1,4 +1,4 @@
 [build]
-base = "frontend/frontend"
-publish = "frontend/frontend/build"
+base = "HRM-fe/hrm-fe"
+publish = "HRM-fe/hrm-fe/dist"
 command = "npm run build"
