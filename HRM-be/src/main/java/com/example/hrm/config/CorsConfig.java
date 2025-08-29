@@ -13,7 +13,7 @@ import java.util.Arrays;
 public class CorsConfig {
 
     @Value("${DOMAIN_FE}")
-    private String domainFe; 
+    private String domainFe;
 
     @Bean
     public CorsFilter corsFilter() {
