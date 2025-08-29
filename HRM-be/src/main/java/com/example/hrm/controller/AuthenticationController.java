@@ -24,23 +24,36 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
+    private void setRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
+        ResponseCookie cookie = ResponseCookie.from("refresh_token", refreshToken)
+                .secure(false)
+                .httpOnly(true)
+                .maxAge(30 * 24 * 60 * 60) // 30 ngày
+                .path("/")
+                .build();
+        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+    }
+
+    private void clearRefreshTokenCookie(HttpServletResponse response) {
+        ResponseCookie cookie = ResponseCookie.from("refresh_token", "")
+                .secure(false)
+                .httpOnly(true)
+                .maxAge(0)
+                .path("/")
+                .build();
+        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+    }
+
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<AuthenticationResponse>> login(
             @RequestBody AuthenticationRequest request,
             HttpServletResponse response) {
 
-        AuthenticationResponse authenticationResponse = authenticationService.login(request);
-
-        ResponseCookie refreshCookie = ResponseCookie.from("refresh_token", authenticationResponse.getRefreshToken())
-                .secure(false)
-                .httpOnly(true)
-                .maxAge(30 * 24 * 60 * 60)
-                .path("/")
-                .build();
-        response.setHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
+        AuthenticationResponse authResponse = authenticationService.login(request);
+        setRefreshTokenCookie(response, authResponse.getRefreshToken());
 
         return ResponseEntity.ok(ApiResponse.<AuthenticationResponse>builder()
-                .data(authenticationResponse)
+                .data(authResponse)
                 .build());
     }
 
@@ -51,27 +64,23 @@ public class AuthenticationController {
             HttpServletResponse response) throws ParseException, JOSEException {
 
         authenticationService.logout(request, refreshToken);
-
-        ResponseCookie clearCookie = ResponseCookie.from("refresh_token", "")
-                .secure(false)
-                .httpOnly(true)
-                .maxAge(0)
-                .path("/")
-                .build();
-        response.setHeader(HttpHeaders.SET_COOKIE, clearCookie.toString());
+        clearRefreshTokenCookie(response);
 
         return ResponseEntity.ok(ApiResponse.<Void>builder().build());
     }
 
     @PostMapping("/refresh-token")
     public ResponseEntity<ApiResponse<AuthenticationResponse>> refreshToken(
-            @CookieValue(name = "refresh_token", required = false) String refreshToken) throws ParseException, JOSEException {
+            @CookieValue(name = "refresh_token", required = false) String refreshToken,
+            HttpServletResponse response) throws ParseException, JOSEException {
 
         if (refreshToken == null) {
             throw new AppException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
 
         AuthenticationResponse newAccessToken = authenticationService.refreshAccessToken(refreshToken);
+        setRefreshTokenCookie(response, newAccessToken.getRefreshToken());
+
         return ResponseEntity.ok(ApiResponse.<AuthenticationResponse>builder()
                 .data(newAccessToken)
                 .build());

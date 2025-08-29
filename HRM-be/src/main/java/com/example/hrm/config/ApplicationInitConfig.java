@@ -41,7 +41,6 @@ public class ApplicationInitConfig {
         log.info("Initializing application.....");
         return args -> {
             if (userRepository.findByUsername(ADMIN_USER_NAME).isEmpty()) {
-                // tìm role "admin"
                 Role adminRole = roleRepository.findByName("admin")
                         .orElseThrow(() -> new RuntimeException("Role 'admin' not found in database"));
 
