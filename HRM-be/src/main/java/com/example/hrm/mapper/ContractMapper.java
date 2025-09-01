@@ -8,7 +8,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring")
 public interface ContractMapper {
     @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "user.username", target = "userName")
+    @Mapping(source = "user.profile.fullName", target = "fullName")
     @Mapping(source = "contractType.name", target = "contractTypeName")
     ContractResponse toResponse(Contract entity);
 

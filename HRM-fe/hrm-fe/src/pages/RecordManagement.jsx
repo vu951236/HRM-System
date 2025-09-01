@@ -42,7 +42,7 @@ const RecordManagement = () => {
     }, [activeSidebarItem]);
 
     const filteredRecords = recordsData.filter(doc =>
-        doc.userName?.toLowerCase().includes(searchTerm.toLowerCase())
+        doc.employeeCode?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const itemsPerPage = 10;

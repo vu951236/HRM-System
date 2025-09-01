@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class ContractResponse {
     private Integer id;
     private Integer userId;
-    private String userName;
+    private String fullName;
     private String contractTypeName;
     private LocalDate startDate;
     private LocalDate endDate;

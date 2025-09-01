@@ -49,7 +49,7 @@ const PayrollTable = ({ data, onApprove }) => {
                     return (
                         <tr key={payroll.id}>
                             <td>{index + 1}</td>
-                            <td>{payroll.employeeName || `User #${payroll.userId}`}</td>
+                            <td>{payroll.employeeName || `User #${payroll.userId}`} ({payroll.employeeCode})</td>
                             <td>{payroll.month}</td>
                             <td>{payroll.year}</td>
                             <td>{payroll.baseSalary?.toLocaleString() || 0}</td>

@@ -11,7 +11,7 @@ const ContractTable = ({ data, onEdit, onExtend, onTerminate, onSoftDelete, onRe
                 <tr>
                     <th>No.</th>
                     <th>User ID</th>
-                    <th>User Name</th>
+                    <th>Full Name</th>
                     <th>Contract Type</th>
                     <th>Start Date</th>
                     <th>End Date</th>
@@ -25,7 +25,7 @@ const ContractTable = ({ data, onEdit, onExtend, onTerminate, onSoftDelete, onRe
                     <tr key={contract.id} style={{ opacity: contract.isDelete ? 0.5 : 1 }}>
                         <td>{index + 1}</td>
                         <td>{contract.userId}</td>
-                        <td>{contract.userName}</td>
+                        <td>{contract.fullName}</td>
                         <td>{contract.contractTypeName}</td>
                         <td>{contract.startDate ? new Date(contract.startDate).toLocaleDateString() : 'N/A'}</td>
                         <td>{contract.endDate ? new Date(contract.endDate).toLocaleDateString() : 'N/A'}</td>

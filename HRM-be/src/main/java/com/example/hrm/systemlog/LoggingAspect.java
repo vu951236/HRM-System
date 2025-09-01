@@ -1,6 +1,5 @@
 package com.example.hrm.systemlog;
 
-import com.example.hrm.systemlog.LoggableAction;
 import com.example.hrm.entity.SystemLog;
 import com.example.hrm.entity.User;
 import com.example.hrm.repository.SystemLogRepository;

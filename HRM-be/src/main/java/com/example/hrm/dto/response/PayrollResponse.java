@@ -14,6 +14,7 @@ public class PayrollResponse {
     private Integer id;
     private Integer userId;
     private String employeeName;
+    private String employeeCode;
     private Integer month;
     private Integer year;
     private Integer totalWorkDays;

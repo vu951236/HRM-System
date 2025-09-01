@@ -14,6 +14,7 @@ public interface PayrollMapper {
 
     @Mapping(source = "employee.user.id", target = "userId")
     @Mapping(source = "employee.user.profile.fullName", target = "employeeName")
+    @Mapping(source = "employee.employeeCode", target = "employeeCode")
     @Mapping(source = "totalAbsentDays", target = "totalAbsentDays")
     @Mapping(source = "workedHours", target = "workedHours")
     @Mapping(source = "totalLateDays", target = "totalLateDays")

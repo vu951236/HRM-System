@@ -55,7 +55,7 @@ const ContractManagement = () => {
     }, [activeSidebarItem]);
 
     const filteredContracts = contractsData.filter(c =>
-        c.userName?.toLowerCase().includes(searchTerm.toLowerCase())
+        c.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const itemsPerPage = 10;

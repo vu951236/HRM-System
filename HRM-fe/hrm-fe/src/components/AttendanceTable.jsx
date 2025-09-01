@@ -22,7 +22,7 @@ const AttendanceTable = ({ data }) => {
                     data.map((log, index) => (
                         <tr key={log.id}>
                             <td>{index + 1}</td>
-                            <td>{log.userFullName} - {log.employeeCode}</td>
+                            <td>{log.userFullName} ({log.employeeCode})</td>
                             <td>{log.shiftName || 'N/A'}</td>
                             <td>{log.checkInTime ? new Date(log.checkInTime).toLocaleString() : 'N/A'}</td>
                             <td>{log.checkOutTime ? new Date(log.checkOutTime).toLocaleString() : 'N/A'}</td>

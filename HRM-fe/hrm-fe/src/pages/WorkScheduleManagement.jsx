@@ -49,7 +49,7 @@ const WorkScheduleManagement = () => {
     }, [activeSidebarItem]);
 
     const filteredSchedules = schedules.filter(s =>
-        s.employeeName?.toLowerCase().includes(searchTerm.toLowerCase())
+        s.employeeCode?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const itemsPerPage = 10;

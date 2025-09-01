@@ -24,7 +24,7 @@ const WorkScheduleTable = ({ data, onEdit, onDelete, onRestore }) => {
                 {data.map((schedule, index) => (
                     <tr key={schedule.id} style={{ opacity: schedule.isDelete ? 0.5 : 1 }}>
                         <td>{index + 1}</td>
-                        <td>{schedule.employeeCode} - {schedule.employeeName}</td>
+                        <td>{schedule.employeeName} ({schedule.employeeCode})</td>
                         <td>{schedule.shiftName}</td>
                         <td>{schedule.shiftRuleName}</td>
                         <td>{schedule.workDate}</td>
