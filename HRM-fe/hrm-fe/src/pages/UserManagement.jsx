@@ -52,10 +52,11 @@ const UserManagement = () => {
                 .catch(error => console.error('Không thể tải danh sách nhân viên:', error));
         }
     }, [activeSidebarItem]);
-    const filteredUsers = usersData.filter(doc =>
-        doc.fullName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
 
+    const filteredUsers = usersData.filter(doc =>
+        doc.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
     const itemsPerPage = 10;
     const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
     const currentUsers = filteredUsers.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage);
