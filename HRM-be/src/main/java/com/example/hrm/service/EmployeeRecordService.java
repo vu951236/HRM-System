@@ -43,7 +43,7 @@ public class EmployeeRecordService {
         record.setUpdatedAt(LocalDateTime.now());
         employeeRecordRepository.save(record);
 
-        Device defaultDevice = deviceRepository.findById(1L)
+        Device defaultDevice = deviceRepository.findByDeviceName("Máy chấm công 123")
                 .orElseThrow(() -> new RuntimeException("Device mặc định không tồn tại"));
 
         UserDevice userDevice = new UserDevice();
