@@ -24,20 +24,6 @@ export function getSidebarGroups(user) {
         });
     }
 
-    const leaveItems = [];
-    if (role === 'staff') {
-        leaveItems.push('Đăng ký nghỉ phép', 'Theo dõi lịch sử phép');
-    }
-    if (role === 'hr') {
-        leaveItems.push('Phê duyệt nghỉ phép', 'Theo dõi lịch sử phép', 'Cấu hình chính sách phép');
-    }
-    if (leaveItems.length > 0) {
-        groups.push({
-            title: 'Nghỉ phép',
-            items: leaveItems,
-        });
-    }
-
     const documentItems = [];
     if (role === 'admin' || role === 'hr') {
         documentItems.push('Quản lý hồ sơ', 'Quản lý hợp đồng');
@@ -54,10 +40,10 @@ export function getSidebarGroups(user) {
 
     const workItems = [];
     if (role === 'admin' || role === 'hr') {
-        workItems.push('Quản lý quy tắc ca', 'Quản lý ca làm việc', 'Quản lý mẫu lịch làm việc', 'Quản lý lịch làm việc', 'Quản lý yêu cầu đổi ca' , 'Quản lý tăng ca');
+        workItems.push('Quản lý quy tắc ca', 'Quản lý ca làm việc', 'Quản lý mẫu lịch làm việc', 'Quản lý lịch làm việc', 'Quản lý yêu cầu đổi ca' , 'Quản lý tăng ca', 'Quản lý chính sách nghỉ', 'Quản lý nghỉ phép');
     }
     if (role === 'staff') {
-        workItems.push('Quản lý lịch làm việc', 'Yêu cầu đổi ca', 'Yêu cầu tăng ca');
+        workItems.push('Quản lý lịch làm việc', 'Yêu cầu đổi ca', 'Yêu cầu tăng ca', 'Yêu cầu nghỉ phép');
     }
 
     if (workItems.length > 0) {
@@ -69,10 +55,10 @@ export function getSidebarGroups(user) {
 
     const salaryItems = [];
     if (role === 'admin' || role === 'hr') {
-        salaryItems.push('Quản lý chính sách lương', 'Quản lý chính sách nghỉ', 'Quản lý nghỉ phép', 'Quản lý chấm công', 'Quản lý bảng lương');
+        salaryItems.push('Quản lý chính sách lương', 'Quản lý chấm công', 'Quản lý bảng lương');
     }
     if (role === 'staff') {
-        salaryItems.push('Yêu cầu nghỉ phép', 'Quản lý chấm công', 'Quản lý bảng lương');
+        salaryItems.push('Quản lý chấm công', 'Quản lý bảng lương');
     }
 
     if (salaryItems.length > 0) {

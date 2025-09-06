@@ -7,6 +7,7 @@ import com.example.hrm.dto.response.EmployeeContractChartResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -36,7 +37,7 @@ public class ReportExportService {
             sheet.autoSizeColumn(i);
         }
     }
-
+    @PreAuthorize("hasAnyRole('admin','hr')")
     public byte[] exportAttendanceReport(List<AttendanceChartResponse> data) throws IOException {
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Báo cáo chấm công");
@@ -64,6 +65,7 @@ public class ReportExportService {
         }
     }
 
+    @PreAuthorize("hasAnyRole('admin','hr')")
     public byte[] exportPayrollReport(List<PayrollChartResponse> data) throws IOException {
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Báo cáo lương");
@@ -93,6 +95,7 @@ public class ReportExportService {
         }
     }
 
+    @PreAuthorize("hasAnyRole('admin','hr')")
     public byte[] exportLeaveOvertimeReport(List<LeaveOvertimeChartResponse> data) throws IOException {
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Báo cáo nghỉ phép & tăng ca");
@@ -119,14 +122,17 @@ public class ReportExportService {
         }
     }
 
+    @PreAuthorize("hasAnyRole('admin','hr')")
     public byte[] exportEmployeeCountByDepartment(List<EmployeeContractChartResponse> data) throws IOException {
         return exportSimpleChart("Nhân sự theo phòng ban", "Phòng ban", "Số lượng nhân viên", data);
     }
 
+    @PreAuthorize("hasAnyRole('admin','hr')")
     public byte[] exportContractCountByType(List<EmployeeContractChartResponse> data) throws IOException {
         return exportSimpleChart("Hợp đồng theo loại", "Loại hợp đồng", "Số lượng hợp đồng", data);
     }
 
+    @PreAuthorize("hasAnyRole('admin','hr')")
     public byte[] exportExpiringContracts(List<EmployeeContractChartResponse> data) throws IOException {
         return exportSimpleChart("Hợp đồng sắp hết hạn", "Loại hợp đồng", "Số lượng hợp đồng sắp hết hạn", data);
     }

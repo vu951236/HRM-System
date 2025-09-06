@@ -5,6 +5,7 @@ import com.example.hrm.dto.response.AttendanceChartResponse;
 import com.example.hrm.entity.AttendanceLog;
 import com.example.hrm.repository.AttendanceLogRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import com.example.hrm.dto.request.PayrollChartRequest;
 import com.example.hrm.dto.response.PayrollChartResponse;
@@ -39,18 +40,23 @@ public class ChartService {
     private final EmployeeRecordRepository employeeRecordRepository;
     private final ContractRepository contractRepository;
 
+    @PreAuthorize("hasAnyRole('admin','hr')")
     public List<EmployeeContractChartResponse> getEmployeeCountByDepartment(EmployeeContractChartRequest request) {
         return employeeRecordRepository.countEmployeeByDepartment(request.getDepartmentId());
     }
 
+    @PreAuthorize("hasAnyRole('admin','hr')")
     public List<EmployeeContractChartResponse> getContractCountByType(EmployeeContractChartRequest request) {
         return contractRepository.countContractByType(request.getContractTypeId());
     }
 
+    @PreAuthorize("hasAnyRole('admin','hr')")
     public List<EmployeeContractChartResponse> getExpiringContracts(EmployeeContractChartRequest request) {
         LocalDate expiryDate = LocalDate.now().plusDays(request.getDaysUntilExpiry() != null ? request.getDaysUntilExpiry() : 30);
         return contractRepository.countContractExpiringBefore(expiryDate);
     }
+
+    @PreAuthorize("hasAnyRole('admin','hr')")
     public List<LeaveOvertimeChartResponse> getLeaveOvertimeChart(LeaveOvertimeChartRequest request) {
 
         Map<String, LeaveOvertimeChartResponse> resultMap = new HashMap<>();
@@ -102,6 +108,7 @@ public class ChartService {
         return new ArrayList<>(resultMap.values());
     }
 
+    @PreAuthorize("hasAnyRole('admin','hr')")
     public List<PayrollChartResponse> getPayrollChart(PayrollChartRequest request) {
         List<Payroll> payrolls = payrollRepository.findByYearAndDepartment(
                 request.getYear(), request.getDepartmentId());
@@ -157,6 +164,7 @@ public class ChartService {
                 .collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasAnyRole('admin','hr')")
     public List<AttendanceChartResponse> getAttendanceChart(AttendanceChartRequest request) {
         List<AttendanceLog> logs = repository.findByDateRangeAndDepartment(
                 request.getStartDate(), request.getEndDate(), request.getDepartmentId());

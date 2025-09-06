@@ -2,8 +2,10 @@ package com.example.hrm.service;
 
 import com.example.hrm.dto.request.EmployeeRecordRequest;
 import com.example.hrm.dto.response.EmployeeRecordResponse;
+import com.example.hrm.entity.Device;
 import com.example.hrm.entity.EmployeeRecord;
 import com.example.hrm.entity.User;
+import com.example.hrm.entity.UserDevice;
 import com.example.hrm.mapper.EmployeeRecordMapper;
 import com.example.hrm.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,8 @@ public class EmployeeRecordService {
     private final DepartmentRepository departmentRepository;
     private final PositionRepository positionRepository;
     private final EmployeeTypeRepository employeeTypeRepository;
+    private final DeviceRepository deviceRepository;
+    private final UserDeviceRepository userDeviceRepository;
     private final EmployeeRecordMapper employeeRecordMapper;
     private final PermissionChecker permissionChecker;
 
@@ -38,6 +42,15 @@ public class EmployeeRecordService {
         record.setCreatedAt(LocalDateTime.now());
         record.setUpdatedAt(LocalDateTime.now());
         employeeRecordRepository.save(record);
+
+        Device defaultDevice = deviceRepository.findById(1L)
+                .orElseThrow(() -> new RuntimeException("Device mặc định không tồn tại"));
+
+        UserDevice userDevice = new UserDevice();
+        userDevice.setEmployee(record);
+        userDevice.setDevice(defaultDevice);
+        userDeviceRepository.save(userDevice);
+
         return employeeRecordMapper.toResponse(record);
     }
 
