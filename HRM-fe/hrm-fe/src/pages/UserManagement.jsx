@@ -56,7 +56,7 @@ const UserManagement = () => {
     const filteredUsers = usersData.filter(doc =>
         doc.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    
+
     const itemsPerPage = 10;
     const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
     const currentUsers = filteredUsers.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage);

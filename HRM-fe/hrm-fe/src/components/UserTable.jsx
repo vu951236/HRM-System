@@ -24,6 +24,7 @@ const UserTable = ({ data, onEdit, onLock }) => {
                 <tr>
                     <th>No.</th>
                     <th>UserID</th>
+                    <th>Username</th>
                     <th>Full name</th>
                     <th>Email</th>
                     <th>Address</th>
@@ -37,6 +38,7 @@ const UserTable = ({ data, onEdit, onLock }) => {
                     <tr key={doc.userId}>
                         <td>{index + 1}</td>
                         <td>{doc.userId}</td>
+                        <td>{doc.username}</td>
                         <td>{doc.fullName}</td>
                         <td>{doc.email}</td>
                         <td>{doc.address}</td>
