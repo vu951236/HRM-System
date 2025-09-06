@@ -37,11 +37,6 @@ public class ApplicationInitConfig {
     static final String ADMIN_EMAIL = "admin@example.com";
 
     @Bean
-    @ConditionalOnProperty(
-            prefix = "spring.datasource",
-            name = "driver-class-name",
-            havingValue = "com.mysql.cj.jdbc.Driver"
-    )
     ApplicationRunner applicationRunner(UserRepository userRepository) {
         log.info("Initializing application.....");
         return args -> {
