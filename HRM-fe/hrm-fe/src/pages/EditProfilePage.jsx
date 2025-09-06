@@ -42,7 +42,7 @@ const EditProfilePage = () => {
                     dob: dobFormatted,
                     phone: data?.phone || '',
                     address: data?.address || '',
-                    imageUrl: data?.avatarUrl || ''
+                    imageUrl: data?.imageUrl || ''
                 });
             })
             .catch(err => {
