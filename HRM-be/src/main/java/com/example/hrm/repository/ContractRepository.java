@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface ContractRepository extends JpaRepository<Contract, Integer> {
 
@@ -30,4 +31,6 @@ public interface ContractRepository extends JpaRepository<Contract, Integer> {
             "WHERE c.endDate <= :expiryDate " +
             "GROUP BY ct.name")
     List<EmployeeContractChartResponse> countContractExpiringBefore(@Param("expiryDate") LocalDate expiryDate);
+
+    Optional<Contract> findByUserIdAndStatusAndIsDeleteFalse(Integer userId, Contract.ContractStatus status);
 }

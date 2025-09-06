@@ -28,6 +28,7 @@ public class PayrollService {
     private final LeaveRequestRepository leaveRequestRepository;
     private final SalaryRuleRepository salaryRuleRepository;
     private final PayrollRepository payrollRepository;
+    private final ContractRepository contractRepository;
     private final PayrollMapper payrollMapper;
     private final PermissionChecker permissionChecker;
     private final EmployeeRecordRepository employeeRecordRepository;
@@ -51,36 +52,17 @@ public class PayrollService {
                 .distinct()
                 .count();
 
-        BigDecimal workedHours = logs.stream()
-                .filter(l -> l.getStatus() == AttendanceLog.AttendanceStatus.CHECKED_IN
-                        || l.getStatus() == AttendanceLog.AttendanceStatus.CHECKED_OUT)
-                .map(l -> {
-                    if (l.getCheckOutTime() != null && l.getCheckInTime() != null) {
-                        return BigDecimal.valueOf(
-                                java.time.Duration.between(l.getCheckInTime(), l.getCheckOutTime()).toMinutes() / 60.0
-                        );
-                    } else return BigDecimal.ZERO;
-                })
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        BigDecimal totalLateMinutes = logs.stream()
-                .filter(l -> l.getStatus() == AttendanceLog.AttendanceStatus.CHECKED_IN
-                        || l.getStatus() == AttendanceLog.AttendanceStatus.CHECKED_OUT)
-                .map(l -> {
-                    LocalTime shiftStart = l.getWorkSchedule().getShift().getStartTime();
-                    if (l.getCheckInTime() != null && l.getCheckInTime().toLocalTime().isAfter(shiftStart)) {
-                        long minutesLate = java.time.Duration.between(shiftStart, l.getCheckInTime().toLocalTime()).toMinutes();
-                        return BigDecimal.valueOf(minutesLate);
-                    }
-                    return BigDecimal.ZERO;
-                })
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
         int totalAbsentDays = (int) logs.stream()
                 .filter(l -> l.getStatus() == AttendanceLog.AttendanceStatus.ABSENT)
                 .map(AttendanceLog::getLogDate)
                 .distinct()
                 .count();
+
+        int totalLeaveDays = leaveRequestRepository.findByEmployee_IdAndStartDateBetween(employeeId, monthStart, monthEnd)
+                .stream()
+                .filter(l -> l.getStatus().equals("APPROVED"))
+                .mapToInt(l -> (int) ChronoUnit.DAYS.between(l.getStartDate(), l.getEndDate()) + 1)
+                .sum();
 
         int totalLateDays = (int) logs.stream()
                 .filter(l -> l.getStatus() == AttendanceLog.AttendanceStatus.CHECKED_IN
@@ -97,63 +79,58 @@ public class PayrollService {
                 .findByEmployeeIdAndDateBetween(employeeId, monthStart, monthEnd)
                 .stream()
                 .filter(o -> o.getStatus() == OvertimeRecord.Status.approved)
-                .map(o -> BigDecimal.valueOf(java.time.Duration.between(o.getStartTime(), o.getEndTime()).toMinutes() / 60.0))
+                .map(o -> BigDecimal.valueOf(
+                        java.time.Duration.between(o.getStartTime(), o.getEndTime()).toMinutes() / 60.0))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        int totalLeaveDays = leaveRequestRepository.findByEmployee_IdAndStartDateBetween(employeeId, monthStart, monthEnd)
-                .stream()
-                .filter(l -> l.getStatus().equals("APPROVED"))
-                .mapToInt(l -> (int) ChronoUnit.DAYS.between(l.getStartDate(), l.getEndDate()) + 1)
-                .sum();
+
+        Contract contract = contractRepository.findByUserIdAndStatusAndIsDeleteFalse(
+                employee.getUser().getId(),
+                Contract.ContractStatus.ACTIVE
+        ).orElseThrow(() -> new RuntimeException("Active contract not found for employee " + employeeId));
+
+        BigDecimal contractSalary = contract.getSalary();
 
         List<SalaryRule> rules = salaryRuleRepository.findByActiveTrueAndIsDeleteFalse();
-
-        int totalWorkDaysAdjusted = totalWorkDays + totalLeaveDays;
-
-        BigDecimal baseSalary = rules.stream()
-                .filter(r -> r.getRuleType() == SalaryRule.RuleType.BASE)
-                .map(r -> evaluateFormula(r.getFormula(), workedHours))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        BigDecimal otherDeductions = rules.stream()
-                .filter(r -> r.getRuleType() == SalaryRule.RuleType.DEDUCTION)
-                .map(r -> evaluateFormula(r.getFormula(), baseSalary))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        BigDecimal lateDeduction = rules.stream()
-                .filter(r -> r.getRuleType() == SalaryRule.RuleType.LATE)
-                .map(r -> evaluateFormula(r.getFormula(), totalLateMinutes))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal overtimeSalary = rules.stream()
                 .filter(r -> r.getRuleType() == SalaryRule.RuleType.OVERTIME)
                 .map(r -> evaluateFormula(r.getFormula(), totalOvertimeHours))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+        BigDecimal lateDeduction = rules.stream()
+                .filter(r -> r.getRuleType() == SalaryRule.RuleType.LATE)
+                .map(r -> evaluateFormula(r.getFormula(), BigDecimal.valueOf(totalLateDays)))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
         BigDecimal leaveDeduction = rules.stream()
                 .filter(r -> r.getRuleType() == SalaryRule.RuleType.LEAVE)
-                .map(r -> evaluateFormula(r.getFormula(), totalAbsentDays))
+                .map(r -> evaluateFormula(r.getFormula(), BigDecimal.valueOf(totalAbsentDays)))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal otherDeductions = rules.stream()
+                .filter(r -> r.getRuleType() == SalaryRule.RuleType.DEDUCTION)
+                .map(r -> evaluateFormula(r.getFormula(), contractSalary))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal bonus = rules.stream()
                 .filter(r -> r.getRuleType() == SalaryRule.RuleType.BONUS)
-                .map(r -> evaluateFormula(r.getFormula(), totalWorkDaysAdjusted))
+                .map(r -> evaluateFormula(r.getFormula(), BigDecimal.valueOf(totalWorkDays + totalLeaveDays)))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        BigDecimal finalSalary = baseSalary.add(overtimeSalary).add(bonus)
+        BigDecimal finalSalary = contractSalary.add(overtimeSalary).add(bonus)
+                .subtract(lateDeduction)
                 .subtract(leaveDeduction)
-                .subtract(otherDeductions)
-                .subtract(lateDeduction);
+                .subtract(otherDeductions);
 
         Payroll payroll = Payroll.builder()
                 .employee(employee)
                 .month(month)
                 .year(year)
                 .totalWorkDays(totalWorkDays)
-                .workedHours(workedHours)
                 .totalLeaveDays(totalLeaveDays)
                 .totalAbsentDays(totalAbsentDays)
-                .baseSalary(baseSalary)
+                .baseSalary(contractSalary)
                 .overtimeSalary(overtimeSalary)
                 .leaveDeduction(leaveDeduction)
                 .bonus(bonus)
