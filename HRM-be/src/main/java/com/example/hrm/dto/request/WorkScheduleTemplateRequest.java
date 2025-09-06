@@ -8,4 +8,5 @@ public class WorkScheduleTemplateRequest {
     private Integer departmentId;
     private String shiftPattern;
     private Integer createdById;
+    private Boolean isDelete;
 }
