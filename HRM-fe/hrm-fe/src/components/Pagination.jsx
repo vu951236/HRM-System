@@ -17,7 +17,8 @@ const Pagination = ({ currentPage, totalPages, onChangePage }) => {
     }
 
     return (
-        <div className="pagination" style={{ display: 'flex', gap: '5px', justifyContent: 'center', marginTop: 20 }}>
+        <div className="pagination">
+            {/* Nút trước */}
             <button
                 disabled={currentPage === 1}
                 onClick={() => onChangePage(currentPage - 1)}
@@ -25,25 +26,23 @@ const Pagination = ({ currentPage, totalPages, onChangePage }) => {
                 « Trước
             </button>
 
+            {/* Hiện dấu ... nếu còn trang phía trước */}
             {startPage > 1 && <span>...</span>}
 
             {pages.map(num => (
                 <button
                     key={num}
                     className={currentPage === num ? 'active' : ''}
-                    style={{
-                        fontWeight: currentPage === num ? 'bold' : 'normal',
-                        background: currentPage === num ? '#007bff' : '',
-                        color: currentPage === num ? '#fff' : ''
-                    }}
                     onClick={() => onChangePage(num)}
                 >
                     {num}
                 </button>
             ))}
 
+            {/* Hiện dấu ... nếu còn trang phía sau */}
             {endPage < totalPages && <span>...</span>}
 
+            {/* Nút sau */}
             <button
                 disabled={currentPage === totalPages}
                 onClick={() => onChangePage(currentPage + 1)}
