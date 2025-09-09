@@ -35,7 +35,7 @@ public class AuthenticationController {
 
         ResponseCookie refreshCookie = buildCookie(
                 authenticationResponse.getRefreshToken(),
-                30 * 24 * 60 * 60 
+                30 * 24 * 60 * 60
         );
 
         response.setHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
