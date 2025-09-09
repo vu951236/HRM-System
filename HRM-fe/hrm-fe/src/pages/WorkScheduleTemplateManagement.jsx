@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import Pagination from '../components/Pagination';
-import SearchBox from "../components/SearchBox";
+import Sidebar from '../components/Dashboard/Sidebar.jsx';
+import Pagination from '../components/Dashboard/Pagination.jsx';
+import SearchBox from "../components/Dashboard/SearchBox.jsx";
 import { useAuth } from '../context/AuthContext';
-import { getSidebarGroups } from '../components/sidebarData';
+import { getSidebarGroups } from '../components/Dashboard/sidebarData.js';
 
 import {
     fetchAllTemplates,
@@ -14,9 +14,9 @@ import {
     applyTemplate
 } from '../services/workScheduleTemplateService';
 
-import WorkScheduleTemplateTable from '../components/WorkScheduleTemplateTable';
-import CreateWorkScheduleTemplateModal from '../components/CreateWorkScheduleTemplateModal';
-import EditWorkScheduleTemplateModal from '../components/EditWorkScheduleTemplateModal';
+import WorkScheduleTemplateTable from '../components/WorkScheduleTemplate/WorkScheduleTemplateTable.jsx';
+import CreateWorkScheduleTemplateModal from '../components/WorkScheduleTemplate/CreateWorkScheduleTemplateModal.jsx';
+import EditWorkScheduleTemplateModal from '../components/WorkScheduleTemplate/EditWorkScheduleTemplateModal.jsx';
 
 const WorkScheduleTemplateManagement = () => {
     const [sidebarGroups, setSidebarGroups] = useState([]);

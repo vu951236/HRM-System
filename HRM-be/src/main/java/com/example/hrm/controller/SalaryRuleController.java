@@ -23,7 +23,7 @@ public class SalaryRuleController {
     public ResponseEntity<ApiResponse<SalaryRuleResponse>> create(@RequestBody SalaryRuleRequest request) {
         return ResponseEntity.ok(ApiResponse.<SalaryRuleResponse>builder()
                 .data(service.create(request))
-                .message("Rule created successfully")
+                .message("Tạo rule lương thành công")
                 .build());
     }
 
@@ -34,15 +34,15 @@ public class SalaryRuleController {
             @RequestBody SalaryRuleRequest request) {
         return ResponseEntity.ok(ApiResponse.<SalaryRuleResponse>builder()
                 .data(service.update(id, request))
-                .message("Rule updated successfully")
+                .message("Cập nhật rule lương thành công")
                 .build());
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<SalaryRuleResponse>> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(ApiResponse.<SalaryRuleResponse>builder()
                 .data(service.getById(id))
+                .message("Lấy thông tin rule lương thành công")
                 .build());
     }
 
@@ -50,6 +50,7 @@ public class SalaryRuleController {
     public ResponseEntity<ApiResponse<List<SalaryRuleResponse>>> getAll() {
         return ResponseEntity.ok(ApiResponse.<List<SalaryRuleResponse>>builder()
                 .data(service.getAll())
+                .message("Lấy danh sách tất cả rule lương thành công")
                 .build());
     }
 
@@ -58,7 +59,7 @@ public class SalaryRuleController {
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity.ok(ApiResponse.<Void>builder()
-                .message("Rule deleted successfully (soft delete)")
+                .message("Xóa rule lương thành công (xóa mềm)")
                 .build());
     }
 
@@ -67,7 +68,7 @@ public class SalaryRuleController {
     public ResponseEntity<ApiResponse<Void>> restore(@PathVariable Integer id) {
         service.restore(id);
         return ResponseEntity.ok(ApiResponse.<Void>builder()
-                .message("Rule restored successfully")
+                .message("Khôi phục rule lương thành công")
                 .build());
     }
 }

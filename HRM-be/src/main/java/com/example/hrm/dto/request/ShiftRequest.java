@@ -14,4 +14,5 @@ public class ShiftRequest {
     private LocalTime endTime;
     private LocalTime breakTime;
     private String description;
+    private Boolean isDelete;
 }

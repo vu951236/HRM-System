@@ -32,6 +32,7 @@ public class LeaveRequestController {
 
         return ResponseEntity.ok(ApiResponse.<LeaveRequestResponse>builder()
                 .data(leave)
+                .message("Yêu cầu nghỉ phép đã được tạo thành công.")
                 .build());
     }
 
@@ -41,6 +42,7 @@ public class LeaveRequestController {
         LeaveRequestResponse leave = leaveService.approveLeave(id);
         return ResponseEntity.ok(ApiResponse.<LeaveRequestResponse>builder()
                 .data(leave)
+                .message("Yêu cầu nghỉ phép với id " + id + " đã được phê duyệt.")
                 .build());
     }
 
@@ -50,15 +52,17 @@ public class LeaveRequestController {
         LeaveRequestResponse leave = leaveService.rejectLeave(id);
         return ResponseEntity.ok(ApiResponse.<LeaveRequestResponse>builder()
                 .data(leave)
+                .message("Yêu cầu nghỉ phép với id " + id + " đã bị từ chối.")
                 .build());
     }
-
 
     @LoggableAction(action = "DELETE_LEAVE_REQUEST", description = "Xóa yêu cầu nghỉ phép")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteLeave(@PathVariable Integer id) {
         leaveService.deleteLeave(id);
-        return ResponseEntity.ok(ApiResponse.<Void>builder().build());
+        return ResponseEntity.ok(ApiResponse.<Void>builder()
+                .message("Yêu cầu nghỉ phép với id " + id + " đã được xóa.")
+                .build());
     }
 
     @LoggableAction(action = "RESTORE_LEAVE_REQUEST", description = "Khôi phục yêu cầu nghỉ phép")
@@ -67,6 +71,7 @@ public class LeaveRequestController {
         LeaveRequestResponse leave = leaveService.restoreLeave(id);
         return ResponseEntity.ok(ApiResponse.<LeaveRequestResponse>builder()
                 .data(leave)
+                .message("Yêu cầu nghỉ phép với id " + id + " đã được khôi phục.")
                 .build());
     }
 
@@ -75,6 +80,7 @@ public class LeaveRequestController {
         List<LeaveRequestResponse> list = leaveService.getAllLeaveRequests();
         return ResponseEntity.ok(ApiResponse.<List<LeaveRequestResponse>>builder()
                 .data(list)
+                .message("Danh sách tất cả yêu cầu nghỉ phép đã được lấy thành công.")
                 .build());
     }
 
@@ -84,6 +90,7 @@ public class LeaveRequestController {
         List<LeaveRequestResponse> list = leaveService.getLeaveByDate(date);
         return ResponseEntity.ok(ApiResponse.<List<LeaveRequestResponse>>builder()
                 .data(list)
+                .message("Danh sách yêu cầu nghỉ phép vào ngày " + date + " đã được lấy thành công.")
                 .build());
     }
 }

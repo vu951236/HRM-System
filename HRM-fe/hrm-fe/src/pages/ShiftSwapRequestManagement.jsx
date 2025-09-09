@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import Pagination from '../components/Pagination';
-import SearchBox from "../components/SearchBox";
+import Sidebar from '../components/Dashboard/Sidebar.jsx';
+import Pagination from '../components/Dashboard/Pagination.jsx';
+import SearchBox from "../components/Dashboard/SearchBox.jsx";
 import { useAuth } from '../context/AuthContext';
-import { getSidebarGroups } from '../components/sidebarData';
+import { getSidebarGroups } from '../components/Dashboard/sidebarData.js';
 
 import {
     fetchAllShiftSwapRequests,
@@ -14,8 +14,8 @@ import {
     createShiftSwapRequest
 } from '../services/shiftSwapService';
 
-import ShiftSwapRequestTable from '../components/ShiftSwapRequestTable';
-import CreateShiftSwapRequestModal from '../components/CreateShiftSwapRequestModal';
+import ShiftSwapRequestTable from '../components/ShiftSwap/ShiftSwapRequestTable.jsx';
+import CreateShiftSwapRequestModal from '../components/ShiftSwap/CreateShiftSwapRequestModal.jsx';
 
 const ShiftSwapRequestManagement = () => {
     const [sidebarGroups, setSidebarGroups] = useState([]);

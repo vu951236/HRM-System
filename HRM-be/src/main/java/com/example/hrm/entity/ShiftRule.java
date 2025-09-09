@@ -24,12 +24,6 @@ public class ShiftRule {
     @Column(name = "max_hours_per_day")
     private Integer maxHoursPerDay = 8;
 
-    @Column(name = "allow_overtime")
-    private Boolean allowOvertime = false;
-
-    @Column(name = "night_shift_multiplier")
-    private Float nightShiftMultiplier = 1.0f;
-
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

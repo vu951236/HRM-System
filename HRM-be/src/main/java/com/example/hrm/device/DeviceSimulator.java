@@ -25,9 +25,9 @@ public class DeviceSimulator {
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
             AttendanceLogRequest checkIn = new AttendanceLogRequest();
-            checkIn.setEmployeeId(2);
-            checkIn.setWorkScheduleId(36);
-            checkIn.setDeviceId("1");
+            checkIn.setEmployeeId(19);
+            checkIn.setWorkScheduleId(442);
+            checkIn.setDeviceId("2");
             checkIn.setCheckInTime(LocalDateTime.now());
             checkIn.setMethod(AttendanceLog.AttendanceMethod.FINGERPRINT);
 
@@ -41,9 +41,9 @@ public class DeviceSimulator {
             Thread.sleep(5000);
 
             AttendanceLogRequest checkOut = new AttendanceLogRequest();
-            checkOut.setEmployeeId(2);
-            checkOut.setWorkScheduleId(36);
-            checkOut.setDeviceId("1");
+            checkOut.setEmployeeId(19);
+            checkOut.setWorkScheduleId(442);
+            checkOut.setDeviceId("2");
             checkOut.setCheckOutTime(LocalDateTime.now());
             checkOut.setMethod(AttendanceLog.AttendanceMethod.FINGERPRINT);
 

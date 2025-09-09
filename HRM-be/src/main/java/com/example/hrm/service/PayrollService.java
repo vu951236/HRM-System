@@ -34,10 +34,13 @@ public class PayrollService {
     private final EmployeeRecordRepository employeeRecordRepository;
 
     @Transactional
-    public PayrollResponse calculatePayroll(Integer employeeId, Integer month, Integer year) {
+    public PayrollResponse calculatePayrollByCode(String employeeCode, Integer month, Integer year) {
         EmployeeRecord employee = employeeRecordRepository
-                .findByIdAndIsDeleteFalse(employeeId)
-                .orElseThrow(() -> new RuntimeException("EmployeeRecord not found for id: " + employeeId));
+                .findByEmployeeCodeAndIsDeleteFalse(employeeCode)
+                .orElseThrow(() -> new RuntimeException("EmployeeRecord not found for code: " + employeeCode));
+
+        Integer employeeId = employee.getId();
+        Integer userId = employee.getUser().getId();
 
         LocalDate monthStart = LocalDate.of(year, month, 1);
         LocalDate monthEnd = monthStart.withDayOfMonth(monthStart.lengthOfMonth());
@@ -64,6 +67,25 @@ public class PayrollService {
                 .mapToInt(l -> (int) ChronoUnit.DAYS.between(l.getStartDate(), l.getEndDate()) + 1)
                 .sum();
 
+        long totalLateMinutes = logs.stream()
+                .filter(l -> l.getStatus() == AttendanceLog.AttendanceStatus.CHECKED_IN
+                        || l.getStatus() == AttendanceLog.AttendanceStatus.CHECKED_OUT)
+                .filter(l -> {
+                    LocalTime shiftStart = l.getWorkSchedule().getShift().getStartTime();
+                    return l.getCheckInTime() != null && l.getCheckInTime().toLocalTime().isAfter(shiftStart);
+                })
+                .mapToLong(l -> java.time.Duration.between(
+                        l.getWorkSchedule().getShift().getStartTime(),
+                        l.getCheckInTime().toLocalTime()
+                ).toMinutes())
+                .sum();
+
+        BigDecimal workedHours = logs.stream()
+                .filter(l -> l.getCheckInTime() != null && l.getCheckOutTime() != null)
+                .map(l -> BigDecimal.valueOf(
+                        java.time.Duration.between(l.getCheckInTime(), l.getCheckOutTime()).toMinutes() / 60.0))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
         int totalLateDays = (int) logs.stream()
                 .filter(l -> l.getStatus() == AttendanceLog.AttendanceStatus.CHECKED_IN
                         || l.getStatus() == AttendanceLog.AttendanceStatus.CHECKED_OUT)
@@ -84,10 +106,11 @@ public class PayrollService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
 
-        Contract contract = contractRepository.findByUserIdAndStatusAndIsDeleteFalse(
+        Contract contract = contractRepository.findByUserIdAndStatusInAndIsDeleteFalse(
                 employee.getUser().getId(),
-                Contract.ContractStatus.ACTIVE
-        ).orElseThrow(() -> new RuntimeException("Active contract not found for employee " + employeeId));
+                List.of(Contract.ContractStatus.ACTIVE, Contract.ContractStatus.MODIFIED)
+        ).orElseThrow(() -> new RuntimeException("No active or modified contract found for employee " + userId));
+
 
         BigDecimal contractSalary = contract.getSalary();
 
@@ -100,7 +123,7 @@ public class PayrollService {
 
         BigDecimal lateDeduction = rules.stream()
                 .filter(r -> r.getRuleType() == SalaryRule.RuleType.LATE)
-                .map(r -> evaluateFormula(r.getFormula(), BigDecimal.valueOf(totalLateDays)))
+                .map(r -> evaluateFormula(r.getFormula(), BigDecimal.valueOf(totalLateMinutes)))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal leaveDeduction = rules.stream()
@@ -133,10 +156,13 @@ public class PayrollService {
                 .baseSalary(contractSalary)
                 .overtimeSalary(overtimeSalary)
                 .leaveDeduction(leaveDeduction)
+                .lateDeduction(lateDeduction)
                 .bonus(bonus)
                 .deduction(otherDeductions)
                 .finalSalary(finalSalary)
                 .totalLateDays(totalLateDays)
+                .totalOvertimeHours(totalOvertimeHours)
+                .workedHours(workedHours)
                 .status(Payroll.PayrollStatus.GENERATED)
                 .generatedAt(LocalDateTime.now())
                 .build();

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import '../styles/Chart.css';
-import Sidebar from '../components/Sidebar';
+import Sidebar from '../components/Dashboard/Sidebar.jsx';
 import { useAuth } from '../context/AuthContext';
-import { getSidebarGroups } from '../components/sidebarData';
+import { getSidebarGroups } from '../components/Dashboard/sidebarData.js';
 import { fetchLeaveOvertimeChart, fetchPayrollChart, fetchAttendanceChart } from '../services/chartService';
 import { exportAttendanceReport, exportPayrollReport, exportLeaveOvertimeReport } from '../services/reportService';
 import { getDepartments } from '../services/DataApi';

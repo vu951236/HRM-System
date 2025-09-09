@@ -24,7 +24,10 @@ public class WorkScheduleTemplateController {
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<WorkScheduleTemplateResponse>> create(@RequestBody WorkScheduleTemplateRequest request){
         WorkScheduleTemplateResponse response = service.createTemplate(request);
-        return ResponseEntity.ok(ApiResponse.<WorkScheduleTemplateResponse>builder().data(response).build());
+        return ResponseEntity.ok(ApiResponse.<WorkScheduleTemplateResponse>builder()
+                .data(response)
+                .message("Tạo mẫu lịch làm việc thành công")
+                .build());
     }
 
     @LoggableAction(action = "UPDATE_TEMPLATE", description = "Cập nhật mẫu lịch làm việc")
@@ -32,26 +35,37 @@ public class WorkScheduleTemplateController {
     public ResponseEntity<ApiResponse<WorkScheduleTemplateResponse>> update(@PathVariable Integer id,
                                                                             @RequestBody WorkScheduleTemplateRequest request){
         WorkScheduleTemplateResponse response = service.updateTemplate(id, request);
-        return ResponseEntity.ok(ApiResponse.<WorkScheduleTemplateResponse>builder().data(response).build());
+        return ResponseEntity.ok(ApiResponse.<WorkScheduleTemplateResponse>builder()
+                .data(response)
+                .message("Cập nhật mẫu lịch làm việc thành công")
+                .build());
     }
 
     @GetMapping("/getAll")
     public ResponseEntity<ApiResponse<List<WorkScheduleTemplateResponse>>> getAll(){
         List<WorkScheduleTemplateResponse> list = service.getAllTemplates();
-        return ResponseEntity.ok(ApiResponse.<List<WorkScheduleTemplateResponse>>builder().data(list).build());
+        return ResponseEntity.ok(ApiResponse.<List<WorkScheduleTemplateResponse>>builder()
+                .data(list)
+                .message("Lấy danh sách mẫu lịch làm việc thành công")
+                .build());
     }
 
     @GetMapping("/get/{id}")
     public ResponseEntity<ApiResponse<WorkScheduleTemplateResponse>> getById(@PathVariable Integer id){
         WorkScheduleTemplateResponse response = service.getTemplateById(id);
-        return ResponseEntity.ok(ApiResponse.<WorkScheduleTemplateResponse>builder().data(response).build());
+        return ResponseEntity.ok(ApiResponse.<WorkScheduleTemplateResponse>builder()
+                .data(response)
+                .message("Lấy thông tin mẫu lịch làm việc thành công")
+                .build());
     }
 
     @LoggableAction(action = "DELETE_TEMPLATE", description = "Xóa mẫu lịch làm việc")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Integer id){
         service.deleteTemplate(id);
-        return ResponseEntity.ok(ApiResponse.<Void>builder().build());
+        return ResponseEntity.ok(ApiResponse.<Void>builder()
+                .message("Xóa mẫu lịch làm việc thành công")
+                .build());
     }
 
     @LoggableAction(action = "RESTORE_TEMPLATE", description = "Khôi phục mẫu lịch làm việc")
@@ -59,7 +73,7 @@ public class WorkScheduleTemplateController {
     public ResponseEntity<ApiResponse<Void>> restoreTemplate(@PathVariable Integer id) {
         service.restoreTemplate(id);
         return ResponseEntity.ok(ApiResponse.<Void>builder()
-                .message("Template restored successfully")
+                .message("Khôi phục mẫu lịch làm việc thành công")
                 .build());
     }
 
@@ -71,6 +85,8 @@ public class WorkScheduleTemplateController {
             @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @RequestParam(value = "overwrite", defaultValue = "false") boolean overwrite) {
         service.applyTemplate(templateId, startDate, endDate, overwrite);
-        return ResponseEntity.ok(ApiResponse.<Void>builder().build());
+        return ResponseEntity.ok(ApiResponse.<Void>builder()
+                .message("Áp dụng mẫu lịch làm việc thành công")
+                .build());
     }
 }

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import Pagination from '../components/Pagination';
-import SearchBox from "../components/SearchBox";
+import Sidebar from '../components/Dashboard/Sidebar.jsx';
+import Pagination from '../components/Dashboard/Pagination.jsx';
+import SearchBox from "../components/Dashboard/SearchBox.jsx";
 import { useAuth } from '../context/AuthContext';
-import { getSidebarGroups } from '../components/sidebarData';
+import { getSidebarGroups } from '../components/Dashboard/sidebarData.js';
 import {
     fetchAllLeavePolicies,
     createLeavePolicy,
@@ -11,9 +11,9 @@ import {
     deleteLeavePolicy,
     restoreLeavePolicy
 } from '../services/leavePolicyService';
-import LeavePolicyTable from '../components/LeavePolicyTable';
-import CreateLeavePolicyModal from '../components/CreateLeavePolicyModal';
-import EditLeavePolicyModal from '../components/EditLeavePolicyModal.jsx';
+import LeavePolicyTable from '../components/LeavePolicy/LeavePolicyTable.jsx';
+import CreateLeavePolicyModal from '../components/LeavePolicy/CreateLeavePolicyModal.jsx';
+import EditLeavePolicyModal from '../components/LeavePolicy/EditLeavePolicyModal.jsx';
 
 const LeavePolicyManagement = () => {
     const [sidebarGroups, setSidebarGroups] = useState([]);

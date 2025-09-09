@@ -27,6 +27,7 @@ public class AdminController {
         UserResponse result = userService.createUser(request);
         return ResponseEntity.ok(ApiResponse.<UserResponse>builder()
                 .data(result)
+                .message("Tạo người dùng thành công")
                 .build());
     }
 
@@ -37,6 +38,7 @@ public class AdminController {
         UserResponse result = userService.updateUser(userId, request);
         return ResponseEntity.ok(ApiResponse.<UserResponse>builder()
                 .data(result)
+                .message("Cập nhật người dùng thành công")
                 .build());
     }
 
@@ -45,6 +47,7 @@ public class AdminController {
         List<UserResponse> result = userService.getAllUsers();
         return ResponseEntity.ok(ApiResponse.<List<UserResponse>>builder()
                 .data(result)
+                .message("Lấy danh sách người dùng thành công")
                 .build());
     }
 
@@ -57,6 +60,7 @@ public class AdminController {
         UserLockResponse result = userService.lockOrUnlockUser(userId, request);
         return ResponseEntity.ok(ApiResponse.<UserLockResponse>builder()
                 .data(result)
+                .message("Thao tác khóa/mở khóa người dùng thành công")
                 .build());
     }
 }

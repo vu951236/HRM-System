@@ -22,9 +22,9 @@ public class PayrollScheduler {
         int month = now.minusMonths(1).getMonthValue();
         int year = now.minusMonths(1).getYear();
 
-        List<Integer> employeeIds = employeeService.getActiveEmployeeIds();
-        for (Integer employeeId : employeeIds) {
-            payrollService.calculatePayroll(employeeId, month, year);
+        List<String> employeeCodes = employeeService.getActiveEmployeeCodes();
+        for (String employeeCode : employeeCodes) {
+            payrollService.calculatePayrollByCode(employeeCode, month, year);
         }
 
         System.out.println("Payrolls for month " + month + "/" + year + " generated successfully.");

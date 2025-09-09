@@ -22,6 +22,7 @@ public interface AttendanceLogMapper {
     @Mapping(target = "shiftName", source = "workSchedule.shift.name")
     @Mapping(target = "checkInMethod", source = "checkInMethod")
     @Mapping(target = "checkOutMethod", source = "checkOutMethod")
+    @Mapping(target = "logDate", source = "logDate")
     AttendanceLogResponse toResponse(AttendanceLog entity);
 }
 

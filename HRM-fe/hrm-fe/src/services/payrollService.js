@@ -10,10 +10,10 @@ export async function fetchAllPayrolls() {
     }
 }
 
-export async function calculatePayroll(employeeId, month, year) {
+export async function calculatePayroll(employeeCode, month, year) {
     try {
         const response = await api.post('/payroll/calculate', null, {
-            params: { employeeId, month, year }
+            params: { employeeCode, month, year }
         });
         return response.data.data;
     } catch (error) {

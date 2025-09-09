@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
-import { getSidebarGroups } from '../components/sidebarData';
+import Sidebar from '../components/Dashboard/Sidebar.jsx';
+import { getSidebarGroups } from '../components/Dashboard/sidebarData.js';
 import '../styles/Dashboard.css';
-import SearchBox from '../components/SearchBox';
+import SearchBox from '../components/Dashboard/SearchBox.jsx';
 
 const Home = () => {
     const { user } = useAuth();
@@ -27,7 +27,7 @@ const Home = () => {
             }
         }, 300);
 
-        return () => clearTimeout(timer); // Xoá nếu component unmount
+        return () => clearTimeout(timer);
     }, [user]);
 
     const handleGoToLogin = () => {

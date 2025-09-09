@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import Pagination from '../components/Pagination';
-import SearchBox from "../components/SearchBox";
+import Sidebar from '../components/Dashboard/Sidebar.jsx';
+import Pagination from '../components/Dashboard/Pagination.jsx';
+import SearchBox from "../components/Dashboard/SearchBox.jsx";
 import { useAuth } from '../context/AuthContext';
-import { getSidebarGroups } from '../components/sidebarData';
+import { getSidebarGroups } from '../components/Dashboard/sidebarData.js';
 import {
     fetchAllSalaryRules,
     updateSalaryRule,
 } from '../services/salaryRuleService';
-import SalaryRuleTable from '../components/SalaryRuleTable';
-import EditSalaryRuleModal from '../components/EditSalaryRuleModal';
+import SalaryRuleTable from '../components/SalaryRule/SalaryRuleTable.jsx';
+import EditSalaryRuleModal from '../components/SalaryRule/EditSalaryRuleModal.jsx';
 
 const SalaryRuleManagement = () => {
     const [sidebarGroups, setSidebarGroups] = useState([]);

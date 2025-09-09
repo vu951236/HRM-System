@@ -32,5 +32,5 @@ public interface ContractRepository extends JpaRepository<Contract, Integer> {
             "GROUP BY ct.name")
     List<EmployeeContractChartResponse> countContractExpiringBefore(@Param("expiryDate") LocalDate expiryDate);
 
-    Optional<Contract> findByUserIdAndStatusAndIsDeleteFalse(Integer userId, Contract.ContractStatus status);
+    Optional<Contract> findByUserIdAndStatusInAndIsDeleteFalse(Integer userId, List<Contract.ContractStatus> statuses);
 }

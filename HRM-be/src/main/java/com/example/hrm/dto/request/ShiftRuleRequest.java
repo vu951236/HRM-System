@@ -10,6 +10,5 @@ public class ShiftRuleRequest {
     private String ruleName;
     private String description;
     private Integer maxHoursPerDay;
-    private Boolean allowOvertime;
-    private Float nightShiftMultiplier;
+    private Boolean isDelete;
 }

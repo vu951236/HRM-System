@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import SearchBox from "../components/SearchBox.jsx";
+import Sidebar from '../components/Dashboard/Sidebar.jsx';
+import SearchBox from "../components/Dashboard/SearchBox.jsx";
 import '../styles/Dashboard.css';
-import { getSidebarGroups } from '../components/sidebarData';
+import { getSidebarGroups } from '../components/Dashboard/sidebarData.js';
 import { useAuth } from '../context/AuthContext';
 import {fetchUserInfo, updateProfile} from '../services/userService.js';
 

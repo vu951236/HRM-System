@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import Pagination from '../components/Pagination';
-import SearchBox from "../components/SearchBox";
+import Sidebar from '../components/Dashboard/Sidebar.jsx';
+import Pagination from '../components/Dashboard/Pagination.jsx';
+import SearchBox from "../components/Dashboard/SearchBox.jsx";
 import { useAuth } from '../context/AuthContext';
-import { getSidebarGroups } from '../components/sidebarData';
+import { getSidebarGroups } from '../components/Dashboard/sidebarData.js';
 
 import {
     fetchAllOvertimeRecords,
@@ -14,8 +14,8 @@ import {
     createOvertimeRecord
 } from '../services/overtimeService';
 
-import OvertimeRecordTable from '../components/OvertimeRecordTable';
-import CreateOvertimeModal from '../components/CreateOvertimeModal';
+import OvertimeRecordTable from '../components/Overtime/OvertimeRecordTable.jsx';
+import CreateOvertimeModal from '../components/Overtime/CreateOvertimeModal.jsx';
 
 const OvertimeRecordManagement = () => {
     const [sidebarGroups, setSidebarGroups] = useState([]);
@@ -48,7 +48,7 @@ const OvertimeRecordManagement = () => {
     }, [activeSidebarItem]);
 
     const filteredRecords = records.filter(r =>
-        r.id?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        r.employeeFullName?.toString().toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const itemsPerPage = 10;

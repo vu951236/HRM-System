@@ -24,6 +24,7 @@ public class LeavePolicyController {
         LeavePolicyResponse response = service.create(request);
         return ResponseEntity.ok(ApiResponse.<LeavePolicyResponse>builder()
                 .data(response)
+                .message("Tạo chính sách nghỉ phép thành công.")
                 .build());
     }
 
@@ -35,16 +36,17 @@ public class LeavePolicyController {
         LeavePolicyResponse response = service.update(id, request);
         return ResponseEntity.ok(ApiResponse.<LeavePolicyResponse>builder()
                 .data(response)
+                .message("Cập nhật chính sách nghỉ phép với id " + id + " thành công.")
                 .build());
     }
-
 
     @LoggableAction(action = "DELETE_LEAVE_POLICY", description = "Xóa chính sách nghỉ phép")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<String>> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity.ok(ApiResponse.<String>builder()
-                .data("Leave policy with id " + id + " has been deleted.")
+                .data("Chính sách nghỉ phép với id " + id + " đã bị xóa.")
+                .message("Xóa chính sách nghỉ phép thành công.")
                 .build());
     }
 
@@ -53,7 +55,8 @@ public class LeavePolicyController {
     public ResponseEntity<ApiResponse<String>> restore(@PathVariable Integer id) {
         service.restore(id);
         return ResponseEntity.ok(ApiResponse.<String>builder()
-                .data("Leave policy with id " + id + " has been restored.")
+                .data("Chính sách nghỉ phép với id " + id + " đã được khôi phục.")
+                .message("Khôi phục chính sách nghỉ phép thành công.")
                 .build());
     }
 
@@ -62,6 +65,7 @@ public class LeavePolicyController {
         LeavePolicyResponse response = service.getById(id);
         return ResponseEntity.ok(ApiResponse.<LeavePolicyResponse>builder()
                 .data(response)
+                .message("Lấy thông tin chính sách nghỉ phép với id " + id + " thành công.")
                 .build());
     }
 
@@ -70,6 +74,8 @@ public class LeavePolicyController {
         List<LeavePolicyResponse> responses = service.getAll();
         return ResponseEntity.ok(ApiResponse.<List<LeavePolicyResponse>>builder()
                 .data(responses)
+                .message("Lấy danh sách tất cả chính sách nghỉ phép thành công.")
                 .build());
     }
 }
+

@@ -29,8 +29,6 @@ public class ShiftRuleService {
                     .ruleName("Standard Shift")
                     .description("Standard 8 hour shift, no overtime")
                     .maxHoursPerDay(8)
-                    .allowOvertime(false)
-                    .nightShiftMultiplier(1.0f)
                     .isDelete(false)
                     .build();
             shiftRuleRepository.save(defaultRule);
@@ -102,8 +100,6 @@ public class ShiftRuleService {
     private void validateRequest(ShiftRuleRequest request) {
         if (request.getMaxHoursPerDay() != null && request.getMaxHoursPerDay() <= 0)
             throw new RuntimeException("Max hours per day must be positive");
-        if (request.getNightShiftMultiplier() != null && request.getNightShiftMultiplier() <= 0)
-            throw new RuntimeException("Night shift multiplier must be positive");
         if (request.getRuleName() == null || request.getRuleName().isBlank())
             throw new RuntimeException("Rule name is required");
     }

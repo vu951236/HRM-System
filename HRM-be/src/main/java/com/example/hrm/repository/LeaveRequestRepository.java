@@ -20,18 +20,23 @@ public interface LeaveRequestRepository extends JpaRepository<LeaveRequest, Long
 
     boolean existsByEmployeeAndStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
             EmployeeRecord employee,
-            String status,
+            LeaveRequest.Status status,
             LocalDate startDate,
             LocalDate endDate
     );
 
+
     @Query("SELECT l FROM LeaveRequest l " +
             "WHERE l.startDate <= :endDate AND l.endDate >= :startDate " +
             "AND l.isDelete = false " +
+            "AND l.status = com.example.hrm.entity.LeaveRequest.Status.approved " +
             "AND (:departmentId IS NULL OR l.employee.department.id = :departmentId)")
     List<LeaveRequest> findByDateRangeAndDepartment(
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate,
             @Param("departmentId") Long departmentId
     );
+
+
+
 }

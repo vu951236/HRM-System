@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import Table from '../components/UserTable.jsx';
-import Pagination from '../components/Pagination';
+import Sidebar from '../components/Dashboard/Sidebar.jsx';
+import Table from '../components/User/UserTable.jsx';
+import Pagination from '../components/Dashboard/Pagination.jsx';
 import '../styles/Dashboard.css';
 import {fetchAllUsers} from '../services/adminService.js';
-import CreateUserModal from '../components/CreateUserModal.jsx';
+import CreateUserModal from '../components/User/CreateUserModal.jsx';
 import { createUser } from '../services/adminService.js';
-import EditUserModal from '../components/EditUserModal';
+import EditUserModal from '../components/User/EditUserModal.jsx';
 import { updateUser } from '../services/adminService.js';
-import { getSidebarGroups } from '../components/sidebarData';
+import { getSidebarGroups } from '../components/Dashboard/sidebarData.js';
 import { useAuth } from '../context/AuthContext';
-import SearchBox from "../components/SearchBox.jsx";
+import SearchBox from "../components/Dashboard/SearchBox.jsx";
 import { lockOrUnlockUser } from '../services/adminService.js';
 
 const UserManagement = () => {

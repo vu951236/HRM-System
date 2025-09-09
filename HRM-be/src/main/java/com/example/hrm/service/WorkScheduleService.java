@@ -87,30 +87,27 @@ public class WorkScheduleService {
     }
 
     public List<WorkScheduleResponse> getAllSchedules() {
-        Role currentRole = permissionChecker.getCurrentUserRole();
         User currentUser = permissionChecker.getCurrentUser();
-        List<WorkSchedule> schedules;
+        String role = currentUser.getRole().getName();
 
-        if ("admin".equalsIgnoreCase(currentRole.getName())) {
-            schedules = workScheduleRepository.findAll();
-        } else if ("hr".equalsIgnoreCase(currentRole.getName())) {
-            schedules = workScheduleRepository.findAll()
-                    .stream()
-                    .filter(ws -> !ws.getIsDelete())
-                    .filter(ws -> {
-                        User empUser = ws.getEmployee().getUser();
-                        if (empUser == null) return false;
-                        String empRole = empUser.getRole().getName();
-                        return empUser.getId().equals(currentUser.getId()) || "staff".equalsIgnoreCase(empRole);
-                    })
-                    .toList();
-        } else {
-            throw new RuntimeException("Bạn không có quyền xem lịch làm việc");
+        EmployeeRecord currentRecord = null;
+        if (!"admin".equalsIgnoreCase(role)) {
+            currentRecord = employeeRepository
+                    .findByUser_IdAndIsDeleteFalse(currentUser.getId())
+                    .orElseThrow(() -> new RuntimeException("EmployeeRecord not found"));
         }
 
-        return schedules.stream()
+        List<WorkSchedule> allSchedules = workScheduleRepository.findAll();
+
+        List<WorkSchedule> filtered = permissionChecker.filterRecordsByPermission(
+                allSchedules,
+                currentUser,
+                currentRecord
+        );
+
+        return filtered.stream()
                 .map(mapper::toResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public WorkScheduleResponse getScheduleById(Integer id) {

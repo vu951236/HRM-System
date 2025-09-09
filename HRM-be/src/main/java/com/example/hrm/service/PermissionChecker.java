@@ -19,7 +19,7 @@ public class PermissionChecker {
     private final OvertimeRecordRepository overtimeRepository;
     private final AttendanceLogRepository attendanceLogRepository;
     private final PayrollRepository payrollRepository;
-
+    private final WorkScheduleRepository workScheduleRepository;
     private final LeaveRequestRepository leaveRequestRepository;
 
     public User getCurrentUser() {
@@ -154,6 +154,7 @@ public class PermissionChecker {
         String role = currentUser.getRole().getName();
 
         if ("admin".equalsIgnoreCase(role)) {
+            // admin được quyền lấy trực tiếp từ repository tương ứng
             if (records != null && !records.isEmpty()) {
                 Object first = records.get(0);
                 if (first instanceof LeaveRequest) {
@@ -166,6 +167,8 @@ public class PermissionChecker {
                     return (List<T>) attendanceLogRepository.findAll();
                 } else if (first instanceof Payroll) {
                     return (List<T>) payrollRepository.findAll();
+                } else if (first instanceof WorkSchedule) {
+                    return (List<T>) workScheduleRepository.findAll();
                 }
             }
             return records;
@@ -201,11 +204,16 @@ public class PermissionChecker {
                         er = employeeRepository.findByUser_IdAndIsDeleteFalse(
                                 p.getEmployee().getUser().getId()
                         ).orElse(null);
+                    } else if (r instanceof WorkSchedule ws) {
+                        er = employeeRepository.findByUser_IdAndIsDeleteFalse(
+                                ws.getEmployee().getUser().getId()
+                        ).orElse(null);
                     }
 
                     if (er == null) return false;
 
                     if ("hr".equalsIgnoreCase(role)) {
+                        // HR thấy của mình và staff
                         if (er.getId().equals(currentRecord.getId())) {
                             return true;
                         }

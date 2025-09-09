@@ -235,7 +235,7 @@ public class UserService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
         String code = generateVerificationCode();
-        LocalDateTime expiry = LocalDateTime.now().plusMinutes(10);
+        LocalDateTime expiry = LocalDateTime.now().plusMinutes(5);
 
         emailService.sendResetCode(request.getEmail(), code);
         verificationCodes.put(request.getEmail(), new AbstractMap.SimpleEntry<>(code, expiry));

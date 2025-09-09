@@ -21,6 +21,7 @@ public interface OvertimeRecordRepository extends JpaRepository<OvertimeRecord, 
     @Query("SELECT o FROM OvertimeRecord o " +
             "WHERE o.date BETWEEN :startDate AND :endDate " +
             "AND o.isDelete = false " +
+            "AND o.status = com.example.hrm.entity.OvertimeRecord.Status.approved " +
             "AND (:departmentId IS NULL OR o.employee.department.id = :departmentId)")
     List<OvertimeRecord> findByDateRangeAndDepartment(
             @Param("startDate") LocalDate startDate,

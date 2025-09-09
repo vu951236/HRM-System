@@ -25,6 +25,7 @@ public class EmployeeRecordController {
         EmployeeRecordResponse response = employeeRecordService.createEmployeeRecord(request);
         return ResponseEntity.ok(ApiResponse.<EmployeeRecordResponse>builder()
                 .data(response)
+                .message("Tạo hồ sơ nhân viên thành công")
                 .build());
     }
 
@@ -36,6 +37,7 @@ public class EmployeeRecordController {
         EmployeeRecordResponse response = employeeRecordService.updateEmployeeRecord(id, request);
         return ResponseEntity.ok(ApiResponse.<EmployeeRecordResponse>builder()
                 .data(response)
+                .message("Cập nhật hồ sơ nhân viên thành công")
                 .build());
     }
 
@@ -44,6 +46,7 @@ public class EmployeeRecordController {
         List<EmployeeRecordResponse> responses = employeeRecordService.getAllRecordsByRole();
         return ResponseEntity.ok(ApiResponse.<List<EmployeeRecordResponse>>builder()
                 .data(responses)
+                .message("Lấy danh sách hồ sơ thành công")
                 .build());
     }
 
@@ -51,13 +54,17 @@ public class EmployeeRecordController {
     @PutMapping("/soft-delete/{id}")
     public ResponseEntity<ApiResponse<Void>> softDeleteRecord(@PathVariable Integer id) {
         employeeRecordService.softDeleteRecord(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(ApiResponse.<Void>builder()
+                .message("Xóa tạm hồ sơ thành công")
+                .build());
     }
 
     @LoggableAction(action = "RESTORE_EMPLOYEE_RECORD", description = "Khôi phục hồ sơ nhân viên")
     @PutMapping("/restore/{id}")
     public ResponseEntity<ApiResponse<Void>> restoreRecord(@PathVariable Integer id) {
         employeeRecordService.restoreRecord(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(ApiResponse.<Void>builder()
+                .message("Khôi phục hồ sơ thành công")
+                .build());
     }
 }

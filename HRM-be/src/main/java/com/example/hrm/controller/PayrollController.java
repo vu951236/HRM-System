@@ -22,12 +22,15 @@ public class PayrollController {
     @PreAuthorize("hasRole('admin')")
     @PostMapping("/calculate")
     public ResponseEntity<ApiResponse<PayrollResponse>> calculatePayroll(
-            @RequestParam Integer employeeId,
+            @RequestParam String employeeCode,
             @RequestParam Integer month,
             @RequestParam Integer year) {
-        PayrollResponse payroll = payrollService.calculatePayroll(employeeId, month, year);
+
+        PayrollResponse payroll = payrollService.calculatePayrollByCode(employeeCode, month, year);
+
         return ResponseEntity.ok(ApiResponse.<PayrollResponse>builder()
                 .data(payroll)
+                .message("Tính bảng lương thành công cho nhân viên: " + employeeCode)
                 .build());
     }
 
@@ -36,6 +39,7 @@ public class PayrollController {
         List<PayrollResponse> list = payrollService.getAllPayrolls();
         return ResponseEntity.ok(ApiResponse.<List<PayrollResponse>>builder()
                 .data(list)
+                .message("Lấy danh sách tất cả bảng lương thành công")
                 .build());
     }
 
@@ -45,6 +49,7 @@ public class PayrollController {
         PayrollResponse payroll = payrollService.approvePayroll(id);
         return ResponseEntity.ok(ApiResponse.<PayrollResponse>builder()
                 .data(payroll)
+                .message("Phê duyệt bảng lương thành công với ID: " + id)
                 .build());
     }
 

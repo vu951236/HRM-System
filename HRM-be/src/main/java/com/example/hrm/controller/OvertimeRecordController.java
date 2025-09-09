@@ -27,47 +27,66 @@ public class OvertimeRecordController {
                 request.getEndTime(),
                 request.getReason()
         );
-        return ResponseEntity.ok(ApiResponse.<OvertimeRecordResponse>builder().data(response).build());
+        return ResponseEntity.ok(ApiResponse.<OvertimeRecordResponse>builder()
+                .data(response)
+                .message("Tạo bản ghi làm thêm thành công")
+                .build());
     }
 
     @LoggableAction(action = "APPROVE_OVERTIME", description = "Phê duyệt làm thêm")
     @PostMapping("/approve/{id}")
     public ResponseEntity<ApiResponse<OvertimeRecordResponse>> approve(@PathVariable Integer id) {
         OvertimeRecordResponse response = service.approveOvertime(id);
-        return ResponseEntity.ok(ApiResponse.<OvertimeRecordResponse>builder().data(response).build());
+        return ResponseEntity.ok(ApiResponse.<OvertimeRecordResponse>builder()
+                .data(response)
+                .message("Phê duyệt yêu cầu làm thêm thành công")
+                .build());
     }
 
     @LoggableAction(action = "REJECT_OVERTIME", description = "Từ chối làm thêm")
     @PostMapping("/reject/{id}")
     public ResponseEntity<ApiResponse<OvertimeRecordResponse>> reject(@PathVariable Integer id) {
         OvertimeRecordResponse response = service.rejectOvertime(id);
-        return ResponseEntity.ok(ApiResponse.<OvertimeRecordResponse>builder().data(response).build());
+        return ResponseEntity.ok(ApiResponse.<OvertimeRecordResponse>builder()
+                .data(response)
+                .message("Từ chối yêu cầu làm thêm thành công")
+                .build());
     }
 
     @LoggableAction(action = "DELETE_OVERTIME", description = "Xóa bản ghi làm thêm")
     @PostMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Integer id) {
         service.deleteOvertime(id);
-        return ResponseEntity.ok(ApiResponse.<Void>builder().build());
+        return ResponseEntity.ok(ApiResponse.<Void>builder()
+                .message("Xóa bản ghi làm thêm thành công")
+                .build());
     }
 
     @LoggableAction(action = "RESTORE_OVERTIME", description = "Khôi phục bản ghi làm thêm")
     @PostMapping("/restore/{id}")
     public ResponseEntity<ApiResponse<Void>> restore(@PathVariable Integer id) {
         service.restoreOvertime(id);
-        return ResponseEntity.ok(ApiResponse.<Void>builder().build());
+        return ResponseEntity.ok(ApiResponse.<Void>builder()
+                .message("Khôi phục bản ghi làm thêm thành công")
+                .build());
     }
 
     @GetMapping("/all")
     public ResponseEntity<ApiResponse<List<OvertimeRecordResponse>>> getAll() {
         List<OvertimeRecordResponse> responses = service.getAllOvertime();
-        return ResponseEntity.ok(ApiResponse.<List<OvertimeRecordResponse>>builder().data(responses).build());
+        return ResponseEntity.ok(ApiResponse.<List<OvertimeRecordResponse>>builder()
+                .data(responses)
+                .message("Lấy tất cả bản ghi làm thêm thành công")
+                .build());
     }
 
     @GetMapping("/date")
     public ResponseEntity<ApiResponse<List<OvertimeRecordResponse>>> getByDate(@RequestParam String date) {
         LocalDate localDate = LocalDate.parse(date);
         List<OvertimeRecordResponse> responses = service.getOvertimeByDate(localDate);
-        return ResponseEntity.ok(ApiResponse.<List<OvertimeRecordResponse>>builder().data(responses).build());
+        return ResponseEntity.ok(ApiResponse.<List<OvertimeRecordResponse>>builder()
+                .data(responses)
+                .message("Lấy bản ghi làm thêm theo ngày thành công")
+                .build());
     }
 }

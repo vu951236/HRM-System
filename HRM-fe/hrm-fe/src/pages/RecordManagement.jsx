@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import Table from '../components/RecordTable.jsx';
-import Pagination from '../components/Pagination';
+import Sidebar from '../components/Dashboard/Sidebar.jsx';
+import Table from '../components/Record/RecordTable.jsx';
+import Pagination from '../components/Dashboard/Pagination.jsx';
 import '../styles/Dashboard.css';
 import { fetchAllRecord, createRecord, updateRecord, softDeleteRecord, restoreRecord } from '../services/recordService.js';
-import CreateRecordModal from '../components/CreateRecordModal.jsx';
-import EditRecordModal from '../components/EditRecordModal.jsx';
-import { getSidebarGroups } from '../components/sidebarData';
+import CreateRecordModal from '../components/Record/CreateRecordModal.jsx';
+import EditRecordModal from '../components/Record/EditRecordModal.jsx';
+import { getSidebarGroups } from '../components/Dashboard/sidebarData.js';
 import { useAuth } from '../context/AuthContext';
-import SearchBox from "../components/SearchBox.jsx";
+import SearchBox from "../components/Dashboard/SearchBox.jsx";
 
 const RecordManagement = () => {
     const [sidebarGroups, setSidebarGroups] = useState([]);

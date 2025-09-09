@@ -46,13 +46,17 @@ public class ShiftService {
 
     public ShiftResponse createShift(ShiftRequest request) {
         permissionChecker.checkAdminOrHrRole();
-        validateShiftRequest(request);
+
+        ShiftRule rule = null;
+        if (request.getShiftRuleId() != null) {
+            rule = shiftRuleRepository.findById(request.getShiftRuleId())
+                    .orElseThrow(() -> new RuntimeException("ShiftRule not found"));
+        }
+
+        validateShiftRequest(request, rule);
 
         Shift shift = shiftMapper.toEntity(request);
-
-        if (request.getShiftRuleId() != null) {
-            ShiftRule rule = shiftRuleRepository.findById(request.getShiftRuleId())
-                    .orElseThrow(() -> new RuntimeException("ShiftRule not found"));
+        if (rule != null) {
             shift.setShiftRule(rule);
         }
 
@@ -97,21 +101,26 @@ public class ShiftService {
 
     public ShiftResponse updateShift(Integer id, ShiftRequest request) {
         permissionChecker.checkAdminOrHrRole();
-        validateShiftRequest(request);
 
         Shift shift = shiftRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Shift not found"));
 
-        shiftMapper.updateEntityFromRequest(request, shift);
-
+        ShiftRule rule = null;
         if (request.getShiftRuleId() != null) {
-            ShiftRule rule = shiftRuleRepository.findById(request.getShiftRuleId())
+            rule = shiftRuleRepository.findById(request.getShiftRuleId())
                     .orElseThrow(() -> new RuntimeException("ShiftRule not found"));
             shift.setShiftRule(rule);
+        } else {
+            rule = shift.getShiftRule();
         }
+
+        validateShiftRequest(request, rule);
+
+        shiftMapper.updateEntityFromRequest(request, shift);
 
         return shiftMapper.toResponse(shiftRepository.save(shift));
     }
+
 
     @PreAuthorize("hasRole('admin')")
     public void deleteShift(Integer id) {
@@ -129,15 +138,27 @@ public class ShiftService {
         shiftRepository.save(shift);
     }
 
-    private void validateShiftRequest(ShiftRequest request) {
+    private void validateShiftRequest(ShiftRequest request, ShiftRule rule) {
         if (request.getStartTime() == null || request.getEndTime() == null)
             throw new RuntimeException("Start time and end time are required");
+
         if (request.getEndTime().isBefore(request.getStartTime()))
             throw new RuntimeException("End time must be after start time");
+
         if (request.getBreakTime() != null &&
                 (request.getBreakTime().isBefore(request.getStartTime()) || request.getBreakTime().isAfter(request.getEndTime())))
             throw new RuntimeException("Break time must be within start and end time");
+
         if (request.getName() == null || request.getName().isBlank())
             throw new RuntimeException("Shift name is required");
+
+        if (rule != null) {
+            long hours = java.time.Duration.between(request.getStartTime(), request.getEndTime()).toHours();
+
+            if (hours > rule.getMaxHoursPerDay()) {
+                throw new RuntimeException("Shift duration (" + hours + "h) exceeds maximum allowed: " + rule.getMaxHoursPerDay() + "h");
+            }
+        }
     }
+
 }

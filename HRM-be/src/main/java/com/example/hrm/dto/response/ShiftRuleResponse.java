@@ -12,8 +12,6 @@ public class ShiftRuleResponse {
     private String ruleName;
     private String description;
     private Integer maxHoursPerDay;
-    private Boolean allowOvertime;
-    private Float nightShiftMultiplier;
     private LocalDateTime createdAt;
     private Boolean isDelete;
 }

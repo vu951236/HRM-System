@@ -23,6 +23,7 @@ public class PayrollResponse {
     private BigDecimal baseSalary;
     private BigDecimal overtimeSalary;
     private BigDecimal leaveDeduction;
+    private BigDecimal lateDeduction;
     private BigDecimal bonus;
     private BigDecimal deduction;
     private BigDecimal finalSalary;

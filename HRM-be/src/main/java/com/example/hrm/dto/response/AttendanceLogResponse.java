@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -27,6 +28,7 @@ public class AttendanceLogResponse {
     private String deviceName;
     private AttendanceMethod checkInMethod;
     private AttendanceMethod checkOutMethod;
+    private LocalDate logDate;
     private String error;
 
 }

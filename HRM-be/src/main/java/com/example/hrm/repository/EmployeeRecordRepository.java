@@ -44,4 +44,5 @@ public interface EmployeeRecordRepository extends JpaRepository<EmployeeRecord, 
             "GROUP BY d.name")
     List<EmployeeContractChartResponse> countEmployeeByDepartment(@Param("departmentId") Integer departmentId);
 
+    Optional<EmployeeRecord> findByEmployeeCodeAndIsDeleteFalse(String employeeCode);
 }

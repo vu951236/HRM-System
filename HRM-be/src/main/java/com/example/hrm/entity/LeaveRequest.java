@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class LeaveRequest {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -25,22 +26,28 @@ public class LeaveRequest {
     @JoinColumn(name = "leave_policy_id")
     private LeavePolicy leavePolicy;
 
-    @Column(name = "start_date")
+    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
-    @Column(name = "end_date")
+    @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
     private String reason;
-    private String status;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "approved_by")
     private User approvedBy;
 
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.pending;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
     @Column(name = "is_delete", nullable = false)
     private Boolean isDelete = false;
+
+    public enum Status {
+        pending, approved, rejected
+    }
 }

@@ -52,6 +52,9 @@ public class Payroll {
     @Column(name = "leave_deduction")
     private BigDecimal leaveDeduction;
 
+    @Column(name = "late_deduction")
+    private BigDecimal lateDeduction;
+
     private BigDecimal bonus;
     private BigDecimal deduction;
 

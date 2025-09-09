@@ -10,4 +10,5 @@ public class WorkScheduleRequest {
     private LocalDate workDate;
     private String status;
     private String note;
+    private Boolean isDelete;
 }

@@ -18,6 +18,7 @@ public interface PayrollMapper {
     @Mapping(source = "totalAbsentDays", target = "totalAbsentDays")
     @Mapping(source = "workedHours", target = "workedHours")
     @Mapping(source = "totalLateDays", target = "totalLateDays")
+    @Mapping(source = "lateDeduction", target = "lateDeduction")
     PayrollResponse toResponse(Payroll payroll);
 
     List<PayrollResponse> toResponseList(List<Payroll> payrolls);

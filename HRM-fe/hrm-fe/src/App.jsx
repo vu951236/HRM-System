@@ -26,7 +26,7 @@ import SystemLogManagement from "./pages/SystemLogManagement.jsx";
 
 import './App.css';
 import { AuthProvider } from './context/AuthContext.jsx';
-import ProtectedRoute from './components/ProtectedRoute.jsx';
+import ProtectedRoute from './components/Permission/ProtectedRoute.jsx';
 
 function App() {
     return (

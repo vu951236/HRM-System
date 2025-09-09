@@ -25,6 +25,7 @@ public class UserController {
         UserResponse response = userService.getMyInfo();
         return ResponseEntity.ok(ApiResponse.<UserResponse>builder()
                 .data(response)
+                .message("Lấy thông tin người dùng thành công")
                 .build());
     }
 
@@ -34,6 +35,7 @@ public class UserController {
         UserResponse response = userService.updatePassword(request);
         return ResponseEntity.ok(ApiResponse.<UserResponse>builder()
                 .data(response)
+                .message("Cập nhật mật khẩu thành công")
                 .build());
     }
 
@@ -42,7 +44,9 @@ public class UserController {
     public ResponseEntity<ApiResponse<Void>> forgotPassword(@RequestBody ForgotPasswordRequest request)
             throws IOException, MessagingException {
         userService.generateVerificationCode(request);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(ApiResponse.<Void>builder()
+                .message("Mã xác thực quên mật khẩu đã được gửi thành công")
+                .build());
     }
 
     @LoggableAction(action = "VERIFY_CODE", description = "Xác thực mã OTP")
@@ -51,6 +55,7 @@ public class UserController {
         boolean verified = userService.verifyCode(request.getEmail(), request.getCode());
         return ResponseEntity.ok(ApiResponse.<Boolean>builder()
                 .data(verified)
+                .message(verified ? "Xác thực mã OTP thành công" : "Xác thực mã OTP thất bại")
                 .build());
     }
 
@@ -64,6 +69,7 @@ public class UserController {
         }
         return ResponseEntity.ok(ApiResponse.<Boolean>builder()
                 .data(verified)
+                .message(verified ? "Đặt lại mật khẩu thành công" : "Đặt lại mật khẩu thất bại, mã OTP không hợp lệ")
                 .build());
     }
 
@@ -75,6 +81,7 @@ public class UserController {
         ProfileResponse response = userService.updateProfile(userId, request);
         return ResponseEntity.ok(ApiResponse.<ProfileResponse>builder()
                 .data(response)
+                .message("Cập nhật thông tin cá nhân thành công")
                 .build());
     }
 

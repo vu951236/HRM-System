@@ -61,7 +61,7 @@ public class LeaveRequestService {
                 .startDate(startDate)
                 .endDate(endDate)
                 .reason(reason)
-                .status("pending")
+                .status(LeaveRequest.Status.pending)
                 .isDelete(false)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -75,7 +75,7 @@ public class LeaveRequestService {
 
         permissionChecker.checkRequestPermission(leave);
 
-        leave.setStatus("approved");
+        leave.setStatus(LeaveRequest.Status.approved);
         leave.setApprovedBy(permissionChecker.getCurrentUser());
 
         return mapper.toResponse(repository.save(leave));
@@ -87,11 +87,12 @@ public class LeaveRequestService {
 
         permissionChecker.checkRequestPermission(leave);
 
-        leave.setStatus("rejected");
+        leave.setStatus(LeaveRequest.Status.rejected);
         leave.setApprovedBy(permissionChecker.getCurrentUser());
 
         return mapper.toResponse(repository.save(leave));
     }
+
 
     @Transactional
     public void deleteLeave(Integer id) {

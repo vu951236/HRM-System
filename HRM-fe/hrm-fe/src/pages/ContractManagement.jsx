@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import ContractTable from '../components/ContractTable';
-import Pagination from '../components/Pagination';
-import CreateContractModal from '../components/CreateContractModal';
-import EditContractModal from '../components/EditContractModal';
-import ExtendContractModal from '../components/ExtendContractModal';
-import ContractHistoryModal from '../components/ContractHistoryModal';
-import SearchBox from "../components/SearchBox";
+import Sidebar from '../components/Dashboard/Sidebar.jsx';
+import ContractTable from '../components/Contract/ContractTable.jsx';
+import Pagination from '../components/Dashboard/Pagination.jsx';
+import CreateContractModal from '../components/Contract/CreateContractModal.jsx';
+import EditContractModal from '../components/Contract/EditContractModal.jsx';
+import ExtendContractModal from '../components/Contract/ExtendContractModal.jsx';
+import ContractHistoryModal from '../components/Contract/ContractHistoryModal.jsx';
+import SearchBox from "../components/Dashboard/SearchBox.jsx";
 import { useAuth } from '../context/AuthContext';
-import { getSidebarGroups } from '../components/sidebarData';
+import { getSidebarGroups } from '../components/Dashboard/sidebarData.js';
 import {
     fetchAllContracts,
     createContract,

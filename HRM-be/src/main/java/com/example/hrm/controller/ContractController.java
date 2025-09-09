@@ -31,6 +31,7 @@ public class ContractController {
         ContractResponse result = contractService.createContract(request);
         return ResponseEntity.ok(ApiResponse.<ContractResponse>builder()
                 .data(result)
+                .message("Tạo hợp đồng thành công")
                 .build());
     }
 
@@ -39,6 +40,7 @@ public class ContractController {
         List<ContractResponse> result = contractService.getAllContractsByRole();
         return ResponseEntity.ok(ApiResponse.<List<ContractResponse>>builder()
                 .data(result)
+                .message("Lấy danh sách hợp đồng thành công")
                 .build());
     }
 
@@ -47,6 +49,7 @@ public class ContractController {
         ContractResponse result = contractService.getContractById(id);
         return ResponseEntity.ok(ApiResponse.<ContractResponse>builder()
                 .data(result)
+                .message("Lấy thông tin hợp đồng thành công")
                 .build());
     }
 
@@ -58,6 +61,7 @@ public class ContractController {
         ContractResponse result = contractService.extendContract(id, newEndDate);
         return ResponseEntity.ok(ApiResponse.<ContractResponse>builder()
                 .data(result)
+                .message("Gia hạn hợp đồng thành công")
                 .build());
     }
 
@@ -67,6 +71,7 @@ public class ContractController {
         ContractResponse result = contractService.terminateContract(id);
         return ResponseEntity.ok(ApiResponse.<ContractResponse>builder()
                 .data(result)
+                .message("Chấm dứt hợp đồng thành công")
                 .build());
     }
 
@@ -75,6 +80,7 @@ public class ContractController {
     public ResponseEntity<ApiResponse<Void>> softDeleteContract(@PathVariable Integer id) {
         contractService.softDeleteContract(id);
         return ResponseEntity.ok(ApiResponse.<Void>builder()
+                .message("Xóa hợp đồng thành công")
                 .build());
     }
 
@@ -83,6 +89,7 @@ public class ContractController {
     public ResponseEntity<ApiResponse<Void>> restoreContract(@PathVariable Integer id) {
         contractService.restoreContract(id);
         return ResponseEntity.ok(ApiResponse.<Void>builder()
+                .message("Khôi phục hợp đồng thành công")
                 .build());
     }
 
@@ -94,6 +101,7 @@ public class ContractController {
         ContractResponse result = contractService.modifyContract(id, request);
         return ResponseEntity.ok(ApiResponse.<ContractResponse>builder()
                 .data(result)
+                .message("Chỉnh sửa hợp đồng thành công")
                 .build());
     }
 
@@ -108,8 +116,9 @@ public class ContractController {
         return ResponseEntity.ok(
                 ApiResponse.<List<ContractHistoryResponse>>builder()
                         .data(result)
+                        .message("Lấy lịch sử hợp đồng thành công")
                         .build()
         );
     }
-
 }
+

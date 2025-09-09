@@ -4,7 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="529656b5-6294-4166-b364-ee077d76efe4" name="Changes" comment="" />
+    <list default="true" id="529656b5-6294-4166-b364-ee077d76efe4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/config/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/controller/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/controller/AuthenticationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/controller/PayrollController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/controller/PayrollController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/device/DeviceSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/device/DeviceSimulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/repository/EmployeeRecordRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/repository/EmployeeRecordRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/scheduler/PayrollScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/scheduler/PayrollScheduler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/service/EmployeeRecordService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/service/EmployeeRecordService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/service/PayrollService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/service/PayrollService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/service/PermissionChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/service/PermissionChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/service/WorkScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../HRM-be/src/main/java/com/example/hrm/service/WorkScheduleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HRM-be/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../HRM-be/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hrm-fe/src/api/axiosConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/hrm-fe/src/api/axiosConfig.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hrm-fe/src/components/CalculatePayrollModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/hrm-fe/src/components/CalculatePayrollModal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hrm-fe/src/components/CreateWorkScheduleModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/hrm-fe/src/components/CreateWorkScheduleModal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hrm-fe/src/components/Pagination.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/hrm-fe/src/components/Pagination.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hrm-fe/src/pages/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/hrm-fe/src/pages/Home.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hrm-fe/src/services/payrollService.js" beforeDir="false" afterPath="$PROJECT_DIR$/hrm-fe/src/services/payrollService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hrm-fe/src/styles/Dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/hrm-fe/src/styles/Dashboard.css" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,9 +33,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="30pIUJ9puUaN87c73xTCRQE4yt0" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -25,9 +45,10 @@
   "keyToString": {
     "Node.js.Login.jsx.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/1Thuctaptotnghiep/HRM-System/HRM-fe/hrm-fe/src/pages",
+    "last_opened_file_path": "D:/1Thuctaptotnghiep/HRM-System/HRM-fe/hrm-fe",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -60,6 +81,7 @@
       <option name="presentableId" value="Default" />
       <updated>1754318101834</updated>
       <workItem from="1754318102933" duration="5615000" />
+      <workItem from="1757300338506" duration="413000" />
     </task>
     <servers />
   </component>

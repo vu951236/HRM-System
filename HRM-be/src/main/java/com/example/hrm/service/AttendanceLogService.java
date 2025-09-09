@@ -157,7 +157,7 @@ public class AttendanceLogService {
 
         boolean isOnApprovedLeave = leaveRequestRepository.existsByEmployeeAndStatusAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
                 employee,
-                "APPROVED",
+                LeaveRequest.Status.approved,
                 schedule.getWorkDate(),
                 schedule.getWorkDate()
         );

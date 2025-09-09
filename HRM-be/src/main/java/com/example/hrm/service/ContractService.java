@@ -58,11 +58,22 @@ public class ContractService {
         if (contract.getStatus() == Contract.ContractStatus.TERMINATED) {
             throw new RuntimeException("Không thể gia hạn hợp đồng đã chấm dứt");
         }
+
         contract.setEndDate(newEndDate);
-        contract.setStatus(Contract.ContractStatus.ACTIVE);
+
+        boolean hasHistory = contractHistoryRepository.existsByContractId(contract.getId());
+
+        if (hasHistory) {
+            contract.setStatus(Contract.ContractStatus.MODIFIED);
+        } else {
+            contract.setStatus(Contract.ContractStatus.ACTIVE);
+        }
+
         contractRepository.save(contract);
         return contractMapper.toResponse(contract);
     }
+
+
 
     public ContractResponse terminateContract(Integer id) {
         Contract contract = getContractEntity(id);

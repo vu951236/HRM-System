@@ -25,6 +25,7 @@ public class ChartController {
         List<LeaveOvertimeChartResponse> responses = chartService.getLeaveOvertimeChart(request);
         return ResponseEntity.ok(ApiResponse.<List<LeaveOvertimeChartResponse>>builder()
                 .data(responses)
+                .message("Lấy dữ liệu Leave/Overtime thành công")
                 .build());
     }
 
@@ -34,6 +35,7 @@ public class ChartController {
         List<PayrollChartResponse> responses = chartService.getPayrollChart(request);
         return ResponseEntity.ok(ApiResponse.<List<PayrollChartResponse>>builder()
                 .data(responses)
+                .message("Lấy dữ liệu Payroll thành công")
                 .build());
     }
 
@@ -43,6 +45,7 @@ public class ChartController {
         List<AttendanceChartResponse> responses = chartService.getAttendanceChart(request);
         return ResponseEntity.ok(ApiResponse.<List<AttendanceChartResponse>>builder()
                 .data(responses)
+                .message("Lấy dữ liệu Attendance thành công")
                 .build());
     }
 
@@ -52,6 +55,7 @@ public class ChartController {
         List<EmployeeContractChartResponse> responses = chartService.getEmployeeCountByDepartment(request);
         return ResponseEntity.ok(ApiResponse.<List<EmployeeContractChartResponse>>builder()
                 .data(responses)
+                .message("Lấy dữ liệu Employee theo Department thành công")
                 .build());
     }
 
@@ -61,6 +65,7 @@ public class ChartController {
         List<EmployeeContractChartResponse> responses = chartService.getContractCountByType(request);
         return ResponseEntity.ok(ApiResponse.<List<EmployeeContractChartResponse>>builder()
                 .data(responses)
+                .message("Lấy dữ liệu Contract theo Type thành công")
                 .build());
     }
 
@@ -70,6 +75,7 @@ public class ChartController {
         List<EmployeeContractChartResponse> responses = chartService.getExpiringContracts(request);
         return ResponseEntity.ok(ApiResponse.<List<EmployeeContractChartResponse>>builder()
                 .data(responses)
+                .message("Lấy dữ liệu Contract sắp hết hạn thành công")
                 .build());
     }
 }

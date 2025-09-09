@@ -23,6 +23,7 @@ public class SystemLogController {
         List<SystemLogResponse> logs = systemLogService.getAllLogs();
         return ResponseEntity.ok(ApiResponse.<List<SystemLogResponse>>builder()
                 .data(logs)
+                .message("Lấy danh sách log thành công")
                 .build());
     }
 }
