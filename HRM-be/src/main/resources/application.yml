@@ -44,3 +44,6 @@ frontend:
 
 config:
   import: optional:classpath:.env
+
+profiles:
+  active: ${SPRING_PROFILES_ACTIVE:dev}
