@@ -19,7 +19,6 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.addAllowedOrigin("http://localhost:5173");
         corsConfiguration.addAllowedOrigin(domainFe);
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.setExposedHeaders(Arrays.asList("Set-Cookie"));

@@ -35,7 +35,7 @@ public class AuthenticationController {
 
         ResponseCookie refreshCookie = buildCookie(
                 authenticationResponse.getRefreshToken(),
-                30 * 24 * 60 * 60
+                30 * 24 * 60 * 60 // 30 ngày
         );
 
         response.setHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
@@ -85,7 +85,6 @@ public class AuthenticationController {
                         .message("Cập nhật access token thành công")
                         .build());
     }
-
 
     private ResponseCookie buildCookie(String value, long maxAge) {
         return ResponseCookie.from("refresh_token", value)
